@@ -37,10 +37,12 @@ export default function LandingPage(){
                             
                             <h2 className='text-center'>or</h2>
 
-                            <div className="w-full h-2/5">
-                                <button className='w-full h-[30%] mb-0 bg-sky-400 hover:bg-sky-500 text-white font-semibold rounded-full'>
-                                    Create Account
-                                </button>
+                            <div className="w-full h-2/5 mt-1">
+                                <NavLink to='/signup'>
+                                    <button className='w-full h-[30%] bg-sky-400 hover:bg-sky-500 text-white font-semibold rounded-full'>
+                                        Create Account
+                                    </button>
+                                </NavLink>
                                 <div className='p-1 pt-0'>
                                     <small className='leading-tight'>
                                         By signing up, you agree to the 
