@@ -26,7 +26,7 @@ export default function LandingPage(){
                         <div className=' w-3/5 h-3/5 flex flex-col py-2 justify-start'>
                             
                             <div className="w-full h-1/5 ">
-                                <button className='border border-slate-300 w-full h-3/5 flex justify-center items-center rounded-full'>
+                                <button className='border border-slate-300 hover:bg-slate-100 w-full h-3/5 flex justify-center items-center rounded-full'>
                                     <img src={require('../Assets/icons/google.png')} alt='google' className='h-[20px] w-[20px]' />
                                     <span>
                                         &nbsp;
@@ -54,7 +54,7 @@ export default function LandingPage(){
                             <p className='font-bold pl-1'>Already have an Account.</p>
                             <div className="w-full h-1/5 mt-1">
                                 <NavLink to='/signin'>
-                                    <button className='border border-slate-300 w-full h-3/5 text-sky-500 font-bold rounded-full'>
+                                    <button className='border border-slate-300 hover:bg-slate-100 w-full h-3/5 text-sky-500 font-bold rounded-full'>
                                             Sign In
                                     </button>
                                 </NavLink>
