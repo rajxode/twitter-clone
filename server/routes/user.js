@@ -13,5 +13,6 @@ router.post('/signin',userController.login);
 
 router.get('/signout',userController.logout);
 
+
 // export router
 module.exports = router;

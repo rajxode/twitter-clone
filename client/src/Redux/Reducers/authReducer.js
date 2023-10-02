@@ -18,9 +18,10 @@ export const signUpThunk = createAsyncThunk(
 
 export const signInThunk = createAsyncThunk(
     'auth/signin',
-    async (data) => {
+    async (data,thunkAPI) => {
         try{
             const response = await axiosInstance.post('/user/signin',data);
+            thunkAPI.dispatch(setLoggedInUser(response.data.user))
             return response.data;
         }catch(error){
             return error.response.data;
@@ -45,6 +46,11 @@ const authSlice = createSlice({
     name:'authentication',
     initialState,
     reducers:{
+        setLoggedInUser:(state,action) => {
+            window.localStorage.setItem('user',JSON.stringify(action.payload));
+            state.loggedInUser = action.payload;
+            return;
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -57,16 +63,11 @@ const authSlice = createSlice({
         .addCase(signUpThunk.rejected,(state,action) => {
             console.log('rejected');
         })
-        .addCase(signInThunk.fulfilled, (state,action) => {
-            state.loggedInUser = action.payload.user;
-            return action.payload;
-        })
-        .addCase(signInThunk.rejected,(state,action) => {
-            console.log('rejected');
-        })
     }
 })
 
 export const authReducer = authSlice.reducer;
+
+export const { setLoggedInUser } = authSlice.actions;
 
 export const authSelector = (state) => state.authReducer;

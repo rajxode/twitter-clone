@@ -6,7 +6,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 // toast notification
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { signInThunk } from "../Redux/Reducers/authReducer";
+import { setLoggedInUser, signInThunk } from "../Redux/Reducers/authReducer";
 
 export default function SignIn() {
 
@@ -47,8 +47,8 @@ export default function SignIn() {
         toast.success(result.payload.message);
         navigate('/home')
       }
-    }catch(error){
-      console.log(error);
+    }catch(err){
+      console.log(err);
     }
   }
 
