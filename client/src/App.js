@@ -20,11 +20,11 @@ function App() {
       ]
     },
     {
-      path:'/profile',
+      path:'/home',
       element: <Navbar />,
       children:[
         { index:true, element: <Home />},
-        { path:'/profile/third', element: <Third />},
+        { path:'/home/third', element: <Third />},
       ]
     }
   ]);

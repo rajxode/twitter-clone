@@ -1,8 +1,11 @@
 import { NavLink, Outlet } from 'react-router-dom';
+import Loader from '../Components/Spinner';
 
 export default function LandingPage(){
+
     return(
         <>
+            {/* <Loader /> */}
             <div className="w-screen h-screen bg-white flex justify-center 
                         items-center relative ">
                 

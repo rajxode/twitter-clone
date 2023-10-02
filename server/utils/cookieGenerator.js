@@ -20,6 +20,7 @@ const cookieGenerator = (user,res) => {
     // return response { token , user }
     res.status(200).cookie('token', token, options).json({
         success: true,
+        message:'Logged In successfully !!',
         token,
         user
     })

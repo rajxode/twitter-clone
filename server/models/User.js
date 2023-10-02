@@ -53,20 +53,20 @@ const userSchema = new mongoose.Schema(
                 required:[true, 'Please enter year of your date of birth']
             }
         },
-        photo:{
-            // user's photo
-            // photo id in cloudinary
-            id:{
-                type:String,
-                required:true
-            },
-            // url from cloudinary
-            secure_url:{
-                type:String,
-                required:true,
-            }
+        // photo:{
+        //     // user's photo
+        //     // photo id in cloudinary
+        //     id:{
+        //         type:String,
+        //         required:true
+        //     },
+        //     // url from cloudinary
+        //     secure_url:{
+        //         type:String,
+        //         required:true,
+        //     }
             
-        },
+        // },
         // list of people user follows 
         follows:[
             {

@@ -1,6 +1,59 @@
-import { NavLink } from "react-router-dom";
+
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { NavLink, useNavigate } from "react-router-dom";
+
+// toast notification
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { signInThunk } from "../Redux/Reducers/authReducer";
 
 export default function SignIn() {
+
+  const dispatch = useDispatch();
+
+  const [formData, setFormData] = useState({
+    email:'',
+    password:''
+  });
+
+  const navigate = useNavigate();
+
+  const handleFormData = (e) => {
+    const {name,value} = e.target;
+
+    setFormData({...formData, [name]:value});
+  }
+
+  const handleSubmit = async(e) => {
+    try{    
+      e.preventDefault();
+
+      if(!formData.email || !formData.password){
+        toast.error("Please enter password");
+        return;
+      }
+
+      if(!formData.email.includes('@' && '.com')){
+        toast.error('Enter valid email address');
+        return;
+      }
+
+      const result = await dispatch(signInThunk(formData));
+      if(!result.payload.success){
+        toast.error(result.payload.message);
+      }
+      else{
+        toast.success(result.payload.message);
+        navigate('/home')
+      }
+    }catch(error){
+      console.log(error);
+    }
+  }
+
+
+
   return (
     <>
       <div
@@ -33,7 +86,7 @@ export default function SignIn() {
           <div className="flex w-2/3 h-full flex-col justify-around">
             <div className="text-3xl w-full font-semibold">Sign in to X</div>
 
-            <div className=" w-full h-full flex flex-col py-3 my-3 items-start justify-center">
+            <div className=" w-full h-full flex flex-col py-3 my-3 items-start">
               <div className="w-full h-[15%] ">
                 <button className="border border-slate-400 hover:bg-slate-100 w-full h-3/5 flex justify-center items-center rounded-full">
                   <img
@@ -47,17 +100,33 @@ export default function SignIn() {
 
               <h2 className="text-center w-full">or</h2>
 
-              <div className="w-full h-[35%]">
-                <form className="w-full h-full p-3">
+              <div className="w-full h-[45%] ">
+                <form className="w-full h-full p-3" onSubmit={handleSubmit}>
                   <input
                     type="email"
+                    name="email"
                     placeholder="Email address"
+                    value={formData.email}
                     required
+                    onChange={handleFormData}
                     className="border rounded border-slate-400 px-2 
-                            w-full h-2/5 mb-2"
+                            w-full h-[30%] mb-2"
                   />
 
-                  <button className="w-full h-[30%] mb-0 bg-black text-white font-semibold rounded-full">
+                  <input
+                    type="password"
+                    name="password"
+                    value={formData.password}
+                    placeholder="Password"
+                    required
+                    onChange={handleFormData}
+                    className="border rounded border-slate-400 px-2 
+                            w-full h-[30%] mb-2"
+                  />
+
+                  <button className="w-full h-1/4 mb-0 bg-black text-white 
+                            font-semibold rounded-full"
+                          onClick={handleSubmit}>
                     Sign in
                   </button>
                 </form>
@@ -73,7 +142,7 @@ export default function SignIn() {
 
               <p className="font-bold pl-1">
                 Don't have an Account?
-                <a className="text-sky-400"> Sign Up</a>
+                <a href="/signup" className="text-sky-400"> Sign Up</a>
               </p>
             </div>
           </div>
