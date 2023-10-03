@@ -9,6 +9,9 @@ import SignIn from './Pages/SignIn';
 import SignUp from './Pages/SignUp';
 import Explore from './Pages/Explore';
 import Settings from './Pages/Settings';
+import UpdateInfo from './Components/UpdateInfo';
+import UpdatePassword from './Components/UpdatePassword';
+import DeleteAccount from './Components/DeleteAccount';
 
 function App() {
   // all the link routes
@@ -27,7 +30,14 @@ function App() {
       children:[
         { index:true, element: <Home />},
         { path:'/home/profile', element: <Profile />},
-        { path:'/home/settings', element: <Settings />},
+        { path:'/home/settings', 
+          element: <Settings />,
+          children:[
+            { index:true, element: <UpdateInfo /> },
+            { path:'/home/settings/updatepassword', element: <UpdatePassword /> },
+            { path:'/home/settings/deleteaccount', element: <DeleteAccount /> },
+          ]
+        },
         { path:'/home/explore', element: <Explore />},
       ]
     }
