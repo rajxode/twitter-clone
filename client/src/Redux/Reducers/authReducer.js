@@ -2,7 +2,22 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axiosInstance from '../../utils/axios';
 
 const initialState = { isLoading:false,
-                        loggedInUser:null};
+                        loggedInUser:null,
+                        allUsers:null
+                    };
+
+export const getAllUserThunk = createAsyncThunk(
+    'auth/getalluser',
+    async () => {
+        try {
+            const response = await axiosInstance.get('/user/alluser');
+            console.log(response);
+        } catch (error) {
+            return error.response.data;
+        }
+    }
+)
+
 
 export const signUpThunk = createAsyncThunk(
     'auth/signup',
@@ -29,18 +44,18 @@ export const signInThunk = createAsyncThunk(
     }
 )
 
-// export const signOutThunk = createAsyncThunk(
-//     'auth/signout',
-//     async () => {
-//         try{
-//             console.log(process.env.REACT_APP_BASE_URL);
-//             const response = await axiosInstance.get('/signout');
-//             console.log(response);
-//         }catch(err){
-//             console.log(err);
-//         }
-//     }
-// )
+export const signOutThunk = createAsyncThunk(
+    'auth/signout',
+    async () => {
+        try{
+            const response = await axiosInstance.get('/user/signout');
+            window.localStorage.removeItem('user');
+            return response.data;
+        }catch(err){
+            return err.response.data;
+        }
+    }
+)
 
 const authSlice = createSlice({
     name:'authentication',

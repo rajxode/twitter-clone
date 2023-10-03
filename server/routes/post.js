@@ -5,8 +5,8 @@ const router = require('express').Router();
 // controller
 const postController  = require('../controllers/postController');
 
-const {isLoggedIn} = require('../middlewares/user');
 
+router.get('/getposts/:id',postController.getPosts);
 // add post route
 router.post('/addpost',postController.addPost);
 

@@ -2,6 +2,25 @@
 const User = require('../models/User');
 const Post = require('../models/Post');
 
+module.exports.getPosts = async (req,res) => {
+    try {
+
+        const posts = await Post.find({user:req.params.id}).populate('user','name');
+
+        res.status(200).json({
+            success:true,
+            posts
+        })
+
+    } catch (error) {
+        res.status(400).json({
+            success:false,
+            message:'Bad request'
+        })
+    }
+}
+
+
 module.exports.addPost = async(req,res) => {
     try {
         
