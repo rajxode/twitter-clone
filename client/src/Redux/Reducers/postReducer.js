@@ -30,6 +30,18 @@ export const addPostThunk = createAsyncThunk(
     }
 )
 
+
+export const likePost = createAsyncThunk(
+    'post/likePost',
+    async (data,thunkAPI) => {
+        try {
+            const response = await axiosInstance.post(`/post/togglelike/`)
+        } catch (error) {
+            
+        }
+    }
+)
+
 const postSlice = createSlice({
     name:'Posts',
     initialState,

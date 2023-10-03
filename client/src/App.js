@@ -3,10 +3,12 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import Navbar from "./Components/Navbar";
 import Home from "./Components/Home";
-import Third from './Components/Third';
+import Profile from './Pages/Profile';
 import LandingPage from './Pages/LandingPage';
 import SignIn from './Pages/SignIn';
 import SignUp from './Pages/SignUp';
+import Explore from './Pages/Explore';
+import Settings from './Pages/Settings';
 
 function App() {
   // all the link routes
@@ -24,7 +26,9 @@ function App() {
       element: <Navbar />,
       children:[
         { index:true, element: <Home />},
-        { path:'/home/third', element: <Third />},
+        { path:'/home/profile', element: <Profile />},
+        { path:'/home/settings', element: <Settings />},
+        { path:'/home/explore', element: <Explore />},
       ]
     }
   ]);

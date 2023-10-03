@@ -13,6 +13,8 @@ router.post('/signin',userController.login);
 
 router.get('/signout',userController.logout);
 
+router.get('/alluser',userController.getAllUser);
+
 
 // export router
 module.exports = router;

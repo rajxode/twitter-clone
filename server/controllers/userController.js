@@ -131,3 +131,21 @@ module.exports.logout = async (req,res) => {
         message:"User logout successfully"
     })
 }
+
+
+module.exports.getAllUser = async(req,res) => {
+    try{
+        const users = await User.find();
+
+        res.status(200).json({
+            success:true,
+            users
+        })
+    }
+    catch(err){
+        res.status(400).json({
+            success:false,
+            message:'Bad Request'
+        })
+    }
+}

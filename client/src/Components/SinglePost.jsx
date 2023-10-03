@@ -1,8 +1,21 @@
+import { useDispatch, useSelector } from "react-redux";
+import { authSelector } from "../Redux/Reducers/authReducer";
 
 
 export default function SinglePost(props){
 
     const { content , user, likes, comments, createdAt} = props.post;
+    const dispatch = useDispatch();
+    const { loggedInUser } = useSelector(authSelector);
+
+
+    const handleLikeClick = async (e) => {
+        try {
+            const result = dispatch();
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     return(
         <>
@@ -34,7 +47,7 @@ export default function SinglePost(props){
                         </span>
 
                         <span className="hover:text-red-400">
-                            <button>
+                            <button onClick={handleLikeClick}>
                                 <i class="fa-regular fa-heart"></i>
                             </button>
                             &nbsp;{likes.length} 

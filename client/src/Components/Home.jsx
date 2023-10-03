@@ -1,6 +1,6 @@
 
 import { useDispatch, useSelector } from 'react-redux';
-import { authSelector, setLoggedInUser } from "../Redux/Reducers/authReducer";
+import { authSelector, getAllUserThunk, setLoggedInUser } from "../Redux/Reducers/authReducer";
 import SideBar from "./SideBar"
 import { useEffect, useState } from "react";
 import { addPostThunk, getAllPostThunk, postSelector } from '../Redux/Reducers/postReducer';
@@ -16,15 +16,6 @@ export default function Home (){
     const dispatch = useDispatch();
     const { loggedInUser } = useSelector(authSelector);
     const { userPosts } = useSelector(postSelector);
-
-    useEffect(() => {
-        const isUserLoggedIn = window.localStorage.getItem('user');
-        if(isUserLoggedIn){
-            const user = JSON.parse(isUserLoggedIn);
-            dispatch(setLoggedInUser(user));
-            dispatch(getAllPostThunk(user._id));
-        }
-    },[]);
 
     const handlePostSubmit = async (e) => {
         try {
@@ -62,9 +53,9 @@ export default function Home (){
                 </header>
 
                 <div className="w-full h-1/5 flex border-b p-2">
-                        <div className="h-full w-[10%] mr-1">
-                            pic
-                        </div>
+                <div className="w-[10%] h-[55px] bg-red-400 rounded-full mr-1">
+                    
+                    </div>
                         <div className="h-full w-[88%] p-1">
                             <form className="w-full h-full" onSubmit={handlePostSubmit}>
                                 <textarea 
@@ -94,7 +85,7 @@ export default function Home (){
                 </main>
             </div>
             
-            <SideBar />
+            <SideBar parent={'home'} />
         </div>
     )
 }

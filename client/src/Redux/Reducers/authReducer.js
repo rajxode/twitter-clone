@@ -3,15 +3,15 @@ import axiosInstance from '../../utils/axios';
 
 const initialState = { isLoading:false,
                         loggedInUser:null,
-                        allUsers:null
+                        allUsers:[]
                     };
 
 export const getAllUserThunk = createAsyncThunk(
     'auth/getalluser',
-    async () => {
+    async (args,thunkAPI) => {
         try {
             const response = await axiosInstance.get('/user/alluser');
-            console.log(response);
+            thunkAPI.dispatch(setAllUsers(response.data.users));
         } catch (error) {
             return error.response.data;
         }
@@ -65,6 +65,10 @@ const authSlice = createSlice({
             window.localStorage.setItem('user',JSON.stringify(action.payload));
             state.loggedInUser = action.payload;
             return;
+        },
+        setAllUsers:(state,action) => {
+            state.allUsers = [...action.payload];
+            return;
         }
     },
     extraReducers: (builder) => {
@@ -83,6 +87,6 @@ const authSlice = createSlice({
 
 export const authReducer = authSlice.reducer;
 
-export const { setLoggedInUser } = authSlice.actions;
+export const { setLoggedInUser, setAllUsers } = authSlice.actions;
 
 export const authSelector = (state) => state.authReducer;
