@@ -1,10 +1,17 @@
 
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { authSelector, updatePasswordThunk } from "../Redux/Reducers/authReducer";
 
-const monthName = ['January','February','March','April','May','June','July','August','September','October','November','December',];
+// toast notification
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function UpdatePassword(){
 
+    const dispatch = useDispatch();
+    const { loggedInUser } = useSelector(authSelector);
+    
     const [formData,setFormData] = useState({
         oldPassword:'',
         newPassword:''
@@ -18,6 +25,36 @@ export default function UpdatePassword(){
         setFormData({...formData, [name]:value});
     }
 
+    const handleSubmit = async(e) => {
+        try {
+            e.preventDefault();
+            if(!formData.oldPassword || !formData.newPassword || !confirmPassword){
+                toast.error("Please enter all the values");
+                return;
+            }
+
+            if( formData.newPassword.length < 8){
+                toast.error("Password length should be atleast 8");
+                return;
+            }
+
+            if(formData.newPassword !== confirmPassword){
+                toast.error("New Password and Confirm Password Doesn't match");
+                return;
+            }
+
+            const result = await dispatch(updatePasswordThunk({id:loggedInUser._id,data:formData}));
+            if(!result.payload.success){
+                toast.error(result.payload.message);
+            }
+            else{
+                toast.success(result.payload.message);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return(
         <>
             <div className="w-full h-full flex flex-col">
@@ -27,7 +64,7 @@ export default function UpdatePassword(){
                 </div>
 
                 <div className="w-full h-full mt-2 p-2">
-                    <form className="w-full h-full p-3">
+                    <form className="w-full h-full p-3" onSubmit={handleSubmit}>
 
                         <input
                         type="password"
@@ -65,7 +102,7 @@ export default function UpdatePassword(){
                         <button className="w-full h-[7%] mb-0 bg-black 
                                 text-white font-semibold rounded-full"
                                 type="submit" 
-                                // onClick={handleSubmit}
+                                onClick={handleSubmit}
                                 >
                             Update Password
                         </button>

@@ -1,8 +1,8 @@
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
-import { authSelector, signOutThunk, setLoggedInUser, getAllUserThunk } from "../Redux/Reducers/authReducer";
+import { authSelector, signOutThunk, setLoggedInUser, getAllUserThunk, getLoggedInUserThunk } from "../Redux/Reducers/authReducer";
 import { useEffect, useState } from "react";
-import { getAllPostThunk } from "../Redux/Reducers/postReducer";
+
 
 // toast notification
 import { toast } from 'react-toastify';
@@ -14,7 +14,7 @@ export default function Navbar() {
     const menuOptions = [{name:'Home', icon:<i class="fa-solid fa-house"></i>, link:'/home'},
                         {name:'Explore', icon:<i class="fa-solid fa-magnifying-glass"></i>, link:'/home/explore'},
                         {name:'Profile', icon:<i class="fa-solid fa-user"></i>, link:'/home/profile'},
-                        {name:'Account Settings', icon:<i class="fa-solid fa-gears"></i>, link:'/home/settings'}, ]
+                        {name:'Settings', icon:<i class="fa-solid fa-gears"></i>, link:'/home/settings'}, ]
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -25,23 +25,22 @@ export default function Navbar() {
 
 
     useEffect(() => {
-        const isUserLoggedIn = window.localStorage.getItem('user');
-        dispatch(getAllUserThunk());
-        if(isUserLoggedIn){
-            const user = JSON.parse(isUserLoggedIn);
-            dispatch(setLoggedInUser(user));
-            dispatch(getAllPostThunk(user._id));
+        async function getUser(){
+            const result = await dispatch(getLoggedInUserThunk());
+            if(!result.payload){
+                navigate('/');
+            }
         }
+        getUser();
     },[]);
 
     const handleSignOut = async (e) => {
         try{
             e.preventDefault();
+            navigate('/');
             const result = await dispatch(signOutThunk());
-
             if(result.payload.success){
                 toast.success(result.payload.message);
-                navigate('/signin');
             }
             else{
                 toast.error(result.payload.message);

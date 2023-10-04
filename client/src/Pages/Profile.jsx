@@ -3,16 +3,19 @@ import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import SideBar from '../Components/SideBar';
 import { authSelector } from '../Redux/Reducers/authReducer';
+import { postSelector } from '../Redux/Reducers/postReducer';
+import SinglePost from '../Components/SinglePost';
 
 export default function Profile(){
 
     const { loggedInUser } = useSelector(authSelector);
+    const { userPosts } = useSelector(postSelector);
 
     return(
         <div className="h-full w-[78%] flex justify-between">
             <div className=" w-[68%] h-full rounded shadow-md flex flex-col">
 
-                <div className='w-full h-[45px] px-2 flex items-center'>
+                <div className='w-full h-[45px] px-2 flex items-center shrink-0'>
                     <span className='font-semibold'>
                         {loggedInUser.name}    
                     </span>
@@ -74,7 +77,7 @@ export default function Profile(){
                             
                         </div>
                         
-                        <div className='w-full h-[10%] border-b border-slate-400 flex'>
+                        <div className='w-full h-[10%] border-b border-slate-400 flex font-semibold'>
                             <div className="w-1/4 flex items-center justify-center border-r ">Post</div>
                             <div className="w-1/4 flex items-center justify-center border-r">Likes</div>
                             <div className="w-1/4 flex items-center justify-center border-r">Comments</div>
@@ -82,8 +85,10 @@ export default function Profile(){
                         </div>
                     </div>
                     
-                    <div className='w-full h-2/5 bg-slate-100'>
-                        post
+                    <div className='w-full h-2/5 bg-slate-100 p-2'>
+                        {
+                            userPosts.map((post) => <SinglePost key={post._id} post={post} />)
+                        }
                     </div>
                 </div>
             </div>

@@ -4,7 +4,7 @@ import { authSelector } from "../Redux/Reducers/authReducer";
 
 export default function SinglePost(props){
 
-    const { content , user, likes, comments, createdAt} = props.post;
+    const { content , user, likes, comments} = props.post;
     const dispatch = useDispatch();
     const { loggedInUser } = useSelector(authSelector);
 

@@ -13,6 +13,7 @@ import UpdateInfo from './Components/UpdateInfo';
 import UpdatePassword from './Components/UpdatePassword';
 import DeleteAccount from './Components/DeleteAccount';
 import About from './Components/About';
+import Error from './Pages/Error';
 
 function App() {
   // all the link routes
@@ -20,6 +21,7 @@ function App() {
     {
       path:"/", 
       element: <LandingPage />,
+      errorElement:<Error />,
       children:[
         { path:'/signin', element: <SignIn />},
         { path:'/signup', element: <SignUp />},

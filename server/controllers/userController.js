@@ -11,8 +11,6 @@ const cookieGenerator = require('../utils/cookieGenerator');
 module.exports.signup = async (req,res) => {
     try {
 
-        console.log('called',req.body);
-
         // getting user's data
         const { name , email, password,day,month,year} = req.body;
 
@@ -80,7 +78,7 @@ module.exports.login = async(req,res) => {
 
         // to get the user from database by his/her email id
         // (.select) = to get value of password also from database, which is initially hide for access inside the schema
-        const user = await User.findOne({email}).select('+password');
+        const user = await User.findOne({email}).select('+password').populate('follows','name email');
 
 
         // if user doesn't found inside the database
@@ -197,5 +195,108 @@ module.exports.toggleFollow = async (req,res) => {
             message:'Internal Server Error'
         })
         
+    }
+}
+
+
+module.exports.iFollow = async(req,res) => {
+    try {
+        const id = req.params.id;
+
+        const user = await User.findById(id).populate('follows', 'name email');
+
+        res.status(200).json({
+            success:true,
+            follows:user.follows
+        });
+    } catch (error) {
+        res.status(500).json({
+            success:false,
+            message:'Internal Server Error'
+        })
+    }
+}
+
+module.exports.updateInfo = async(req,res) => {
+    try {
+        const id = req.params.id;
+        
+        const { name , email , day , month , year } = req.body;
+
+        const dateOfBirth = {day,month,year};
+        const newData = {
+            name,
+            email,
+            dateOfBirth
+        };
+
+        const user = await User.findByIdAndUpdate(
+                                                id,
+                                                newData,
+                                                // options for updating
+                                                {
+                                                    new:true,
+                                                    runValidators:true,
+                                                    useFindAndModify: false,
+                                                }
+                                            )
+
+        res.status(200).json({
+            success:true,
+            message:'Info Updated',
+            user
+        })
+
+    } catch (error) {
+        res.status(400).json({
+            success:false,
+            message:'Bad Request'
+        })
+    }
+}
+
+module.exports.updatePassword = async(req,res) => {
+    try {
+        const id = req.params.id;
+        
+        const { oldPassword , newPassword } = req.body;
+
+
+
+        // get user data(including password) from database using user's id
+        const user = await User.findById(id).select('+password');
+
+
+        // checking whether the old password matches with db
+        const isVerified = await user.isPasswordMatch(oldPassword);
+
+        
+        // if password doesn't match
+        if(!isVerified){
+            res.status(400).json({
+                success:false,
+                message:'Old Password Incorrect'
+            })
+        }
+
+
+        // save new password
+        user.password = newPassword;
+
+        // save data inside the database
+        await user.save();
+        // generate new token
+        // cookieGenerator(user,res);
+        
+        res.status(200).json({
+            success:true,
+            message:'Password Updated',
+        })
+
+    } catch (error) {
+        res.status(400).json({
+            success:false,
+            message:'Bad Request'
+        })
     }
 }

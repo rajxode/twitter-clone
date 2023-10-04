@@ -15,6 +15,12 @@ router.get('/signout',userController.logout);
 
 router.get('/alluser',userController.getAllUser);
 
+router.get('/ifollow/:id',userController.iFollow);
+
+router.put('/updateinfo/:id',userController.updateInfo);
+
+router.put('/updatepassword/:id',userController.updatePassword);
+
 router.put('/:id/follow',userController.toggleFollow);
 
 // export router

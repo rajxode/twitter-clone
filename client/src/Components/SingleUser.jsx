@@ -10,6 +10,7 @@ export default function SingleUser(props) {
 
     const dispatch = useDispatch();
     const { loggedInUser } = useSelector(authSelector);
+    const { parent } = props;
     const {name,email,_id} = props.user;
 
     const handleFollowClick = async(e) => {
@@ -46,9 +47,15 @@ export default function SingleUser(props) {
                 
                 <div className="w-auto  h-full flex justify-center items-center">
                     <button className="rounded-full px-2 py-[2px] bg-black 
-                                text-white font-semibold shadow-md"
+                                text-white text-sm font-semibold shadow-md"
                             onClick={handleFollowClick}>
-                        Follow
+                        { 
+                            parent === 'home'
+                            ?
+                            loggedInUser.follows.includes(_id) ? 'Unfollow' : "Follow" 
+                            :
+                            'Unfollow'
+                        }
                     </button>
                 </div>
             </div>
