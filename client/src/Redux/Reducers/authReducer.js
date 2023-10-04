@@ -163,15 +163,31 @@ const authSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-        // .addCase(signUpThunk.pending,(state,action) => {
-        //     state.isLoading = true;
-        // })
+        .addCase(signUpThunk.pending,(state,action) => {
+            state.isLoading = true;
+        })
         .addCase(signUpThunk.fulfilled, (state,action) => {
-            return action.payload;
+            state.isLoading = false;
         })
-        .addCase(signUpThunk.rejected,(state,action) => {
-            console.log('rejected');
+        .addCase(signInThunk.pending,(state,action) => {
+            state.isLoading = true;
         })
+        .addCase(signInThunk.fulfilled, (state,action) => {
+            state.isLoading = false;
+        })
+        .addCase(signOutThunk.pending,(state,action) => {
+            state.isLoading = true;
+        })
+        .addCase(signOutThunk.fulfilled, (state,action) => {
+            state.isLoading = false;
+        })
+        .addCase(getLoggedInUserThunk.pending,(state,action) => {
+            state.isLoading = true;
+        })
+        .addCase(getLoggedInUserThunk.fulfilled,(state,action) => {
+            state.isLoading = false;
+        })
+        
     }
 })
 

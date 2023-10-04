@@ -1,16 +1,18 @@
 
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 
 // toast notification
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { setLoggedInUser, signInThunk } from "../Redux/Reducers/authReducer";
+import { authSelector, setLoggedInUser, signInThunk } from "../Redux/Reducers/authReducer";
+import Loader from "../Components/Spinner";
 
 export default function SignIn() {
 
   const dispatch = useDispatch();
+  const { isLoading } = useSelector(authSelector);
 
   const [formData, setFormData] = useState({
     email:'',
@@ -52,6 +54,11 @@ export default function SignIn() {
     }
   }
 
+  if(isLoading){
+    return(
+      <Loader />
+    )
+  }
 
 
   return (
@@ -61,7 +68,7 @@ export default function SignIn() {
                             rounded shadow-md flex justify-center items-center"
       ></div>
       <div
-        className="absolute bg-white h-4/5 w-2/5 p-2 
+        className="absolute bg-white h-full md:h-4/5 w-full md:w-3/5 lg:w-2/5 p-2 
                             rounded-md shadow-md flex flex-col justify-between"
       >
         <div className="w-full h-[7%] flex">

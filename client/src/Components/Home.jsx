@@ -9,12 +9,13 @@ import { addPostThunk, getAllPostThunk, postSelector } from '../Redux/Reducers/p
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import SinglePost from './SinglePost';
+import Loader from './Spinner';
 
 export default function Home (){
 
     const [content,setContent] = useState();
     const dispatch = useDispatch();
-    const { loggedInUser } = useSelector(authSelector);
+    const { loggedInUser, isLoading } = useSelector(authSelector);
     const { userPosts } = useSelector(postSelector);
 
     const handlePostSubmit = async (e) => {
@@ -33,6 +34,12 @@ export default function Home (){
         } catch (error) {
             console.log(error);
         }        
+    }
+
+    if(isLoading){
+        return(
+            <Loader />
+        )
     }
 
     return(

@@ -116,7 +116,7 @@ export default function SignUp() {
                             rounded shadow-md flex justify-center items-center"
       ></div>
       <div
-        className="absolute bg-white h-4/5 w-2/5 p-2 
+        className="absolute bg-white h-full md:h-4/5 w-full md:w-3/5 lg:w-2/5 p-2 
                             rounded-md shadow-md flex flex-col justify-between"
       >
         <div className="w-full h-[7%] flex">

@@ -6,7 +6,7 @@ import { authSelector, getLoggedInUserThunk } from '../Redux/Reducers/authReduce
 
 export default function LandingPage(){
 
-    const { loggedInUser } = useSelector(authSelector);
+    const { isLoading } = useSelector(authSelector);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -20,30 +20,35 @@ export default function LandingPage(){
         getUser();
     },[]);
 
+    if(isLoading){
+        return(
+            <Loader />
+        )
+    }
+
     return(
         <>
-            {/* <Loader /> */}
             <div className="w-screen h-screen bg-white flex justify-center 
                         items-center relative ">
                 
-                <div className="w-4/5 h-4/5 flex justify-around p-3">
+                <div className="w-4/5 h-4/5 flex flex-col md:flex-row justify-start md:justify-around p-3">
 
-                    <div className="h-full w-1/2 mr-2 p-3 flex justify-center items-center">
+                    <div className="w-1/4 h-auto md:h-full md:w-1/2 mr-2 p-3 flex justify-center items-center">
                         <img src={require('../Assets/logo.png')} alt='logo' 
-                            className='h-3/5 w-3/5' />
+                            className='w-full h-full md:h-3/5 md:w-3/5' />
                     </div>
                     
-                    <div className="h-full w-1/2 p-3 flex flex-col justify-around">
+                    <div className="h-full w-full md:w-1/2 p-3 flex flex-col justify-around">
                         
-                        <div className='text-7xl font-bold h-1/5'>
+                        <div className='text-5xl sm:text-6xl md:text-7xl font-bold h-1/4'>
                             Happening now
                         </div>
                         
-                        <div className='text-4xl font-bold w-full h-1/5'>   
+                        <div className='text-4xl font-bold w-full h-[15%] md:h-1/5'>   
                             Join now.
                         </div>
                         
-                        <div className=' w-3/5 h-3/5 flex flex-col py-2 justify-start'>
+                        <div className='w-full sm:w-2/3 md:w-full lg:w-3/5 h-3/5 flex flex-col py-2 justify-start'>
                             
                             <div className="w-full h-1/5 ">
                                 <button className='border border-slate-300 hover:bg-slate-100 w-full h-3/5 flex justify-center items-center rounded-full'>
