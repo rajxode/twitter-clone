@@ -124,6 +124,8 @@ module.exports.logout = async (req,res) => {
             Date.now()
         ),
         httpOnly: true,
+        secure: true,   // Only send over HTTPS
+        sameSite: 'none' // Allow cross-origin requests
     });
 
     res.status(200).json({
@@ -147,5 +149,53 @@ module.exports.getAllUser = async(req,res) => {
             success:false,
             message:'Bad Request'
         })
+    }
+}
+
+module.exports.toggleFollow = async (req,res) => {
+    try {
+        const id = req.params.id;
+        const { userId } = req.query;
+        const userOne = await User.findById(id);
+        const userTwo = await User.findById(userId);
+        let message='';
+
+        if(!userOne){
+            res.status(400).json({
+                message:'Bad request check'
+            })
+        }
+
+        const alreadyFollowing = userOne.follows.includes(userId);
+
+        if(alreadyFollowing){
+            const newFollows = await userOne.follows.filter((follow) => JSON.stringify(follow) !== JSON.stringify(userId));
+            userOne.follows = newFollows;
+
+            const newFollowers = await userTwo.followers.filter((follow) => JSON.stringify(follow) !== JSON.stringify(id));
+            userTwo.followers = newFollowers;
+            message='Stopped following'
+        }
+        else{
+            userOne.follows.push(userId);
+            userTwo.followers.push(id);
+            message='Started following'
+        }
+
+        await userOne.save();
+        await userTwo.save();
+
+        res.status(200).json({
+            success:true,
+            userOne,
+            message
+        })
+
+    } catch (error) {
+        res.status(500).json({
+            success:false,
+            message:'Internal Server Error'
+        })
+        
     }
 }

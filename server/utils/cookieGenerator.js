@@ -9,9 +9,11 @@ const cookieGenerator = (user,res) => {
     const options = {
         // expires token in 3days
         expires: new Date(
-            Date.now() + 3 *24 * 60 * 60 * 1000
+            Date.now() + process.env.COOKIE_EXPIRE *24 * 60 * 60 * 1000
         ),
-        httpOnly: true,
+        httpOnly: true, // makes the token available only to backend
+        secure: true,   // Only send over HTTPS
+        sameSite: 'none' // Allow cross-origin requests
     }
 
     // remove password from variable

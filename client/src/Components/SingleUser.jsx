@@ -1,8 +1,31 @@
 
+import { useDispatch, useSelector } from 'react-redux';
+import { authSelector, toggelFollowThunk } from '../Redux/Reducers/authReducer';
+
+// toast notification
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function SingleUser(props) {
 
-    const {name,email} = props.user;
+    const dispatch = useDispatch();
+    const { loggedInUser } = useSelector(authSelector);
+    const {name,email,_id} = props.user;
+
+    const handleFollowClick = async(e) => {
+        try {
+            e.preventDefault();
+            const result = await dispatch(toggelFollowThunk({id:loggedInUser._id,userId:_id}));
+            if(!result.payload.success){
+                toast.error(result.payload.message);
+            }
+            else{
+                toast.success(result.payload.message);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
     
     return(
         <>
@@ -22,7 +45,9 @@ export default function SingleUser(props) {
                 </div>
                 
                 <div className="w-auto  h-full flex justify-center items-center">
-                    <button className="rounded-full px-2 py-[2px] bg-black text-white font-semibold shadow-md">
+                    <button className="rounded-full px-2 py-[2px] bg-black 
+                                text-white font-semibold shadow-md"
+                            onClick={handleFollowClick}>
                         Follow
                     </button>
                 </div>

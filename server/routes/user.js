@@ -15,6 +15,7 @@ router.get('/signout',userController.logout);
 
 router.get('/alluser',userController.getAllUser);
 
+router.put('/:id/follow',userController.toggleFollow);
 
 // export router
 module.exports = router;

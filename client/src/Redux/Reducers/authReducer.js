@@ -2,9 +2,23 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axiosInstance from '../../utils/axios';
 
 const initialState = { isLoading:false,
-                        loggedInUser:null,
+                        loggedInUser:{},
                         allUsers:[]
                     };
+
+export const toggelFollowThunk = createAsyncThunk(
+    'auth/toggleFollow',
+    async ({id,userId},thunkAPI) => {
+        try {
+            const response = await axiosInstance.put(`/user/${id}/follow?userId=${userId}`);
+            thunkAPI.dispatch(setLoggedInUser(response.data.userOne));
+            return response.data;
+        } catch (error) {
+            return error.response.data;
+        }
+    }
+)
+
 
 export const getAllUserThunk = createAsyncThunk(
     'auth/getalluser',

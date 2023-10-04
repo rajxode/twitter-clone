@@ -6,7 +6,9 @@ export default function Settings(){
 
     const menuOptions = [{name:'Update Info',icon:<i class="fa-solid fa-pen-to-square"></i>,link:'/home/settings/'},
                         {name:'Update Password',icon:<i class="fa-solid fa-key"></i>,link:'/home/settings/updatepassword'},
-                        {name:'Delete Accout',icon:<i class="fa-solid fa-trash"></i>,link:'/home/settings/deleteaccount'},]
+                        {name:'Delete Accout',icon:<i class="fa-solid fa-trash"></i>,link:'/home/settings/deleteaccount'},
+                        {name:'About',icon:<i class="fa-solid fa-circle-info"></i>,link:'/home/settings/about'},
+                    ]
 
     return(
         <div className="h-full w-[78%] flex justify-between">

@@ -12,6 +12,7 @@ import Settings from './Pages/Settings';
 import UpdateInfo from './Components/UpdateInfo';
 import UpdatePassword from './Components/UpdatePassword';
 import DeleteAccount from './Components/DeleteAccount';
+import About from './Components/About';
 
 function App() {
   // all the link routes
@@ -36,6 +37,7 @@ function App() {
             { index:true, element: <UpdateInfo /> },
             { path:'/home/settings/updatepassword', element: <UpdatePassword /> },
             { path:'/home/settings/deleteaccount', element: <DeleteAccount /> },
+            { path:'/home/settings/about', element: <About /> },
           ]
         },
         { path:'/home/explore', element: <Explore />},

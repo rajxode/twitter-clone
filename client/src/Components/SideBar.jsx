@@ -1,11 +1,17 @@
-import { useSelector } from "react-redux"
-import { authSelector } from "../Redux/Reducers/authReducer"
+import { useDispatch, useSelector } from "react-redux"
+import { authSelector, getAllUserThunk } from "../Redux/Reducers/authReducer"
 import SingleUser from "./SingleUser";
+import { useEffect } from "react";
 
 export default function SideBar(props) {
 
+    const dispatch = useDispatch();
     const { parent } = props;
     const { allUsers, loggedInUser } = useSelector(authSelector);
+
+    useEffect(() => {
+        dispatch(getAllUserThunk());
+    },[]);
 
     return(
         <div className=" w-[35%] p-2 rounded flex flex-col ">

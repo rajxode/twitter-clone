@@ -1,7 +1,26 @@
-import { NavLink, Outlet } from 'react-router-dom';
+import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import Loader from '../Components/Spinner';
+import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+
+import { getAllUserThunk, setLoggedInUser } from '../Redux/Reducers/authReducer';
+import { getAllPostThunk } from '../Redux/Reducers/postReducer';
 
 export default function LandingPage(){
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const isUserLoggedIn = window.localStorage.getItem('user');
+        dispatch(getAllUserThunk());
+        if(isUserLoggedIn){
+            const user = JSON.parse(isUserLoggedIn);
+            dispatch(setLoggedInUser(user));
+            dispatch(getAllPostThunk(user._id));
+            navigate('/home')
+        }
+    },[]);
 
     return(
         <>

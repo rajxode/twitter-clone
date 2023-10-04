@@ -19,7 +19,7 @@ export default function DeleteAccount(){
                 <div className="w-full h-full mt-2 p-2">
                     <form className="w-full h-full p-3">
 
-                        <input type="checkbox" id='checkbox'/>
+                        <input type="checkbox" required/>
                         &nbsp;
                         I want to delete my account
 
