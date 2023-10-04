@@ -1,12 +1,43 @@
 
-import { useState } from "react";
 
-const monthName = ['January','February','March','April','May','June','July','August','September','October','November','December',];
+import { useState } from "react";
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from "react-router-dom";
+
+// toast notification
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { authSelector, deleteAccountThunk, signOutThunk } from "../Redux/Reducers/authReducer";
 
 export default function DeleteAccount(){
     
+    const { loggedInUser } = useSelector(authSelector);
     const [password, setPassword] = useState('');
-    
+    const dispatch = useDispatch();
+    const navigate = useNavigate();    
+
+    const handleSubmit = async(e) => {
+        try {
+            e.preventDefault();
+            if(!password || password.length < 8){
+                toast.error('Please enter valid password');
+                return;
+            }
+            const id = loggedInUser._id;
+            toast.success('Your account deletion is under process, It will take some time!!!');
+            await dispatch(signOutThunk());
+            navigate('/');
+            const delResult = await dispatch(deleteAccountThunk({id,data:{password}}));
+            if(!delResult.payload.success){
+                toast.error(delResult.payload.message);
+            }
+            else{
+                toast.success(delResult.payload.message);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     return(
         <>
@@ -17,7 +48,7 @@ export default function DeleteAccount(){
                 </div>
 
                 <div className="w-full h-full mt-2 p-2">
-                    <form className="w-full h-full p-3">
+                    <form className="w-full h-full p-3" onSubmit={handleSubmit}>
 
                         <input type="checkbox" required/>
                         &nbsp;
@@ -37,7 +68,7 @@ export default function DeleteAccount(){
                         <button className="w-full h-[7%] mb-0 bg-black 
                                 text-white font-semibold rounded-full"
                                 type="submit" 
-                                // onClick={handleSubmit}
+                                onClick={handleSubmit}
                                 >
                             Delete My Account
                         </button>

@@ -1,5 +1,8 @@
 
 const User = require('../models/User');
+const Post = require('../models/Post');
+const Like = require('../models/Like');
+const Comment = require('../models/Comment');
 
 const cloudinary = require('cloudinary').v2;
 
@@ -297,6 +300,73 @@ module.exports.updatePassword = async(req,res) => {
         res.status(400).json({
             success:false,
             message:'Bad Request'
+        })
+    }
+}
+
+
+module.exports.deleteAccount = async(req,res) => {
+    try {
+        const id = req.params.id;
+        const { password } = req.body;
+
+        // get user data(including password) from database using user's id
+        const user = await User.findById(id).select('+password');
+
+
+        // checking whether the old password matches with db
+        const isVerified = await user.isPasswordMatch(password);
+
+        
+        // if password doesn't match
+        if(!isVerified){
+            res.status(400).json({
+                success:false,
+                message:'Password Incorrect'
+            })
+        }
+
+        await Comment.deleteMany({user:id});
+        await Like.deleteMany({user:id});
+        await Post.deleteMany({user:id});
+
+        for (let index = 0; index < user.follows.length; index++) {
+            const followsId = user.follows[index];
+
+            const followsUser = await User.findById(followsId);
+
+            const newfollowers = await followsUser.followers.filter((follower) => JSON.stringify(follower) !== JSON.stringify(id));
+
+            followsUser.followers = newfollowers;
+
+            await followsUser.save();
+        }
+
+        for (let index = 0; index < user.followers.length; index++) {
+            const followerId = user.followers[index];
+
+            const followerUser = await User.findById(followerId);
+
+            const newfollows = await followerUser.follows.filter((follow) => JSON.stringify(follow) !== JSON.stringify(id));
+
+            followerUser.follows = newfollows;
+
+            await followerUser.save();
+        }
+
+        await User.findByIdAndDelete(id);
+
+        console.log('finish');
+
+        res.status(200).json({
+            success:true,
+            message:'Your Account is deleted, #GoodBye'
+        })
+
+    } catch (error) {
+        res.status(500).json({
+            success:true,
+            message:'Internal Server Error'
         })
     }
 }

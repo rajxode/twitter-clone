@@ -21,6 +21,8 @@ router.put('/updateinfo/:id',userController.updateInfo);
 
 router.put('/updatepassword/:id',userController.updatePassword);
 
+router.put('/deleteaccount/:id',userController.deleteAccount);
+
 router.put('/:id/follow',userController.toggleFollow);
 
 // export router

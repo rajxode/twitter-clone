@@ -131,6 +131,19 @@ export const updatePasswordThunk = createAsyncThunk(
 )
 
 
+export const deleteAccountThunk = createAsyncThunk(
+    'auth/deleteAccount',
+    async({id,data},thunkAPI) => {
+        try {
+            const response = await axiosInstance.put(`/user/deleteaccount/${id}`,data);
+            return response.data;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+)
+
+
 const authSlice = createSlice({
     name:'authentication',
     initialState,
