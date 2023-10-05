@@ -18,7 +18,7 @@ exports.connect = () => {
     )
     .catch((error) => {
         // if there is some error
-        conosle.log('database connection is failed');
+        console.log('database connection is failed');
         console.log(error);
         process.exit(1);
     })

@@ -1,14 +1,14 @@
 
-// creating router 
-const router = require('express').Router();
+// // creating router 
+// const router = require('express').Router();
 
-// controller
-const likesController  = require('../controllers/likesController');
-
-
-router.get('/:postId',likesController.toggleLike);
-// add post route
+// // controller
+// const likesController  = require('../controllers/likesController');
 
 
-// export router
-module.exports = router;
+// router.get('/togglelike/:postId',likesController.toggleLike);
+// // add post route
+
+
+// // export router
+// module.exports = router;

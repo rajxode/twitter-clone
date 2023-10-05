@@ -35,7 +35,7 @@ export default function LandingPage(){
 
                     <div className="w-1/4 h-auto md:h-full md:w-1/2 mr-2 p-3 flex justify-center items-center">
                         <img src={require('../Assets/logo.png')} alt='logo' 
-                            className='w-full h-full md:h-3/5 md:w-3/5' />
+                            className='w-full h-full md:h-3/5 lg:w-3/5' />
                     </div>
                     
                     <div className="h-full w-full md:w-1/2 p-3 flex flex-col justify-around">

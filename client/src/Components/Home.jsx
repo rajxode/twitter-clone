@@ -16,13 +16,19 @@ export default function Home (){
     const [content,setContent] = useState();
     const dispatch = useDispatch();
     const { loggedInUser, isLoading } = useSelector(authSelector);
-    const { userPosts } = useSelector(postSelector);
+    const { userPosts, loading } = useSelector(postSelector);
 
-    const handlePostSubmit = async (e) => {
-        try {
+    const handlePostSubmit = async(e) => {
+        try{
             e.preventDefault();
-            const data = { content,userId:loggedInUser._id};
-            const result = await dispatch(addPostThunk(data));
+
+            if(!content || !content.trim()){
+                toast.error('Please enter some data');
+                setContent('');
+                return;
+            }
+            
+            const result = await dispatch(addPostThunk({content,userId:loggedInUser._id}));
 
             if(result.payload.success){
                 toast.success(result.payload.message);
@@ -36,23 +42,25 @@ export default function Home (){
         }        
     }
 
-    if(isLoading){
-        return(
-            <Loader />
-        )
-    }
-
     return(
         <div className="h-full w-[78%] flex justify-between">
             
             <div className=" w-[68%] p-2 rounded shadow-md flex flex-col">
+
+            {
+                isLoading
+                ?
+                <Loader />
+                :
+                <>
+
                 <header className="w-full h-1/5 p-2 bg-white ">
                     <div className='w-full h-full'>
-                        <div className="font-bold text-2xl w-full h-2/5">
+                        <div className="font-bold text-2xl w-full h-3/5">
                             Home
                         </div>
 
-                        <div className="w-full h-3/5 flex font-semibold border-b">
+                        <div className="w-full h-2/5 flex font-semibold border-b">
                             <div className="w-1/2 h-full flex items-center justify-center border-r">For You</div>
                             <div className="w-1/2 h-full flex items-center justify-center">Following</div>
                         </div>
@@ -64,7 +72,7 @@ export default function Home (){
                     
                     </div>
                         <div className="h-full w-[88%] p-1">
-                            <form className="w-full h-full" onSubmit={handlePostSubmit}>
+                            <form className="w-full h-full">
                                 <textarea 
                                     className="w-full h-[65%] focus:outline-none 
                                             p-1 font-semibold text-xl rounded-sm" 
@@ -87,9 +95,17 @@ export default function Home (){
                     </div>
                 
                 <main className="h-2/3 w-full p-2 flex flex-col">
-                    { userPosts.map((post) => <SinglePost key={post._id}
-                                                        post={post} />)}
+                    { 
+                        loading 
+                        ?
+                        <Loader />
+                        :
+                        userPosts.map((post) => <SinglePost key={post._id} post={post} />)
+                    
+                    }
                 </main>
+            </>
+            }
             </div>
             
             <SideBar parent={'home'} />

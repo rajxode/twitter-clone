@@ -15,7 +15,7 @@ root.render(
     {/* redux store  */}
     <Provider store={store} >
       {/* for toast notifications */}
-      <ToastContainer autoClose={1000}/>
+      <ToastContainer autoClose={2000}/>
         <App />
     </Provider>
   </React.StrictMode>

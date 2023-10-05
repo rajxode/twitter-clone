@@ -1,15 +1,30 @@
 
-import { NavLink } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import SideBar from '../Components/SideBar';
-import { authSelector } from '../Redux/Reducers/authReducer';
-import { postSelector } from '../Redux/Reducers/postReducer';
+import { authSelector, getLoggedInUserThunk } from '../Redux/Reducers/authReducer';
+import { getAllPostThunk, postSelector } from '../Redux/Reducers/postReducer';
 import SinglePost from '../Components/SinglePost';
+import { useEffect } from 'react';
 
 export default function Profile(){
 
-    const { loggedInUser } = useSelector(authSelector);
+    const navigate = useNavigate();
+    const { loggedInUser } = useSelector(authSelector); 
     const { userPosts } = useSelector(postSelector);
+    const dispatch = useDispatch();
+
+    if(!loggedInUser){
+        navigate('/home');
+    }
+
+    useEffect(() => {
+        async function getPost(){
+            console.log('getpsot',userPosts);
+            await dispatch(getAllPostThunk(loggedInUser._id));
+        }
+        getPost();
+    },[])
 
     return(
         <div className="h-full w-[78%] flex justify-between">

@@ -90,12 +90,12 @@ export default function SignIn() {
         </div>
 
         <div className="w-full h-[90%] p-2 flex justify-center items-center">
-          <div className="flex w-2/3 h-full flex-col justify-around">
+          <div className="flex w-full sm:w-2/3 h-full flex-col justify-around">
             <div className="text-3xl w-full font-semibold">Sign in to X</div>
 
             <div className=" w-full h-full flex flex-col py-3 my-3 items-start">
               <div className="w-full h-[15%] ">
-                <button className="border border-slate-400 hover:bg-slate-100 w-full h-3/5 flex justify-center items-center rounded-full">
+                <button className="border border-slate-400 hover:bg-slate-100 w-full  h-3/5 flex justify-center items-center rounded-full">
                   <img
                     src={require("../Assets/icons/google.png")}
                     alt="google"

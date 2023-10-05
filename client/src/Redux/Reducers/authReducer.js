@@ -83,9 +83,9 @@ export const getLoggedInUserThunk = createAsyncThunk(
         if(isUserLoggedIn){
             const user = JSON.parse(isUserLoggedIn);
             thunkAPI.dispatch(setLoggedInUser(user));
-            thunkAPI.dispatch(getAllPostThunk(user._id));
-            thunkAPI.dispatch(getIFollowThunk(user._id));
-            thunkAPI.dispatch(getAllUserThunk());
+            await thunkAPI.dispatch(getAllPostThunk(user._id));
+            await thunkAPI.dispatch(getIFollowThunk(user._id));
+            await thunkAPI.dispatch(getAllUserThunk());
             return true;
         }
         return false;
@@ -159,35 +159,46 @@ const authSlice = createSlice({
         setFollows:(state,action) => {
             state.follows = action.payload;
             return;
-        }
+        },
     },
     extraReducers: (builder) => {
         builder
         .addCase(signUpThunk.pending,(state,action) => {
             state.isLoading = true;
         })
-        .addCase(signUpThunk.fulfilled, (state,action) => {
+        .addCase(signUpThunk.fulfilled || signUpThunk.rejected, (state,action) => {
             state.isLoading = false;
         })
         .addCase(signInThunk.pending,(state,action) => {
             state.isLoading = true;
         })
-        .addCase(signInThunk.fulfilled, (state,action) => {
+        .addCase(signInThunk.fulfilled || signInThunk.rejected, (state,action) => {
             state.isLoading = false;
         })
         .addCase(signOutThunk.pending,(state,action) => {
             state.isLoading = true;
         })
-        .addCase(signOutThunk.fulfilled, (state,action) => {
+        .addCase(signOutThunk.fulfilled || signOutThunk.rejected, (state,action) => {
             state.isLoading = false;
         })
         .addCase(getLoggedInUserThunk.pending,(state,action) => {
             state.isLoading = true;
         })
-        .addCase(getLoggedInUserThunk.fulfilled,(state,action) => {
+        .addCase(getLoggedInUserThunk.fulfilled || getLoggedInUserThunk.rejected,(state,action) => {
             state.isLoading = false;
         })
-        
+        .addCase(updateInfoThunk.pending,(state,action) => {
+            state.isLoading = true;
+        })
+        .addCase(updateInfoThunk.fulfilled || updateInfoThunk.rejected,(state,action) => {
+            state.isLoading = false;
+        })
+        .addCase(updatePasswordThunk.pending,(state,action) => {
+            state.isLoading = true;
+        })
+        .addCase(updatePasswordThunk.fulfilled || updatePasswordThunk.rejected,(state,action) => {
+            state.isLoading = false;
+        })
     }
 })
 

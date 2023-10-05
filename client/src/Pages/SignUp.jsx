@@ -109,6 +109,13 @@ export default function SignUp() {
    }
   }
 
+  if(isLoading){
+    return (
+      <Loader />
+    )
+  }
+
+
   return (
     <>
       <div

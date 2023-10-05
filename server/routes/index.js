@@ -13,6 +13,6 @@ router.get('/',(req,res) => {
 
 router.use('/user',require('./user'));
 router.use('/post',require('./post'));
-router.use('/like',require('./likes'));
+// router.use('/like',require('./likes'));
 
 module.exports = router;

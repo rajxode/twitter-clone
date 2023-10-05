@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import SignleMenuOption from "./SingleMenuOption";
+import Loader from "./Spinner";
 
 export default function Navbar() {
 
@@ -21,7 +22,7 @@ export default function Navbar() {
 
     const [showMenu,setShowMenu] = useState(false);
 
-    const { loggedInUser } = useSelector(authSelector);
+    const { loggedInUser,isLoading } = useSelector(authSelector);
 
 
     useEffect(() => {
@@ -70,6 +71,13 @@ export default function Navbar() {
         <div className="w-screen h-screen flex 
                         px-[5%] py-[1%] justify-center
                         overflow-y-scroll">
+            
+        {
+            isLoading
+            ?
+            <Loader />
+            :
+            <>
 
             <div className="h-full w-4/5 flex justify-between ">
 
@@ -128,6 +136,8 @@ export default function Navbar() {
                 <Outlet />
 
             </div>
+            </>
+        }
         </div>
     );
 }

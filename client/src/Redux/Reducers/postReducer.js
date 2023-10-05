@@ -2,7 +2,8 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axiosInstance from '../../utils/axios';
 
 const initialState = {
-                        userPosts:[] 
+                        userPosts:[],
+                        loading:false 
                         };
 
 export const getAllPostThunk = createAsyncThunk(
@@ -22,7 +23,7 @@ export const addPostThunk = createAsyncThunk(
     async (data,thunkAPI) => {
         try {
             const response = await axiosInstance.post('/post/addpost',data);
-            thunkAPI.dispatch(getAllPostThunk(data.userId));
+            thunkAPI.dispatch( await getAllPostThunk(data.userId));
             return response.data;
         } catch (error) {
             console.log(error);
@@ -31,13 +32,15 @@ export const addPostThunk = createAsyncThunk(
 )
 
 
-export const likePost = createAsyncThunk(
+export const likePostThunk = createAsyncThunk(
     'post/likePost',
-    async (data,thunkAPI) => {
+    async ({userId,postId},thunkAPI) => {
         try {
-            const response = await axiosInstance.post(`/post/togglelike/`)
+            const response = await axiosInstance.put(`/post/togglelike/${postId}?userId=${userId}`);
+            thunkAPI.dispatch(getAllPostThunk(userId));
+            return response.data;
         } catch (error) {
-            
+            console.log(error);
         }
     }
 )
@@ -47,9 +50,18 @@ const postSlice = createSlice({
     initialState,
     reducers:{
         setUserPost:(state,action) => {
-            // console.log(action.payload.posts);
-            state.userPosts = [...action.payload.posts];
+            state.userPosts = action.payload.posts;
+            return;
         }
+    },
+    extraReducers:(builder) => {
+        builder
+        .addCase(addPostThunk.pending,(state,action) => {
+            state.loading = true;
+        })
+        .addCase(addPostThunk.fulfilled || addPostThunk.rejected,(state,action) => {
+            state.loading = false;
+        })
     }
 })
 
