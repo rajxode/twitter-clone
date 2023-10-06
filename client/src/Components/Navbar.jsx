@@ -110,7 +110,14 @@ export default function Navbar() {
                                 onClick={() => setShowMenu(!showMenu)}>
                                 
                                 <span>
-                                    <i class="fa-solid fa-ellipsis"></i>
+                                    {
+                                        showMenu
+                                        ?
+                                        <i class="fa-solid fa-xmark"></i>
+                                        :
+                                        <i class="fa-solid fa-ellipsis"></i>
+                                    }
+                                    
                                 </span>
 
                                 

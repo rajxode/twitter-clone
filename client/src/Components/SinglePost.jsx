@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { authSelector } from "../Redux/Reducers/authReducer";
 import { useEffect, useState } from "react";
-import { addCommentThunk, likePostThunk } from "../Redux/Reducers/postReducer";
+import { addCommentThunk, deletePostThunk, likePostThunk } from "../Redux/Reducers/postReducer";
 
 // toast notification
 import { toast } from 'react-toastify';
@@ -12,6 +12,7 @@ export default function SinglePost(props){
     const { _id , content , user, likes, comments} = props.post;
     const dispatch = useDispatch();
     const { loggedInUser } = useSelector(authSelector);
+    const [showPostMenu, setShowPostMenu] = useState(false);
     const [showComment,setShowComment] = useState(false);
     const [ comment , setComment ] = useState('');
     const [ isLiked, setISLiked ] = useState(false);
@@ -25,6 +26,19 @@ export default function SinglePost(props){
         }
     },[]);
     
+    const deletePost = async (e) => {
+        try {
+            e.preventDefault();
+            const result = await dispatch(deletePostThunk({_id, userId: loggedInUser._id}));
+            if(result.payload.success){
+                toast.success(result.payload.message);
+                setShowComment(false);
+                setShowPostMenu(false);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     const handleLikeClick = async (e) => {
         try {
@@ -62,15 +76,40 @@ export default function SinglePost(props){
                     </div>
                     
                     <div className="w-[88%] flex flex-col">
-                        <div className="w-full mb-1 font-bold">
+                        <div className="w-full mb-1 font-bold relative">
                             {user.name}
                             <span className="float-right w-auto h-auto px-1 rounded-full 
                                         hover:bg-blue-200">
-                                <button>
-                                    <i class="fa-solid fa-ellipsis"></i>
+                                <button onClick={() => setShowPostMenu(!showPostMenu)}>
+                                    
+                                    {
+                                        showPostMenu
+                                        ?
+                                        <i class="fa-solid fa-xmark"></i>
+                                        :
+                                        <i class="fa-solid fa-ellipsis"></i>
+                                    }
+                                    
                                 </button>
                             </span>
+                             {
+                                showPostMenu
+                                ?
+                                <div className="w-auto absolute px-1 right-0 bg-[#F1EFEF] 
+                                        text-sm shadow-md rounded float-right cursor-pointer"
+                                    onClick={deletePost}>
+                                    <span className="text-red-400">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </span>
+                                    &nbsp;
+                                    Delete
+                                </div>
+                                :
+                                null
+                             }   
+                            
                         </div>
+
                         <div className="w-full">
                             {content}
                         </div>
@@ -110,8 +149,12 @@ export default function SinglePost(props){
                     showComment
                     ?
                     <div className="w-full px-1 border-t mt-1 flex flex-col">
-                        <h1 className="text-lg font-semibold">
+                        <h1 className="text-lg font-semibold mt-1">
                             Comments
+                            <span className="float-right cursor-pointer hover:text-red-400"
+                                    onClick={() => setShowComment(!showComment)}>
+                                <i class="fa-solid fa-xmark"></i>
+                            </span>
                         </h1>
                         <div className="w-full h-auto py-2 text-black">
                             {comments.map((comment) => <div key={comment._id} className="w-full h-auto "> {comment.content} </div> )}

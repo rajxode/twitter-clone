@@ -32,16 +32,34 @@ module.exports.addPost = async(req,res) => {
             user:userId,
         })
 
-        const user = await User.findById(userId);
-
-        user.posts.push(post._id);
-        await user.save();
-        
-
         res.status(200).json({
             success:true,
             message:'New Post added',
             post
+        });
+
+    } catch (error) {
+        res.status(400).json({
+            success:false,
+            message:'Bad Request'
+        })
+    }
+}
+
+
+module.exports.deletePost = async(req,res) => {
+    try {
+        const id = req.params.id;
+
+        
+        // const post = await Post.findById(id);
+        await Like.deleteMany({post:id});
+        await Comment.deleteMany({post:id})
+        await Post.findByIdAndDelete(id);
+
+        res.status(200).json({
+            success:true,
+            message:'Your Post deleted',
         });
 
     } catch (error) {
@@ -61,7 +79,6 @@ module.exports.toggleLike = async (req,res) => {
 
 
         const alreadyLike = await Like.findOne({user:userId, post:postId});
-        const user = await User.findById(userId);
         const post = await Post.findById(postId);
 
         if(!alreadyLike){
@@ -70,11 +87,8 @@ module.exports.toggleLike = async (req,res) => {
                 post:postId,
                 user:userId
             })
-
-            user.likes.push(like._id);
             
             post.likes.push(like._id);     
-            await user.save();
             await post.save();
 
             return res.status(200).json({
@@ -82,17 +96,12 @@ module.exports.toggleLike = async (req,res) => {
             })       
         }
         else{
-            const userNewLike = await user.likes.filter((like) => JSON.stringify(like) !== JSON.stringify(alreadyLike._id));
             const postNewLike = await post.likes.filter((like) => JSON.stringify(like) !== JSON.stringify(alreadyLike._id));
-            
-            user.likes = userNewLike;
             post.likes = postNewLike;
 
             await Like.findByIdAndDelete(alreadyLike._id);
         }
         
-
-        await user.save();
         await post.save();
 
         return res.status(200).json({
@@ -114,9 +123,7 @@ module.exports.addComment = async (req,res) => {
         const userId = req.query.userId;
         const { content } = req.body;
 
-        const user = await User.findById(userId);
         const post = await Post.findById(postId);
-
 
         const comment = await Comment.create({
             post:postId,
@@ -124,12 +131,7 @@ module.exports.addComment = async (req,res) => {
             content
         })
 
-        user.comments.push(comment._id);
-        
         post.comments.push(comment._id);     
-        
-
-        await user.save();
         await post.save();
 
         return res.status(200).json({

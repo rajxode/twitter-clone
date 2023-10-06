@@ -356,8 +356,6 @@ module.exports.deleteAccount = async(req,res) => {
 
         await User.findByIdAndDelete(id);
 
-        console.log('finish');
-
         res.status(200).json({
             success:true,
             message:'Your Account is deleted, #GoodBye'

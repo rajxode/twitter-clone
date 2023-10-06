@@ -32,6 +32,23 @@ export const addPostThunk = createAsyncThunk(
 )
 
 
+export const deletePostThunk = createAsyncThunk(
+    'post/deletePost',
+    async ({_id,userId},thunkAPI) => {
+        try {
+            console.log(_id);
+            const response = await axiosInstance.put(`/post/deletepost/${_id}`);
+            thunkAPI.dispatch( await getAllPostThunk(userId));
+            console.log(response.data);
+            return response.data;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+)
+
+
+
 export const likePostThunk = createAsyncThunk(
     'post/likePost',
     async ({userId,postId},thunkAPI) => {
@@ -73,6 +90,12 @@ const postSlice = createSlice({
             state.loading = true;
         })
         .addCase(addPostThunk.fulfilled || addPostThunk.rejected,(state,action) => {
+            state.loading = false;
+        })
+        .addCase(deletePostThunk.pending,(state,action) => {
+            state.loading = true;
+        })
+        .addCase(deletePostThunk.fulfilled || addPostThunk.rejected,(state,action) => {
             state.loading = false;
         })
     }

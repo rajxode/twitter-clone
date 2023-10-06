@@ -83,34 +83,6 @@ const userSchema = new mongoose.Schema(
                 ref:'User'
             }
         ],
-        // post done by user
-        posts:[
-            {
-                // post id
-                type:mongoose.Schema.Types.ObjectId,
-                ref:'Post'
-            }
-        ],
-        // comments done by user
-        comments:[
-            {
-                // comment's id
-                type:mongoose.Schema.Types.ObjectId,
-                ref:'Comment',
-            }
-        ],
-        // likes done by user
-        likes:[
-            {
-                // likes id
-                type:mongoose.Schema.Types.ObjectId,
-                ref:'Like'
-            }
-        ],
-        // token for forget password
-        forgetPasswordToken:String,
-        // expiry time of forgetpass token
-        forgetPasswordExpiry:Date,
     },
     {
         timestamps:true,
@@ -147,27 +119,6 @@ userSchema.methods.getJWTToken = function(){
         }
     );
 }
-
-// to create a random string(token) for reset password
-// we store the hash of token in database and give user the simple crypto string 
-// so when we use the resetPasswordToken in backend we have to again perform createHash method
-userSchema.methods.resetPasswordToken = function(){
-    
-    // generate a long and random string
-    const forgotToken = crypto.randomBytes(20).toString("hex");
-
-    // creating hash from the random string token and store it inside the database
-    this.forgetPasswordToken = crypto
-    .createHash("sha256")
-    .update(forgotToken)
-    .digest("hex");
-
-    // expiry time of token 20 minutes
-    this.forgetPasswordExpiry = Date.now() + 20*60*1000;
-
-    // return the string token ( not the hash token )
-    return forgotToken;
-};
 
 
 // exporting the schema's model
