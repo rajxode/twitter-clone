@@ -145,3 +145,23 @@ module.exports.addComment = async (req,res) => {
         })
     }
 }
+
+
+module.exports.deleteComment = async (req,res) => {
+    try {
+        
+        const id = req.params.id;
+
+        await Comment.findOneAndDelete(id);
+
+        return res.status(200).json({
+            success:true,
+            message:'Comment Deleted'
+        })   
+    } catch (error) {
+        res.status(500).json({
+            success:false,
+            message:error.message
+        })
+    }
+}

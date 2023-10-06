@@ -75,6 +75,19 @@ export const addCommentThunk = createAsyncThunk(
     }
 )
 
+export const deleteCommentThunk = createAsyncThunk(
+    'post/deleteComment',
+    async({id,userId},thunkAPI) => {
+        try{
+            const response = await axiosInstance.put(`/post/deletecomment/${id}`);
+            thunkAPI.dispatch(getAllPostThunk(userId));
+            return response.data;
+        } catch(error){
+            console.log(error);
+        }
+    }
+)
+
 const postSlice = createSlice({
     name:'Posts',
     initialState,

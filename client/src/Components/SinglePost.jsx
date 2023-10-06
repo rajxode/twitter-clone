@@ -1,11 +1,12 @@
 import { useDispatch, useSelector } from "react-redux";
 import { authSelector } from "../Redux/Reducers/authReducer";
 import { useEffect, useState } from "react";
-import { addCommentThunk, deletePostThunk, likePostThunk } from "../Redux/Reducers/postReducer";
+import { addCommentThunk, deleteCommentThunk, deletePostThunk, likePostThunk } from "../Redux/Reducers/postReducer";
 
 // toast notification
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import SingleComment from "./SingleComment";
 
 export default function SinglePost(props){
 
@@ -35,6 +36,20 @@ export default function SinglePost(props){
                 setShowComment(false);
                 setShowPostMenu(false);
             }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const deleteComment = async (e) => {
+        try {
+            e.preventDefault();
+            // const result = await dispatch(deleteCommentThunk({id:,userId: loggedInUser._id}));
+            // if(result.payload.success){
+            //     toast.success(result.payload.message);
+            //     setShowComment(false);
+            //     setShowPostMenu(false);
+            // }
         } catch (error) {
             console.log(error);
         }
@@ -157,7 +172,7 @@ export default function SinglePost(props){
                             </span>
                         </h1>
                         <div className="w-full h-auto py-2 text-black">
-                            {comments.map((comment) => <div key={comment._id} className="w-full h-auto "> {comment.content} </div> )}
+                            {comments.map((comment) => <SingleComment key={comment._id} comment={comment} /> )}
                         </div>
                         
                         <div className="w-full h-[45px] py-1">

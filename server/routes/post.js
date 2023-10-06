@@ -16,7 +16,7 @@ router.put('/togglelike/:postId',postController.toggleLike);
 
 router.put('/addcomment/:postId',postController.addComment);
 
-
+router.put('/deletecomment/:commentId',postController.deleteComment);
 
 
 // export router
