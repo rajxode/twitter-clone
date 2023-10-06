@@ -2,12 +2,12 @@
 const User = require('../models/User');
 const Post = require('../models/Post');
 const Like = require('../models/Like');
-const ObjectId = require('mongodb').ObjectId;
+const Comment = require('../models/Comment');
 
 module.exports.getPosts = async (req,res) => {
     try {
 
-        const posts = await Post.find({user:req.params.id}).populate('user','name');
+        const posts = await Post.find({user:req.params.id}).populate('user','name').populate('likes','user').populate('comments','user content');
 
         res.status(200).json({
             success:true,
@@ -97,6 +97,44 @@ module.exports.toggleLike = async (req,res) => {
 
         return res.status(200).json({
             success:false,
+        })   
+    } catch (error) {
+        res.status(500).json({
+            success:false,
+            message:error.message
+        })
+    }
+}
+
+
+
+module.exports.addComment = async (req,res) => {
+    try {
+        const postId = req.params.postId;
+        const userId = req.query.userId;
+        const { content } = req.body;
+
+        const user = await User.findById(userId);
+        const post = await Post.findById(postId);
+
+
+        const comment = await Comment.create({
+            post:postId,
+            user:userId,
+            content
+        })
+
+        user.comments.push(comment._id);
+        
+        post.comments.push(comment._id);     
+        
+
+        await user.save();
+        await post.save();
+
+        return res.status(200).json({
+            success:true,
+            message:'Comment Added'
         })   
     } catch (error) {
         res.status(500).json({

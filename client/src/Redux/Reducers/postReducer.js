@@ -45,6 +45,19 @@ export const likePostThunk = createAsyncThunk(
     }
 )
 
+export const addCommentThunk = createAsyncThunk(
+    'post/addComment',
+    async({content,userId,postId}, thunkAPI) => {
+        try {
+            const response = await axiosInstance.put(`/post/addcomment/${postId}?userId=${userId}`,{content});
+            thunkAPI.dispatch(getAllPostThunk(userId));
+            return response.data;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+)
+
 const postSlice = createSlice({
     name:'Posts',
     initialState,

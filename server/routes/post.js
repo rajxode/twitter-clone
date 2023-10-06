@@ -10,7 +10,9 @@ router.get('/getposts/:id',postController.getPosts);
 // add post route
 router.post('/addpost',postController.addPost);
 
-router.put('/togglelike/:postId/',postController.toggleLike);
+router.put('/togglelike/:postId',postController.toggleLike);
+
+router.put('/addcomment/:postId',postController.addComment);
 
 
 // export router
