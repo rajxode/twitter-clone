@@ -243,6 +243,26 @@ module.exports.iFollow = async(req,res) => {
     }
 }
 
+
+module.exports.myFollowers = async(req,res) => {
+    try {
+        const id = req.params.id;
+
+        const user = await User.findById(id).populate('followers', 'name email');
+
+        res.status(200).json({
+            success:true,
+            followers:user.followers
+        });
+    } catch (error) {
+        res.status(500).json({
+            success:false,
+            message:'Internal Server Error'
+        })
+    }
+}
+
+
 module.exports.updateInfo = async(req,res) => {
     try {
         const id = req.params.id;

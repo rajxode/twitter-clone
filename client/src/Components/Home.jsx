@@ -8,8 +8,11 @@ import { addPostThunk, getAllPostsThunk, getFollowPostThunk, postSelector } from
 // toast notification
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import SinglePost from './SinglePost';
+
 import Loader from './Spinner';
+import AllPost from './AllPost';
+import FollowingPost from './FollowingPost';
+
 
 export default function Home (){
 
@@ -17,15 +20,8 @@ export default function Home (){
     const [file,setFile] = useState('');
     const dispatch = useDispatch();
     const { loggedInUser, isLoading } = useSelector(authSelector);
-    const { allPosts, loading } = useSelector(postSelector);
-
-
-    useEffect(() => {
-        async function getPost(){
-            dispatch(getAllPostsThunk());
-        }
-        getPost();
-    },[]);
+    const [showFollowPost,setShowFollowPost] = useState(false);
+    
 
     const handlePostSubmit = async(e) => {
         try{
@@ -54,7 +50,7 @@ export default function Home (){
     return(
         <div className="h-full w-[78%] flex justify-between">
             
-            <div className=" w-[68%] p-2 rounded shadow-md flex flex-col">
+            <div className=" w-[68%] p-2 rounded flex flex-col">
 
             {
                 isLoading
@@ -70,8 +66,15 @@ export default function Home (){
                         </div>
 
                         <div className="w-full h-2/5 flex font-semibold border-b">
-                            <div className="w-1/2 h-full flex items-center justify-center border-r">For You</div>
-                            <div className="w-1/2 h-full flex items-center justify-center">Following</div>
+                            <div className="w-1/2 h-full flex items-center justify-center border-r"
+                                onClick={() => setShowFollowPost(false)}>
+                                For You
+                            </div>
+                            
+                            <div className="w-1/2 h-full flex items-center justify-center"
+                                onClick={() => setShowFollowPost(true)}>
+                                Following
+                            </div>
                         </div>
                     </div>
                 </header>
@@ -86,11 +89,11 @@ export default function Home (){
                             <img src={require('../Assets/icons/dummy-avatar.jpg')} alt='avatar' className='h-full w-full'/>
                         }
                     </div>
-                    <div className="h-full w-[88%] p-1">
+                    <div className="h-full w-[88%] p-1 ">
                         <form className="w-full h-full">
                             <textarea 
                                 className="w-full h-[65%] focus:outline-none 
-                                        p-1 font-semibold text-xl rounded-sm border"  
+                                        p-1 font-semibold text-xl rounded-sm"  
                                 placeholder="What is happening?"
                                 value={content}
                                 onChange={(e) => setContent(e.target.value)} 
@@ -100,7 +103,7 @@ export default function Home (){
                                 type="file" 
                                 onChange={(e) => setFile(e.target.files[0])}
                                 placeholder='picture'
-                                className=''
+                                // className='w-[25px]'
                                 />
                             
                             <button 
@@ -113,19 +116,18 @@ export default function Home (){
 
                         </form>
                     </div>
-
-                </div>
-                
-                <main className="h-2/3 w-full p-2 flex flex-col overflow-y-scroll">
-                    { 
-                        loading 
-                        ?
-                        <Loader />
-                        :
-                        allPosts.map((post) => <SinglePost key={post._id} post={post} />)
                     
-                    }
-                </main>
+                </div>
+
+                {
+                    showFollowPost
+                    ?
+                    <FollowingPost />
+                    :
+                    <AllPost />
+                }
+                
+                
             </>
             }
             </div>

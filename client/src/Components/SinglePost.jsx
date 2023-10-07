@@ -73,7 +73,7 @@ export default function SinglePost(props){
                         border-slate-400 shadow-md">
                 
                 <div className="w-full flex">
-                    <div className="w-[10%] h-[55px] bg-red-400 rounded-full mr-1 overflow-hidden">
+                    <div className="w-[8%] h-[45px] rounded-full mr-1 overflow-hidden">
                         {
                             loggedInUser.photo
                             ?

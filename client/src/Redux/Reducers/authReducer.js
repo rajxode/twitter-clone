@@ -1,11 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axiosInstance from '../../utils/axios';
-import { getMyPostThunk } from "./postReducer";
+import { getFollowPostThunk, getMyPostThunk } from "./postReducer";
 
 const initialState = { isLoading:false,
                         loggedInUser:{},
                         allUsers:[],
                         follows:[],
+                        followers:[],
                     };
 
 export const toggelFollowThunk = createAsyncThunk(
@@ -15,6 +16,7 @@ export const toggelFollowThunk = createAsyncThunk(
             const response = await axiosInstance.put(`/user/${id}/follow?userId=${userId}`);
             thunkAPI.dispatch(setLoggedInUser(response.data.userOne));
             thunkAPI.dispatch(getIFollowThunk(response.data.userOne._id));
+            thunkAPI.dispatch(getFollowPostThunk(id))
             return response.data;
         } catch (error) {
             return error.response.data;
@@ -87,6 +89,7 @@ export const getLoggedInUserThunk = createAsyncThunk(
             thunkAPI.dispatch(setLoggedInUser(user));
             await thunkAPI.dispatch(getMyPostThunk(user._id));
             await thunkAPI.dispatch(getIFollowThunk(user._id));
+            await thunkAPI.dispatch(getMyFollowersThunk(user._id));
             await thunkAPI.dispatch(getAllUserThunk());
             return true;
         }
@@ -105,6 +108,20 @@ export const getIFollowThunk = createAsyncThunk(
         }
     }
 )
+
+
+export const getMyFollowersThunk = createAsyncThunk(
+    'auth/getMyFollower',
+    async (id,thunkAPI) => {
+        try {
+            const response = await axiosInstance.get(`/user/myfollower/${id}`);
+            thunkAPI.dispatch(setFollowers(response.data.followers))
+        } catch (error) {
+            console.log(error);
+        }
+    }
+)
+
 
 export const updateInfoThunk = createAsyncThunk(
     'auth/updateInfo',
@@ -164,6 +181,10 @@ const authSlice = createSlice({
             state.follows = action.payload;
             return;
         },
+        setFollowers:(state,action) => {
+            state.followers = action.payload;
+            return;
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -214,6 +235,6 @@ const authSlice = createSlice({
 
 export const authReducer = authSlice.reducer;
 
-export const { setLoggedInUser, setAllUsers, setFollows } = authSlice.actions;
+export const { setLoggedInUser, setAllUsers, setFollows, setFollowers } = authSlice.actions;
 
 export const authSelector = (state) => state.authReducer;

@@ -14,6 +14,7 @@ import UpdatePassword from './Components/UpdatePassword';
 import DeleteAccount from './Components/DeleteAccount';
 import About from './Components/About';
 import Error from './Pages/Error';
+import AllPost from './Components/AllPost';
 
 function App() {
   // all the link routes
@@ -31,7 +32,7 @@ function App() {
       path:'/home',
       element: <Navbar />,
       children:[
-        { index:true, element: <Home />},
+        { index:true, element: <Home /> },
         { path:'/home/profile', element: <Profile />},
         { path:'/home/settings', 
           element: <Settings />,

@@ -50,22 +50,6 @@ export default function Navbar() {
             console.log(error);
         }
     } 
-    
-    // useEffect(() => {
-    //     if(!loggedInUser){
-    //         toast.error('Please login first');
-    //         navigate('/signin');
-    //     }
-
-    // },[]);
-
-    // if(!loggedInUser){
-    //     return(
-    //         <h1 className="text-3xl font-bold">
-    //             Unauthorized!!!
-    //         </h1>
-    //     )
-    // }
 
     return (
         <div className="w-screen h-screen flex 
@@ -81,8 +65,8 @@ export default function Navbar() {
 
             <div className="h-full w-4/5 flex justify-between ">
 
-                <div className="bg-white w-[21%] h-full text-black shadow-md rounded p-2 flex flex-col">
-                    {/* {loggedInUser.name} */}
+                <div className="bg-white w-[21%] h-full text-black shadow rounded p-2 flex flex-col">
+
                     <div className="w-full h-[35px] my-1">
                         <NavLink to='/home' >
                             <img src={require('../Assets/logo.png')} alt="logo" className="h-full w-auto"/>

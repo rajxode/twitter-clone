@@ -29,9 +29,9 @@ export default function Profile(){
 
     return(
         <div className="h-full w-[78%] flex justify-between">
-            <div className=" w-[68%] h-full rounded shadow-md flex flex-col">
+            <div className=" w-[68%] h-full rounded flex flex-col">
 
-                <div className='w-full h-[45px] px-2 flex items-center shrink-0'>
+                <div className='w-full h-[45px] px-2 flex items-center shadow shrink-0'>
                     <span className='font-semibold'>
                         {loggedInUser.name}    
                     </span>
@@ -100,14 +100,25 @@ export default function Profile(){
                         </div>
                         
                         <div className='w-full h-[10%] border-b border-slate-400 flex font-semibold'>
-                            <div className="w-1/4 flex items-center justify-center border-r ">Post</div>
-                            <div className="w-1/4 flex items-center justify-center border-r">Likes</div>
-                            <div className="w-1/4 flex items-center justify-center border-r">Comments</div>
-                            <div className="w-1/4 flex items-center justify-center border-r">Retweet</div>
+                            <div className="w-1/3 flex items-center justify-center border-r ">
+                                {userPosts.length}
+                                &nbsp;
+                                Post
+                            </div>
+                            <div className="w-1/3 flex items-center justify-center border-r">
+                                Likes
+                                &nbsp;
+                                {/* {loggedInUser.likes.length} */}
+                            </div>
+                            <div className="w-1/3 flex items-center justify-center border-r">
+                                Comments
+                                &nbsp;
+                                {/* {loggedInUser.comments.length} */}
+                            </div>
                         </div>
                     </div>
                     
-                    <div className='w-full h-2/5 bg-slate-100 p-2'>
+                    <div className='w-full h-2/5 p-2'>
                         {
                             userPosts.map((post) => <SinglePost key={post._id} post={post} />)
                         }

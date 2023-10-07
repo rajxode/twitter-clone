@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux"
-import { authSelector, getAllUserThunk } from "../Redux/Reducers/authReducer"
+import { authSelector, getAllUserThunk, getIFollowThunk, getMyFollowersThunk } from "../Redux/Reducers/authReducer"
 import SingleUser from "./SingleUser";
 import { useEffect } from "react";
 
@@ -7,7 +7,7 @@ export default function SideBar(props) {
 
     const dispatch = useDispatch();
     const { parent } = props;
-    const { allUsers, loggedInUser, follows } = useSelector(authSelector);
+    const { allUsers, loggedInUser, follows , followers } = useSelector(authSelector);
 
     useEffect(() => {
         dispatch(getAllUserThunk());
@@ -39,7 +39,7 @@ export default function SideBar(props) {
                 <div className="w-full flex flex-col p-1 rounded shadow-sm bg-[#f7f5f5] mb-3 h-2/5 overflow-y-scroll relative">
                         
                     <h1 className="font-bold text-lg p-2 sticky z-20">People following You</h1>
-                    {follows.map((user) =>  <SingleUser key={user._id} user={user} parent={'profile'} />)}    
+                    {followers.map((user) =>  <SingleUser key={user._id} user={user} parent={'profile'} />)}    
                         
                 </div>
                 :

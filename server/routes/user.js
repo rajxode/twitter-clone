@@ -17,6 +17,8 @@ router.get('/alluser',userController.getAllUser);
 
 router.get('/ifollow/:id',userController.iFollow);
 
+router.get('/myfollower/:id',userController.myFollowers);
+
 router.put('/updateinfo/:id',userController.updateInfo);
 
 router.put('/updatepassword/:id',userController.updatePassword);

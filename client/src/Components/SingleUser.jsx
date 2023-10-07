@@ -1,17 +1,22 @@
 
 import { useDispatch, useSelector } from 'react-redux';
-import { authSelector, toggelFollowThunk } from '../Redux/Reducers/authReducer';
+import { authSelector, getIFollowThunk, getLoggedInUserThunk, toggelFollowThunk } from '../Redux/Reducers/authReducer';
 
 // toast notification
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useEffect } from 'react';
 
 export default function SingleUser(props) {
 
     const dispatch = useDispatch();
-    const { loggedInUser } = useSelector(authSelector);
+    const { loggedInUser , follows } = useSelector(authSelector);
     const { parent } = props;
     const {name,email,_id,photo} = props.user;
+
+    useEffect(() => {
+        dispatch(getIFollowThunk(loggedInUser._id));
+    },[]);
 
     const handleFollowClick = async(e) => {
         try {
@@ -56,11 +61,7 @@ export default function SingleUser(props) {
                                 text-white text-sm font-semibold shadow-md"
                             onClick={handleFollowClick}>
                         { 
-                            parent === 'home'
-                            ?
                             loggedInUser.follows.includes(_id) ? 'Unfollow' : "Follow" 
-                            :
-                            'Unfollow'
                         }
                     </button>
                 </div>

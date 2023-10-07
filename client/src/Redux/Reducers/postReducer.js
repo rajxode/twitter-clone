@@ -34,9 +34,10 @@ export const getAllPostsThunk = createAsyncThunk(
 
 
 export const getFollowPostThunk = createAsyncThunk(
-    'post/getMyPost',
+    'post/getFollowPost',
     async(id,thunkAPI) => {
         try {
+            console.log('called');
             const response = await axiosInstance.get(`/post/getfollowsposts/${id}`);
             thunkAPI.dispatch(setFollowPosts(response.data));
             console.log(response);
