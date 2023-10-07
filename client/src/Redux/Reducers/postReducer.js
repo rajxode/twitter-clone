@@ -1,16 +1,18 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axiosInstance from '../../utils/axios';
 
-const initialState = {
+const initialState = {  
+                        allPosts:[],
+                        followPosts:[],
                         userPosts:[],
                         loading:false 
                         };
 
-export const getAllPostThunk = createAsyncThunk(
-    'post/getAllPost',
+export const getMyPostThunk = createAsyncThunk(
+    'post/getMyPost',
     async(id,thunkAPI) => {
         try {
-            const response = await axiosInstance.get(`/post/getposts/${id}`);
+            const response = await axiosInstance.get(`/post/getmyposts/${id}`);
             thunkAPI.dispatch(setUserPost(response.data));
         } catch (error) {
             console.log(error);
@@ -18,12 +20,44 @@ export const getAllPostThunk = createAsyncThunk(
     }
 )
 
+export const getAllPostsThunk = createAsyncThunk(
+    'post/getAllPost',
+    async(args,thunkAPI) => {
+        try {
+            const response = await axiosInstance.get('/post/getallposts');
+            thunkAPI.dispatch(setAllPosts(response.data));
+        } catch (error) {
+            console.log(error);
+        }
+    }
+)
+
+
+export const getFollowPostThunk = createAsyncThunk(
+    'post/getMyPost',
+    async(id,thunkAPI) => {
+        try {
+            const response = await axiosInstance.get(`/post/getfollowsposts/${id}`);
+            thunkAPI.dispatch(setFollowPosts(response.data));
+            console.log(response);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+)
+
+
 export const addPostThunk = createAsyncThunk(
     'post/addPost',
     async (data,thunkAPI) => {
         try {
-            const response = await axiosInstance.post('/post/addpost',data);
-            thunkAPI.dispatch( await getAllPostThunk(data.userId));
+            console.log(data);
+            const response = await axiosInstance.post('/post/addpost',data,{
+                headers: { 'Content-type': 'multipart/form-data' },
+            });
+            thunkAPI.dispatch(getMyPostThunk(data.userId));
+            thunkAPI.dispatch(getFollowPostThunk(data.userId));
+            thunkAPI.dispatch(getAllPostsThunk());
             return response.data;
         } catch (error) {
             console.log(error);
@@ -36,10 +70,10 @@ export const deletePostThunk = createAsyncThunk(
     'post/deletePost',
     async ({_id,userId},thunkAPI) => {
         try {
-            console.log(_id);
             const response = await axiosInstance.put(`/post/deletepost/${_id}`);
-            thunkAPI.dispatch( await getAllPostThunk(userId));
-            console.log(response.data);
+            thunkAPI.dispatch(getMyPostThunk(userId));
+            thunkAPI.dispatch(getFollowPostThunk(userId));
+            thunkAPI.dispatch(getAllPostsThunk());
             return response.data;
         } catch (error) {
             console.log(error);
@@ -48,13 +82,14 @@ export const deletePostThunk = createAsyncThunk(
 )
 
 
-
 export const likePostThunk = createAsyncThunk(
     'post/likePost',
     async ({userId,postId},thunkAPI) => {
         try {
             const response = await axiosInstance.put(`/post/togglelike/${postId}?userId=${userId}`);
-            thunkAPI.dispatch(getAllPostThunk(userId));
+            thunkAPI.dispatch(getMyPostThunk(userId));
+            thunkAPI.dispatch(getFollowPostThunk(userId));
+            thunkAPI.dispatch(getAllPostsThunk());
             return response.data;
         } catch (error) {
             console.log(error);
@@ -67,7 +102,9 @@ export const addCommentThunk = createAsyncThunk(
     async({content,userId,postId}, thunkAPI) => {
         try {
             const response = await axiosInstance.put(`/post/addcomment/${postId}?userId=${userId}`,{content});
-            thunkAPI.dispatch(getAllPostThunk(userId));
+            thunkAPI.dispatch(getMyPostThunk(userId));
+            thunkAPI.dispatch(getFollowPostThunk(userId));
+            thunkAPI.dispatch(getAllPostsThunk());
             return response.data;
         } catch (error) {
             console.log(error);
@@ -80,7 +117,9 @@ export const deleteCommentThunk = createAsyncThunk(
     async({id,userId},thunkAPI) => {
         try{
             const response = await axiosInstance.put(`/post/deletecomment/${id}`);
-            thunkAPI.dispatch(getAllPostThunk(userId));
+            thunkAPI.dispatch(getMyPostThunk(userId));
+            thunkAPI.dispatch(getFollowPostThunk(userId));
+            thunkAPI.dispatch(getAllPostsThunk());
             return response.data;
         } catch(error){
             console.log(error);
@@ -95,6 +134,14 @@ const postSlice = createSlice({
         setUserPost:(state,action) => {
             state.userPosts = action.payload.posts;
             return;
+        },
+        setAllPosts:(state,action) => {
+            state.allPosts = action.payload.posts;
+            return;
+        },
+        setFollowPosts:(state,action) => {
+            state.followPosts = action.payload.posts;
+            return;
         }
     },
     extraReducers:(builder) => {
@@ -108,7 +155,19 @@ const postSlice = createSlice({
         .addCase(deletePostThunk.pending,(state,action) => {
             state.loading = true;
         })
-        .addCase(deletePostThunk.fulfilled || addPostThunk.rejected,(state,action) => {
+        .addCase(deletePostThunk.fulfilled || deletePostThunk.rejected,(state,action) => {
+            state.loading = false;
+        })
+        .addCase(getAllPostsThunk.pending,(state,action) => {
+            state.loading = true;
+        })
+        .addCase(getAllPostsThunk.fulfilled || getAllPostsThunk.rejected,(state,action) => {
+            state.loading = false;
+        })
+        .addCase(getFollowPostThunk.pending,(state,action) => {
+            state.loading = true;
+        })
+        .addCase(getFollowPostThunk.fulfilled || getFollowPostThunk.rejected,(state,action) => {
             state.loading = false;
         })
     }
@@ -117,6 +176,6 @@ const postSlice = createSlice({
 
 export const postReducer = postSlice.reducer;
 
-export const  { setUserPost } = postSlice.actions;
+export const  { setUserPost , setAllPosts , setFollowPosts } = postSlice.actions;
 
 export const postSelector = (state) => state.postReducer;

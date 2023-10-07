@@ -3,8 +3,9 @@ const User = require('../models/User');
 const Post = require('../models/Post');
 const Like = require('../models/Like');
 const Comment = require('../models/Comment');
+const cloudinary = require('cloudinary').v2;
 
-module.exports.getPosts = async (req,res) => {
+module.exports.getMyPosts = async (req,res) => {
     try {
 
         const posts = await Post.find({user:req.params.id}).populate('user','name').populate('likes','user').populate('comments','user content');
@@ -22,15 +23,84 @@ module.exports.getPosts = async (req,res) => {
     }
 }
 
+module.exports.getAllPosts = async (req,res) => {
+    try {
+
+        const posts = await Post.find({}).populate('user','name').populate('likes','user').populate('comments','user content');
+
+        res.status(200).json({
+            success:true,
+            posts
+        })
+
+    } catch (error) {
+        res.status(400).json({
+            success:false,
+            message:'Bad request'
+        })
+    }
+}
+
+
+module.exports.getFollowPosts = async (req,res) => {
+    try {
+
+        const user = await User.findById(req.params.id);
+        let followPosts = [];
+
+        for (let i = 0; i < user.follows.length; i++) {
+            const followId = user.follows[i];
+            
+            const posts = await Post.find({user:followId}).populate('user','name').populate('likes','user').populate('comments','user content');
+            followPosts = [...followPosts,...posts];
+        }
+        
+
+        res.status(200).json({
+            success:true,
+            posts:followPosts
+        })
+
+    } catch (error) {
+        res.status(400).json({
+            success:false,
+            message:'Bad request'
+        })
+    }
+}
+
 
 module.exports.addPost = async(req,res) => {
     try {
         const { content, userId } = req.body;
+        var post;
 
-        const post = await Post.create({
-            content,
-            user:userId,
-        })
+        // if user upload photo
+        if(req.files) {
+            // get uploaded image
+            const file = req.files.file;
+            // upload the image to cloudinary
+            const result = await cloudinary.uploader.upload(file.tempFilePath,{
+                folder:process.env.CLOUD_POST_FOLDER,
+            })
+
+            const photo = {
+                id:result.public_id,
+                secure_url:result.secure_url
+            }
+
+            post = await Post.create({
+                content,
+                user:userId,
+                photo
+            })
+        }
+        else{
+            post = await Post.create({
+                content,
+                user:userId,
+            })   
+        }
 
         res.status(200).json({
             success:true,
@@ -51,10 +121,18 @@ module.exports.deletePost = async(req,res) => {
     try {
         const id = req.params.id;
 
-        
-        // const post = await Post.findById(id);
         await Like.deleteMany({post:id});
-        await Comment.deleteMany({post:id})
+        await Comment.deleteMany({post:id});
+
+        const post = await Post.findById(id);
+
+        if(post.photo.id){
+            // get photo id of previously uploaded image
+            const imageId = post.photo.id;
+
+            // delete the uploaded image
+            await cloudinary.uploader.destroy(imageId);
+        }
         await Post.findByIdAndDelete(id);
 
         res.status(200).json({

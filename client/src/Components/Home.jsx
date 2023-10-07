@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { authSelector, getAllUserThunk, setLoggedInUser } from "../Redux/Reducers/authReducer";
 import SideBar from "./SideBar"
 import { useEffect, useState } from "react";
-import { addPostThunk, getAllPostThunk, postSelector } from '../Redux/Reducers/postReducer';
+import { addPostThunk, getAllPostsThunk, getFollowPostThunk, postSelector } from '../Redux/Reducers/postReducer';
 
 // toast notification
 import { toast } from 'react-toastify';
@@ -14,9 +14,18 @@ import Loader from './Spinner';
 export default function Home (){
 
     const [content,setContent] = useState();
+    const [file,setFile] = useState('');
     const dispatch = useDispatch();
     const { loggedInUser, isLoading } = useSelector(authSelector);
-    const { userPosts, loading } = useSelector(postSelector);
+    const { allPosts, loading } = useSelector(postSelector);
+
+
+    useEffect(() => {
+        async function getPost(){
+            dispatch(getAllPostsThunk());
+        }
+        getPost();
+    },[]);
 
     const handlePostSubmit = async(e) => {
         try{
@@ -28,7 +37,7 @@ export default function Home (){
                 return;
             }
             
-            const result = await dispatch(addPostThunk({content,userId:loggedInUser._id}));
+            const result = await dispatch(addPostThunk({content,userId:loggedInUser._id,file}));
 
             if(result.payload.success){
                 toast.success(result.payload.message);
@@ -81,11 +90,18 @@ export default function Home (){
                         <form className="w-full h-full">
                             <textarea 
                                 className="w-full h-[65%] focus:outline-none 
-                                        p-1 font-semibold text-xl rounded-sm" 
+                                        p-1 font-semibold text-xl rounded-sm border"  
                                 placeholder="What is happening?"
                                 value={content}
                                 onChange={(e) => setContent(e.target.value)} 
                                 required />
+
+                            <input 
+                                type="file" 
+                                onChange={(e) => setFile(e.target.files[0])}
+                                placeholder='picture'
+                                className=''
+                                />
                             
                             <button 
                                 className="float-right px-3 py-1 rounded-full bg-blue-400 
@@ -100,13 +116,13 @@ export default function Home (){
 
                 </div>
                 
-                <main className="h-2/3 w-full p-2 flex flex-col">
+                <main className="h-2/3 w-full p-2 flex flex-col overflow-y-scroll">
                     { 
                         loading 
                         ?
                         <Loader />
                         :
-                        userPosts.map((post) => <SinglePost key={post._id} post={post} />)
+                        allPosts.map((post) => <SinglePost key={post._id} post={post} />)
                     
                     }
                 </main>

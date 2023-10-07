@@ -27,18 +27,6 @@ function capitalizeFirstLetter (str){
 module.exports.signup = async (req,res) => {
     try {
 
-        // const data = req.body;
-        // var file;
-        // if(req.files){
-        //     file = req.files.file;
-        // }
-
-
-        // res.json({
-        //     data,
-        //     file
-        // })
-
         // getting user's data
         var { name , email, password , day , month , year } = req.body;
 
@@ -262,11 +250,42 @@ module.exports.updateInfo = async(req,res) => {
         const { name , email , day , month , year } = req.body;
 
         const dateOfBirth = {day,month,year};
-        const newData = {
+
+        let newData = {
             name,
             email,
             dateOfBirth
         };
+
+        // if user upload photo
+        if(req.files) {
+
+
+            const user = await User.findById(id);
+
+            if(user.photo){
+                // get photo id of previously uploaded image
+                const imageId = user.photo.id;
+
+                // delete the previously uploaded image
+                await cloudinary.uploader.destroy(imageId);
+            }
+
+            // get uploaded image
+            const file = req.files.file;
+            // upload the image to cloudinary
+            const result = await cloudinary.uploader.upload(file.tempFilePath,{
+                folder:process.env.CLOUD_USER_FOLDER,
+            })
+
+            const photo = {
+                id:result.public_id,
+                secure_url:result.secure_url
+            }
+
+            newData.photo = photo;
+        }
+
 
         const user = await User.findByIdAndUpdate(
                                                 id,

@@ -10,7 +10,7 @@ import SingleComment from "./SingleComment";
 
 export default function SinglePost(props){
 
-    const { _id , content , user, likes, comments} = props.post;
+    const { _id , content , user, likes, comments, photo} = props.post;
     const dispatch = useDispatch();
     const { loggedInUser } = useSelector(authSelector);
     const [showPostMenu, setShowPostMenu] = useState(false);
@@ -73,47 +73,69 @@ export default function SinglePost(props){
                         border-slate-400 shadow-md">
                 
                 <div className="w-full flex">
-                    <div className="w-[10%] h-[55px] bg-red-400 rounded-full mr-1">
-                        
+                    <div className="w-[10%] h-[55px] bg-red-400 rounded-full mr-1 overflow-hidden">
+                        {
+                            loggedInUser.photo
+                            ?
+                            <img src={loggedInUser.photo.secure_url} alt='avatar' className='h-full w-full'/>
+                            :
+                            <img src={require('../Assets/icons/dummy-avatar.jpg')} alt='avatar' className='h-full w-full'/>
+                        }
                     </div>
                     
                     <div className="w-[88%] flex flex-col">
                         <div className="w-full mb-1 font-bold relative">
                             {user.name}
-                            <span className="float-right w-auto h-auto px-1 rounded-full 
-                                        hover:bg-blue-200">
-                                <button onClick={() => setShowPostMenu(!showPostMenu)}>
-                                    
-                                    {
-                                        showPostMenu
-                                        ?
-                                        <i class="fa-solid fa-xmark"></i>
-                                        :
-                                        <i class="fa-solid fa-ellipsis"></i>
-                                    }
-                                    
-                                </button>
-                            </span>
-                             {
-                                showPostMenu
+
+                            {
+                                user._id === loggedInUser._id
                                 ?
-                                <div className="w-auto absolute px-1 right-0 bg-[#F1EFEF] 
-                                        text-sm shadow-md rounded float-right cursor-pointer"
-                                    onClick={deletePost}>
-                                    <span className="text-red-400">
-                                        <i class="fa-solid fa-trash"></i>
-                                    </span>
-                                    &nbsp;
-                                    Delete
-                                </div>
+                                <span className="float-right w-auto h-auto px-1 rounded-full 
+                                            hover:bg-blue-200">
+                                    <button onClick={() => setShowPostMenu(!showPostMenu)}>
+                                        
+                                        {
+                                            showPostMenu
+                                            ?
+                                            <i class="fa-solid fa-xmark"></i>
+                                            :
+                                            <i class="fa-solid fa-ellipsis"></i>
+                                        }
+                                        
+                                    </button>
+                                </span>   
                                 :
                                 null
-                             }   
-                            
+                            }
+
+                                {
+                                    showPostMenu
+                                    ?
+                                    <div className="w-auto absolute px-1 right-0 bg-[#F1EFEF] 
+                                            text-sm shadow-md rounded float-right cursor-pointer"
+                                        onClick={deletePost}>
+                                        <span className="text-red-400">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </span>
+                                        &nbsp;
+                                        Delete
+                                    </div>
+                                    :
+                                    null
+                                }
                         </div>
 
                         <div className="w-full">
                             {content}
+                            <div className="w-full h-auto">
+                                {
+                                    photo
+                                    ?
+                                    <img src={photo.secure_url} alt="post_image" className="w-[95%] h-auto" />
+                                    :
+                                    null
+                                }
+                            </div>
                         </div>
                         <div className="w-full flex justify-between ">
                             

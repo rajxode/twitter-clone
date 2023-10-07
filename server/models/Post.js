@@ -24,6 +24,17 @@ const postSchema = new mongoose.Schema(
                 ref:'Comment'
             }
         ],
+        photo:{
+            // photo id in cloudinary
+            id:{
+                type:String,
+            },
+            // url from cloudinary
+            secure_url:{
+                type:String,
+            }
+            
+        },
     },
     {
         timestamps:true,

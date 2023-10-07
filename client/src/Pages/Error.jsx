@@ -20,8 +20,9 @@ export default function Error(){
 
     return(
         // Error message on screen
-        <div className="w-full h-full flex justify-center items-center">
-            <h1>Error, Something went wrong !!!</h1>
+        <div className="w-screen h-screen flex flex-col justify-center items-center">
+            <h1 className="text-xl font-bold">Error, Something went wrong !!!</h1>
+            <br />
             <p>redirecting back to homepage... </p>
         </div>
 

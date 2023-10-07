@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axiosInstance from '../../utils/axios';
-import { getAllPostThunk } from "./postReducer";
+import { getMyPostThunk } from "./postReducer";
 
 const initialState = { isLoading:false,
                         loggedInUser:{},
@@ -85,7 +85,7 @@ export const getLoggedInUserThunk = createAsyncThunk(
         if(isUserLoggedIn){
             const user = JSON.parse(isUserLoggedIn);
             thunkAPI.dispatch(setLoggedInUser(user));
-            await thunkAPI.dispatch(getAllPostThunk(user._id));
+            await thunkAPI.dispatch(getMyPostThunk(user._id));
             await thunkAPI.dispatch(getIFollowThunk(user._id));
             await thunkAPI.dispatch(getAllUserThunk());
             return true;
@@ -110,7 +110,9 @@ export const updateInfoThunk = createAsyncThunk(
     'auth/updateInfo',
     async({id,data},thunkAPI) => {
         try {
-            const response = await axiosInstance.put(`/user/updateinfo/${id}`,data);
+            const response = await axiosInstance.put(`/user/updateinfo/${id}`,data,{
+                headers: { 'Content-type': 'multipart/form-data' },
+            });
             localStorage.setItem('user',JSON.stringify(response.data.user));
             thunkAPI.dispatch(setLoggedInUser(response.data.user));
             return response.data;

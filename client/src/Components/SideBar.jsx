@@ -47,7 +47,10 @@ export default function SideBar(props) {
             }
 
             <div className="w-full h-1/5 flex flex-col rounded p-1 shadow-sm bg-[#f7f5f5]">
-            <h1 className="font-bold text-lg p-2">Sponsered</h1>
+                <h1 className="font-bold text-lg p-2">Sponsered</h1>
+                <div className="w-full h-[65%]">
+                    <img src={require('../Assets/icons/ad.jpg')} alt='ad' className="w-full h-full" />
+                </div>
             </div>
         </div>
     )

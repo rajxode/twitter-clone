@@ -6,14 +6,17 @@ import { authSelector, updateInfoThunk } from "../Redux/Reducers/authReducer";
 // toast notification
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Loader from "./Spinner";
+import { useNavigate } from "react-router-dom";
 
 const monthName = ['January','February','March','April','May','June','July','August','September','October','November','December',];
 
 export default function UpdateInfo(){
   
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const { loggedInUser } = useSelector(authSelector);
+  const { loggedInUser, isLoading } = useSelector(authSelector);
   const { dateOfBirth} = loggedInUser;
 
   const [formData,setFormData] = useState({
@@ -22,6 +25,7 @@ export default function UpdateInfo(){
       day:dateOfBirth.day,
       year:dateOfBirth.year,
       month:dateOfBirth.month,
+      file:''
     });
 
   const days = [];
@@ -54,6 +58,12 @@ export default function UpdateInfo(){
     setFormData({...formData, [name]:value});
   }
 
+  const handleFile = (e) => {
+    e.preventDefault();
+    const file = e.target.files[0];
+    setFormData({...formData,file:file})
+  }
+
   const handleSubmit = async (e) => {
     try{
       e.preventDefault();
@@ -81,12 +91,20 @@ export default function UpdateInfo(){
       }
       else{
         toast.success(result.payload.message);
+        navigate('/home/profile');
       }
 
     }catch(err){
      console.log(err);
     }
    }  
+
+  if(isLoading){
+    return (
+      <Loader />
+    )
+  }
+
 
   return(
       <>
@@ -142,16 +160,16 @@ export default function UpdateInfo(){
                           </select>
                       </div>
 
-                      {/* <div className="w-full h-1/2 flex justify-center items-center">
-                          <div className="w-[62%] h-full rounded-full border flex justify-center items-center">
-                              <input
-                              type="file"
-                              required
-                              placeholder="image"
-                              className="w-full h-full rounded-full"
-                              />         
-                          </div>
-                      </div> */}
+                      <h1 className="font-semibold">Profile Picture</h1>
+                      <div className="w-full h-[12%] rounded border border-slate-400 px-2 my-3 flex items-center">
+                        <input
+                          type="file"
+                          required
+                          placeholder="image"
+                          name="photo"
+                          onChange={handleFile}
+                          />
+                      </div>
 
 
                       <button className="w-full h-[7%] mb-0 bg-black 

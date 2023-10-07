@@ -58,12 +58,10 @@ const userSchema = new mongoose.Schema(
             // photo id in cloudinary
             id:{
                 type:String,
-                // required:true
             },
             // url from cloudinary
             secure_url:{
                 type:String,
-                // required:true,
             }
             
         },

@@ -3,7 +3,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import SideBar from '../Components/SideBar';
 import { authSelector, getLoggedInUserThunk } from '../Redux/Reducers/authReducer';
-import { getAllPostThunk, postSelector } from '../Redux/Reducers/postReducer';
+import { getMyPostThunk, postSelector } from '../Redux/Reducers/postReducer';
 import SinglePost from '../Components/SinglePost';
 import { useEffect } from 'react';
 
@@ -22,8 +22,7 @@ export default function Profile(){
 
     useEffect(() => {
         async function getPost(){
-            console.log('getpsot',userPosts);
-            await dispatch(getAllPostThunk(loggedInUser._id));
+            await dispatch(getMyPostThunk(loggedInUser._id));
         }
         getPost();
     },[])

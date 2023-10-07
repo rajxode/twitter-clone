@@ -6,7 +6,12 @@ const router = require('express').Router();
 const postController  = require('../controllers/postController');
 
 
-router.get('/getposts/:id',postController.getPosts);
+router.get('/getmyposts/:id',postController.getMyPosts);
+
+router.get('/getallposts',postController.getAllPosts);
+
+router.get('/getfollowsposts/:id',postController.getFollowPosts)
+
 // add post route
 router.post('/addpost',postController.addPost);
 

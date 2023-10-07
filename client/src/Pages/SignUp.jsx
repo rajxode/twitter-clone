@@ -94,11 +94,6 @@ export default function SignUp() {
    try{
     e.preventDefault();
 
-      // if(!formData.file){
-      //   toast.error('Please add an image for your profile');
-      //   return;
-      // }
-
       if( !formData.password || formData.password.length < 8 ){
         toast.error("Please enter a password with atleast 8 characters");
         return;

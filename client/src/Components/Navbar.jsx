@@ -1,6 +1,6 @@
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
-import { authSelector, signOutThunk, setLoggedInUser, getAllUserThunk, getLoggedInUserThunk } from "../Redux/Reducers/authReducer";
+import { authSelector, signOutThunk, getLoggedInUserThunk } from "../Redux/Reducers/authReducer";
 import { useEffect, useState } from "react";
 
 
