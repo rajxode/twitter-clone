@@ -68,31 +68,37 @@ export default function Home (){
                 </header>
 
                 <div className="w-full h-1/5 flex border-b p-2">
-                <div className="w-[10%] h-[55px] bg-red-400 rounded-full mr-1">
-                    
+                    <div className="w-[10%] h-[55px] overflow-hidden rounded-full mr-1">
+                        {
+                            loggedInUser.photo
+                            ?
+                            <img src={loggedInUser.photo.secure_url} alt='avatar' className='h-full w-full'/>
+                            :
+                            <img src={require('../Assets/icons/dummy-avatar.jpg')} alt='avatar' className='h-full w-full'/>
+                        }
                     </div>
-                        <div className="h-full w-[88%] p-1">
-                            <form className="w-full h-full">
-                                <textarea 
-                                    className="w-full h-[65%] focus:outline-none 
-                                            p-1 font-semibold text-xl rounded-sm" 
-                                    placeholder="What is happening?"
-                                    value={content}
-                                    onChange={(e) => setContent(e.target.value)} 
-                                    required />
-                                
-                                <button 
-                                    className="float-right px-3 py-1 rounded-full bg-blue-400 
-                                        hover:bg-blue-500 text-white font-semibold"
-                                    onClick={handlePostSubmit}
-                                    >
-                                    Post
-                                </button>
+                    <div className="h-full w-[88%] p-1">
+                        <form className="w-full h-full">
+                            <textarea 
+                                className="w-full h-[65%] focus:outline-none 
+                                        p-1 font-semibold text-xl rounded-sm" 
+                                placeholder="What is happening?"
+                                value={content}
+                                onChange={(e) => setContent(e.target.value)} 
+                                required />
+                            
+                            <button 
+                                className="float-right px-3 py-1 rounded-full bg-blue-400 
+                                    hover:bg-blue-500 text-white font-semibold"
+                                onClick={handlePostSubmit}
+                                >
+                                Post
+                            </button>
 
-                            </form>
-                        </div>
-
+                        </form>
                     </div>
+
+                </div>
                 
                 <main className="h-2/3 w-full p-2 flex flex-col">
                     { 

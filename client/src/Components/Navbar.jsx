@@ -98,7 +98,15 @@ export default function Navbar() {
                         <div className="w-full h-[45px] my-2 bg-[#f7f5f5] rounded shadow-md flex 
                                 items-center justify-between p-1 text-xl font-semibold relative">
                             
-                            <div className="w-[37px] bg-red-300 h-full rounded-full"></div>
+                            <div className="w-[37px] h-full rounded-full overflow-hidden">
+                                {
+                                    loggedInUser.photo
+                                    ?
+                                    <img src={loggedInUser.photo.secure_url} alt='avatar' className='h-full w-full'/>
+                                    :
+                                    <img src={require('../Assets/icons/dummy-avatar.jpg')} alt='avatar' className='h-full w-full'/>
+                                }
+                            </div>
                             
                             
                             <div className="w-3/5 h-full">

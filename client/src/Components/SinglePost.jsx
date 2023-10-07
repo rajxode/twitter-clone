@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { authSelector } from "../Redux/Reducers/authReducer";
 import { useEffect, useState } from "react";
-import { addCommentThunk, deleteCommentThunk, deletePostThunk, likePostThunk } from "../Redux/Reducers/postReducer";
+import { addCommentThunk, deletePostThunk, likePostThunk } from "../Redux/Reducers/postReducer";
 
 // toast notification
 import { toast } from 'react-toastify';
@@ -40,20 +40,7 @@ export default function SinglePost(props){
             console.log(error);
         }
     }
-
-    const deleteComment = async (e) => {
-        try {
-            e.preventDefault();
-            // const result = await dispatch(deleteCommentThunk({id:,userId: loggedInUser._id}));
-            // if(result.payload.success){
-            //     toast.success(result.payload.message);
-            //     setShowComment(false);
-            //     setShowPostMenu(false);
-            // }
-        } catch (error) {
-            console.log(error);
-        }
-    }
+    
 
     const handleLikeClick = async (e) => {
         try {

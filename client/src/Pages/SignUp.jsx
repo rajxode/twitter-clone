@@ -20,7 +20,8 @@ export default function SignUp() {
     day:'1',
     year:'2023',
     month:'January',
-    password:''
+    password:'',
+    file:''
   });
 
   const { isLoading } = useSelector(authSelector);
@@ -34,6 +35,8 @@ export default function SignUp() {
   const days = [];
   const years = [];
   const currentYear = new Date().getFullYear();
+
+  const fileData = new FormData();
 
   if(formData.month === 'February'){
     for (let i = 1; i <= 29 ; i++) {
@@ -79,12 +82,25 @@ export default function SignUp() {
 
   }
 
+  
+
+  const handleFile = (e) => {
+    e.preventDefault();
+    const file = e.target.files[0];
+    setFormData({...formData,file:file})
+  }
+
   const handleSubmit = async (e) => {
    try{
     e.preventDefault();
 
-        if(!formData.password){
-        toast.error("Please enter password");
+      // if(!formData.file){
+      //   toast.error('Please add an image for your profile');
+      //   return;
+      // }
+
+      if( !formData.password || formData.password.length < 8 ){
+        toast.error("Please enter a password with atleast 8 characters");
         return;
       }
 
@@ -92,10 +108,9 @@ export default function SignUp() {
         toast.error("Password and confirm password doesn't match");
         return;
       }
-
+      
       const result = await dispatch(signUpThunk(formData));
 
-      console.log(result.payload)
       if(!result.payload.success){
         toast.error(result.payload.message);
       }
@@ -207,16 +222,16 @@ export default function SignUp() {
                         :
                         <>
 
-                            {/* <div className="w-full h-1/2 flex justify-center items-center">
-                                <div className="w-[62%] h-full rounded-full border flex justify-center items-center">
-                                    <input
-                                    type="file"
-                                    required
-                                    placeholder="image"
-                                    className="w-full h-full rounded-full"
-                                    />         
-                                </div>
-                            </div> */}
+                            <h1 className="font-semibold">Profile Picture</h1>
+                            <div className="w-full h-[12%] rounded border border-slate-400 px-2 my-3 flex items-center">
+                              <input
+                                type="file"
+                                required
+                                placeholder="image"
+                                name="photo"
+                                onChange={handleFile}
+                                />
+                            </div>
 
                             <input
                             type="password"

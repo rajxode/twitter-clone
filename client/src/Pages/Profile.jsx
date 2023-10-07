@@ -14,6 +14,8 @@ export default function Profile(){
     const { userPosts } = useSelector(postSelector);
     const dispatch = useDispatch();
 
+
+
     if(!loggedInUser){
         navigate('/home');
     }
@@ -51,8 +53,14 @@ export default function Profile(){
                                     </button>
                                 </NavLink>
                             </div>
-                            <div className='h-1/2 w-[22%] top-[50%] left-3 absolute bg-red-950 rounded-full border-4 border-white'>
-
+                            <div className='h-1/2 w-[22%] top-[50%] left-3 absolute bg-red-950 rounded-full border-4 border-white overflow-hidden'>
+                                {
+                                    loggedInUser.photo
+                                    ?
+                                    <img src={loggedInUser.photo.secure_url} alt='avatar' className='h-full w-full'/>
+                                    :
+                                    <img src={require('../Assets/icons/dummy-avatar.jpg')} alt='avatar' className='h-full w-full'/>
+                                }
                             </div>
                         </div>
                         

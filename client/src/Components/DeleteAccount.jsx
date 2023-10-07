@@ -24,9 +24,8 @@ export default function DeleteAccount(){
                 return;
             }
             const id = loggedInUser._id;
-            toast.success('Your account deletion is under process, It will take some time!!!');
-            await dispatch(signOutThunk());
             navigate('/');
+            await dispatch(signOutThunk());
             const delResult = await dispatch(deleteAccountThunk({id,data:{password}}));
             if(!delResult.payload.success){
                 toast.error(delResult.payload.message);

@@ -40,7 +40,9 @@ export const signUpThunk = createAsyncThunk(
     'auth/signup',
     async (data,thunkAPI) => {
         try {
-            const response = await axiosInstance.post('/user/signup',data);
+            const response = await axiosInstance.post('/user/signup',data,{
+                headers: { 'Content-type': 'multipart/form-data' },
+              });
             return response.data;
         } catch (error) {
             return error.response.data;
@@ -197,6 +199,12 @@ const authSlice = createSlice({
             state.isLoading = true;
         })
         .addCase(updatePasswordThunk.fulfilled || updatePasswordThunk.rejected,(state,action) => {
+            state.isLoading = false;
+        })
+        .addCase(deleteAccountThunk.pending,(state,action) => {
+            state.isLoading = true;
+        })
+        .addCase(deleteAccountThunk.fulfilled || deleteAccountThunk.rejected,(state,action) => {
             state.isLoading = false;
         })
     }

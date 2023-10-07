@@ -6,17 +6,45 @@ const Comment = require('../models/Comment');
 
 const cloudinary = require('cloudinary').v2;
 
-
-const CustomError = require('../utils/customError');
 const cookieGenerator = require('../utils/cookieGenerator');
+
+
+function capitalizeFirstLetter (str){
+    
+    const arr = str.split(" ");
+    //loop through each element of the array and capitalize the first letter.
+    for (var i = 0; i < arr.length; i++) {
+        arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].slice(1);
+
+    }
+    //Join all the elements of the array back into a string 
+    //using a blankspace as a separator 
+    const str2 = arr.join(" ");
+    return str2;
+}
 
 
 module.exports.signup = async (req,res) => {
     try {
 
-        // getting user's data
-        const { name , email, password,day,month,year} = req.body;
+        // const data = req.body;
+        // var file;
+        // if(req.files){
+        //     file = req.files.file;
+        // }
 
+
+        // res.json({
+        //     data,
+        //     file
+        // })
+
+        // getting user's data
+        var { name , email, password , day , month , year } = req.body;
+
+        name = name.trim();
+        name = capitalizeFirstLetter(name);
+        email = email.toLowerCase();
 
         const userExist = await User.findOne({email});
 
@@ -27,37 +55,44 @@ module.exports.signup = async (req,res) => {
             })
         }
 
-        // if user didn't uploaded photo
-        // if(!req.files) {
-        //     // error 
-        //     return next(new CustomError('Please upload image', 400) );
-        // }
-
-
-        // // get uploaded image
-        // const file = req.files.photo;
-        // // upload the image to cloudinary
-        // const result = await cloudinary.uploader.upload(file.tempFilePath,{
-        //     folder:process.env.CLOUD_USER_FOLDER,
-        //     width:150,
-        //     crop:'scale'
-        // })
-
         const dateOfBirth = {
             day,month,year
         }
 
+        
+        // if user upload photo
+        if(req.files) {
+            // get uploaded image
+            const file = req.files.file;
+            // upload the image to cloudinary
+            const result = await cloudinary.uploader.upload(file.tempFilePath,{
+                folder:process.env.CLOUD_USER_FOLDER,
+            })
 
-        // create new user
-        const user = await User.create({
-            name,
-            email,
-            password,
-            dateOfBirth
-        });
+            const photo = {
+                id:result.public_id,
+                secure_url:result.secure_url
+            }
 
-        // generate a token and store in cookie
-        // cookieGenerator(user,res);
+            // create new user with image
+            const user = await User.create({
+                name,
+                email,
+                password,
+                dateOfBirth,
+                photo
+            });
+        }
+        else{
+            // create new user
+            const user = await User.create({
+                name,
+                email,
+                password,
+                dateOfBirth
+            });
+        }
+
         return res.status(201).json({
             success:true,
             message:'New user created, Please Login to continue !!!'
@@ -328,7 +363,15 @@ module.exports.deleteAccount = async(req,res) => {
 
         await Comment.deleteMany({user:id});
         await Like.deleteMany({user:id});
-        await Post.deleteMany({user:id});
+        const posts = await Post.find({user:id});
+
+        for (let index = 0; index < posts.length; index++) {
+            let postId = posts[index];
+            await Comment.deleteMany({post:postId});
+            await Like.deleteMany({post:postId});
+
+            await Post.findByIdAndDelete(postId);
+        }
 
         for (let index = 0; index < user.follows.length; index++) {
             const followsId = user.follows[index];

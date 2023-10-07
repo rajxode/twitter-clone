@@ -11,7 +11,7 @@ export default function SingleUser(props) {
     const dispatch = useDispatch();
     const { loggedInUser } = useSelector(authSelector);
     const { parent } = props;
-    const {name,email,_id} = props.user;
+    const {name,email,_id,photo} = props.user;
 
     const handleFollowClick = async(e) => {
         try {
@@ -32,8 +32,14 @@ export default function SingleUser(props) {
         <>
             <div className="w-full p-1 h-[50px] my-1 flex justify-between">
                 
-                <div className="w-[42px] bg-green-300 h-full rounded-full">
-
+                <div className="w-[42px] h-full rounded-full overflow-hidden">
+                    {
+                        photo
+                        ?
+                        <img src={photo.secure_url} alt='avatar' className='h-full w-full'/>
+                        :
+                        <img src={require('../Assets/icons/dummy-avatar.jpg')} alt='avatar' className='h-full w-full'/>
+                    }
                 </div>
                 
                 <div className="w-[50%] px-1 h-full flex flex-col justify-start">
