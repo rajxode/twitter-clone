@@ -1,6 +1,7 @@
 
 import { useDispatch, useSelector } from 'react-redux';
-import { authSelector, getIFollowThunk, getLoggedInUserThunk, toggelFollowThunk } from '../Redux/Reducers/authReducer';
+import { useNavigate } from 'react-router-dom';
+import { authSelector, getIFollowThunk, getLoggedInUserThunk, setUserProfile, toggelFollowThunk } from '../Redux/Reducers/authReducer';
 
 // toast notification
 import { toast } from 'react-toastify';
@@ -10,6 +11,7 @@ import { useEffect } from 'react';
 export default function SingleUser(props) {
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const { loggedInUser , follows } = useSelector(authSelector);
     const { parent } = props;
     const {name,email,_id,photo} = props.user;
@@ -17,6 +19,12 @@ export default function SingleUser(props) {
     useEffect(() => {
         dispatch(getIFollowThunk(loggedInUser._id));
     },[]);
+
+    const handleClick = (e) => {
+        e.preventDefault();
+        dispatch(setUserProfile(props.user));
+        navigate('/home/userprofile');
+    }
 
     const handleFollowClick = async(e) => {
         try {
@@ -37,7 +45,8 @@ export default function SingleUser(props) {
         <>
             <div className="w-full p-1 h-[50px] my-1 flex justify-between">
                 
-                <div className="w-[42px] h-full rounded-full overflow-hidden">
+                <div className="w-[42px] h-full rounded-full overflow-hidden cursor-pointer"
+                        onClick={handleClick}>
                     {
                         photo
                         ?
@@ -48,7 +57,8 @@ export default function SingleUser(props) {
                 </div>
                 
                 <div className="w-[50%] px-1 h-full flex flex-col justify-start">
-                    <span className="font-semibold">
+                    <span className="font-semibold cursor-pointer"
+                            onClick={handleClick}>
                         {name}
                     </span>
                     <span className="text-sm text-slate-500">

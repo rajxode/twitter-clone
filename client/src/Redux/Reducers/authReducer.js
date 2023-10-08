@@ -7,6 +7,7 @@ const initialState = { isLoading:false,
                         allUsers:[],
                         follows:[],
                         followers:[],
+                        userProfile:{}
                     };
 
 export const toggelFollowThunk = createAsyncThunk(
@@ -184,6 +185,10 @@ const authSlice = createSlice({
         setFollowers:(state,action) => {
             state.followers = action.payload;
             return;
+        },
+        setUserProfile:(state,action) => {
+            state.userProfile = action.payload;
+            return;
         }
     },
     extraReducers: (builder) => {
@@ -235,6 +240,6 @@ const authSlice = createSlice({
 
 export const authReducer = authSlice.reducer;
 
-export const { setLoggedInUser, setAllUsers, setFollows, setFollowers } = authSlice.actions;
+export const { setLoggedInUser, setAllUsers, setFollows, setFollowers , setUserProfile } = authSlice.actions;
 
 export const authSelector = (state) => state.authReducer;

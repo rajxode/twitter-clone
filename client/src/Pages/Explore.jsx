@@ -1,19 +1,30 @@
 import { useDispatch, useSelector } from "react-redux"
-import { authSelector, getAllUserThunk } from "../Redux/Reducers/authReducer"
+import { authSelector, getAllUserThunk , getLoggedInUserThunk } from "../Redux/Reducers/authReducer"
 import SingleUser from "../Components/SingleUser";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 
 export default function Explore(){
 
     const { allUsers } = useSelector(authSelector);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const [search,setSearch] = useState('');
 
     useEffect(() => {
-        dispatch(getAllUserThunk());
-    },[])
+        async function getUser(){
+            const result = await dispatch(getLoggedInUserThunk());
+            if(!result.payload){
+                navigate('/');
+            }
+            else{
+                dispatch(getAllUserThunk());
+            }
+        }
+        getUser();
+    },[]);
 
     return(
         <div className="h-full w-[78%] flex justify-between">

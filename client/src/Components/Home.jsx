@@ -1,40 +1,59 @@
 
-import { useDispatch, useSelector } from 'react-redux';
-import { authSelector, getAllUserThunk, setLoggedInUser } from "../Redux/Reducers/authReducer";
-import SideBar from "./SideBar"
+// react hooks 
 import { useEffect, useState } from "react";
+
+// redux hooks 
+import { useDispatch, useSelector } from 'react-redux';
+
+// auth reducer and post reducer
+import { authSelector, getAllUserThunk, setLoggedInUser } from "../Redux/Reducers/authReducer";
 import { addPostThunk, getAllPostsThunk, getFollowPostThunk, postSelector } from '../Redux/Reducers/postReducer';
 
 // toast notification
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+// Components
+import SideBar from "./SideBar"
 import Loader from './Spinner';
 import AllPost from './AllPost';
 import FollowingPost from './FollowingPost';
 
 
+// render home page
 export default function Home (){
 
-    const [content,setContent] = useState();
-    const [file,setFile] = useState('');
+    // for calling reducer's action
     const dispatch = useDispatch();
-    const { loggedInUser, isLoading } = useSelector(authSelector);
-    const [showFollowPost,setShowFollowPost] = useState(false);
+    // content of post 
+    const [content,setContent] = useState();
+    // file to upload 
+    const [file,setFile] = useState('');
     
+    // variables from reducer 
+    const { loggedInUser, isLoading } = useSelector(authSelector);
+    // to show post of people user follows
+    const [showFollowPost,setShowFollowPost] = useState(false);
 
+
+    // for adding a new post
     const handlePostSubmit = async(e) => {
         try{
+            // prevent default action 
             e.preventDefault();
 
+            // if no content is given in post input 
             if(!content || !content.trim()){
+                // message to provide data
                 toast.error('Please enter some data');
                 setContent('');
                 return;
             }
             
+            // adding new post
             const result = await dispatch(addPostThunk({content,userId:loggedInUser._id,file}));
 
+            // message based on result 
             if(result.payload.success){
                 toast.success(result.payload.message);
                 setContent('');

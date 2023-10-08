@@ -15,6 +15,7 @@ import DeleteAccount from './Components/DeleteAccount';
 import About from './Components/About';
 import Error from './Pages/Error';
 import AllPost from './Components/AllPost';
+import UserProfile from './Pages/UserProfile';
 
 function App() {
   // all the link routes
@@ -44,6 +45,7 @@ function App() {
           ]
         },
         { path:'/home/explore', element: <Explore />},
+        { path:'/home/userprofile', element: <UserProfile />},
       ]
     }
   ]);
