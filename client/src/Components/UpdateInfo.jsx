@@ -59,6 +59,7 @@ export default function UpdateInfo(){
   }
 
   const handleFile = (e) => {
+    
     e.preventDefault();
     const file = e.target.files[0];
     setFormData({...formData,file:file})
@@ -79,7 +80,8 @@ export default function UpdateInfo(){
       }
 
       if(formData.name === loggedInUser.name && formData.email && loggedInUser.email && 
-          formData.day === dateOfBirth.day && formData.month === dateOfBirth.month && formData.year === dateOfBirth.year)
+          formData.day === dateOfBirth.day && formData.month === dateOfBirth.month && 
+          formData.year === dateOfBirth.year && !formData.file )
         {
           toast.error('Nothing to Update');
           return;

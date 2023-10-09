@@ -5,16 +5,19 @@ import { authSelector } from '../Redux/Reducers/authReducer';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toggelFollowThunk } from '../Redux/Reducers/authReducer';
+import SinglePost from '../Components/SinglePost';
 
 // toast notification
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { postSelector } from '../Redux/Reducers/postReducer';
 
 
 export default function UserProfile(){
     
     const dispatch = useDispatch();
     const { loggedInUser , userProfile } = useSelector(authSelector);
+    const { allPosts } = useSelector(postSelector);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -46,7 +49,6 @@ export default function UserProfile(){
 
                 <div className='w-full h-[45px] px-2 flex items-center shadow shrink-0'>
                     <span className='font-semibold'>
-                        {/* {loggedInUser.name}     */}
                         { userProfile.name }
                     </span>
                     
@@ -113,22 +115,16 @@ export default function UserProfile(){
                             
                         </div>
                         
-                        <div className='w-full h-[10%] border-b border-slate-400 flex font-semibold'>
-                            <div className="w-1/3 flex items-center justify-center border-r ">
-                                Post
-                            </div>
-                            <div className="w-1/3 flex items-center justify-center border-r">
-                                Likes
-                            </div>
-                            <div className="w-1/3 flex items-center justify-center border-r">
-                                Comments
-                            </div>
+                        <div className='w-full h-[10%] border-b border-slate-400 flex items-center justify-center font-semibold'>
+                            Posts
                         </div>
                     </div>
                     
                     <div className='w-full h-2/5 p-2'>
                         {
-                            // userPosts.map((post) => <SinglePost key={post._id} post={post} />)
+                            allPosts
+                            .filter((post) => post.user === userProfile._id )
+                            .map((post) => <SinglePost key={post._id} post={post} />)
                         }
                     </div>
                 </div>

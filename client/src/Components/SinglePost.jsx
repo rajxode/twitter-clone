@@ -70,14 +70,14 @@ export default function SinglePost(props){
     return(
         <>
             <div className="w-full h-auto p-2 my-1 flex flex-col rounded border 
-                        border-slate-400 shadow-md">
+                        border-slate-400 shadow-md hover:bg-[#f7f5f5]">
                 
                 <div className="w-full flex">
                     <div className="w-[8%] h-[45px] rounded-full mr-1 overflow-hidden">
                         {
-                            loggedInUser.photo
+                            user.photo
                             ?
-                            <img src={loggedInUser.photo.secure_url} alt='avatar' className='h-full w-full'/>
+                            <img src={user.photo.secure_url} alt='avatar' className='h-full w-full'/>
                             :
                             <img src={require('../Assets/icons/dummy-avatar.jpg')} alt='avatar' className='h-full w-full'/>
                         }
@@ -172,7 +172,7 @@ export default function SinglePost(props){
                 {
                     showComment
                     ?
-                    <div className="w-full px-1 border-t mt-1 flex flex-col">
+                    <div className="w-full h-auto max-h-[200px] px-1 border-t mt-1 flex flex-col">
                         <h1 className="text-lg font-semibold mt-1">
                             Comments
                             <span className="float-right cursor-pointer hover:text-red-400"
@@ -180,11 +180,11 @@ export default function SinglePost(props){
                                 <i class="fa-solid fa-xmark"></i>
                             </span>
                         </h1>
-                        <div className="w-full h-auto py-2 text-black">
+                        <div className="w-full h-2/3 py-2 text-black overflow-y-scroll">
                             {comments.map((comment) => <SingleComment key={comment._id} comment={comment} /> )}
                         </div>
                         
-                        <div className="w-full h-[45px] py-1">
+                        <div className="w-full h-[45px] py-1 shrink-0">
                             <form className="w-full h-full flex" onSubmit={handleAddComment}>
                                 <input className="w-full h-full border border-slate-500 border-r-0 
                                             rounded-l-full focus:outline-none px-2"

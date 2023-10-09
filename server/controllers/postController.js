@@ -8,7 +8,13 @@ const cloudinary = require('cloudinary').v2;
 module.exports.getMyPosts = async (req,res) => {
     try {
 
-        const posts = await Post.find({user:req.params.id}).populate('user','name').populate('likes','user').populate('comments','user content');
+        const posts = await Post.find({user:req.params.id}).populate('user','name photo').populate('likes','user').populate({
+            path: 'comments',
+            populate: {
+            path: 'user',
+            model: 'User',
+            },
+        });
 
         res.status(200).json({
             success:true,
@@ -26,7 +32,13 @@ module.exports.getMyPosts = async (req,res) => {
 module.exports.getAllPosts = async (req,res) => {
     try {
 
-        const posts = await Post.find({}).populate('user','name').populate('likes','user').populate('comments','user content');
+        const posts = await Post.find({}).populate('user','name photo').populate('likes','user').populate({
+            path: 'comments',
+            populate: {
+            path: 'user',
+            model: 'User',
+            },
+        });
 
         res.status(200).json({
             success:true,
@@ -51,7 +63,16 @@ module.exports.getFollowPosts = async (req,res) => {
         for (let i = 0; i < user.follows.length; i++) {
             const followId = user.follows[i];
             
-            const posts = await Post.find({user:followId}).populate('user','name').populate('likes','user').populate('comments','user content');
+            const posts = await Post.find({user:followId})
+                                .populate('user','name photo')
+                                .populate('likes','user')
+                                .populate({
+                                    path: 'comments',
+                                    populate: {
+                                    path: 'user',
+                                    model: 'User',
+                                    },
+                                });
             followPosts = [...followPosts,...posts];
         }
         

@@ -63,7 +63,7 @@ export default function Navbar() {
             :
             <>
 
-            <div className="h-full w-4/5 flex justify-between ">
+            <div className="h-full w-full md:w-4/5 flex justify-between ">
 
                 <div className="bg-white w-[21%] h-full text-black shadow rounded p-2 flex flex-col">
 

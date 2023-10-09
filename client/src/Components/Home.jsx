@@ -85,12 +85,14 @@ export default function Home (){
                         </div>
 
                         <div className="w-full h-2/5 flex font-semibold border-b">
-                            <div className="w-1/2 h-full flex items-center justify-center border-r"
+                            <div style={showFollowPost ? null : {textDecoration:'underline' , textDecorationColor:'skyblue' , textDecorationThickness:'4px'}} 
+                                className="w-1/2 h-full flex items-center justify-center border-r cursor-pointer decoration-sky-500 underline-offset-8 "
                                 onClick={() => setShowFollowPost(false)}>
                                 For You
                             </div>
                             
-                            <div className="w-1/2 h-full flex items-center justify-center"
+                            <div style={showFollowPost ? {textDecoration:'underline' , textDecorationColor:'skyblue' , textDecorationThickness:'4px'} : null } 
+                                className="w-1/2 h-full flex items-center justify-center cursor-pointer underline-offset-8"
                                 onClick={() => setShowFollowPost(true)}>
                                 Following
                             </div>
@@ -118,11 +120,15 @@ export default function Home (){
                                 onChange={(e) => setContent(e.target.value)} 
                                 required />
 
+                            <label for='image' className="text-sky-400 hover:text-sky-600 text-xl cursor-pointer">
+                                <i class="fa-solid fa-image"></i>
+                            </label>
                             <input 
                                 type="file" 
+                                id="image"
                                 onChange={(e) => setFile(e.target.files[0])}
                                 placeholder='picture'
-                                // className='w-[25px]'
+                                className='hidden'
                                 />
                             
                             <button 

@@ -28,12 +28,24 @@ export default function SingleComment(props){
     return (
         <>
             <div className="w-full h-auto flex justify-between border-b border-slate-300 px-2 py-1">
-                <div className="w-[95%] h-full">
+                <div className="w-[9%] h-auto rounded-full overflow-hidden">
+                    {
+                        user.photo
+                        ?
+                        <img src={user.photo.secure_url} alt='avatar' className='h-full w-full'/>
+                        :
+                        <img src={require('../Assets/icons/dummy-avatar.jpg')} alt='avatar' className='h-full w-full'/>
+                    }
+                </div>
+                <div className="w-[85%] h-full flex flex-col">
                     {content}
+                    <small className="font-semibold text-slate-500">
+                        {user.name}
+                    </small>
                 </div>
                 
                 {
-                    loggedInUser._id === user
+                    loggedInUser._id === user._id
                     ?
                     <div className="w-auto h-full cursor-pointer hover:text-red-500"
                         onClick={deleteComment}>
