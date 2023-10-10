@@ -7,29 +7,15 @@ import { useNavigate } from "react-router-dom";
 
 export default function Explore(){
 
-    const { allUsers } = useSelector(authSelector);
+    const { allUsers , loggedInUser } = useSelector(authSelector);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const [search,setSearch] = useState('');
 
-    useEffect(() => {
-        async function getUser(){
-            const result = await dispatch(getLoggedInUserThunk());
-            if(!result.payload){
-                navigate('/');
-            }
-            else{
-                dispatch(getAllUserThunk());
-            }
-        }
-        getUser();
-    },[]);
-
     return(
-        <div className="h-full w-[78%] flex justify-between">
-            
-            <div className="w-[68%] h-full rounded shadow-md flex flex-col">
+        <div className="h-full w-[90%] lg:w-[78%] flex justify-between">
+            <div className="w-full md:w-[68%] h-full rounded flex flex-col">
                 <div className="w-full h-[45px] text-xl font-semibold bg-slate-100 flex items-center px-2 border-b border-slate-300 shadow-sm">
                     People You May Know
                 </div>
@@ -52,8 +38,8 @@ export default function Explore(){
                         .filter((user) => {
                             return search.toLocaleLowerCase() === ''
                             ? user
-                            :user.name.toLocaleLowerCase().includes(search)})
-                        .map((user) => <SingleUser key={user._id} user={user} />) 
+                            :user.name.toLocaleLowerCase().includes(search)} )
+                        .map((user) =>  user._id !== loggedInUser._id ? <SingleUser key={user._id} user={user} /> : null ) 
                     }   
 
                 </div>

@@ -50,7 +50,7 @@ export default function LandingPage(){
                         
                         <div className='w-full sm:w-2/3 md:w-full lg:w-3/5 h-3/5 flex flex-col py-2 justify-start'>
                             
-                            <div className="w-full h-1/5 ">
+                            {/* <div className="w-full h-1/5 ">
                                 <button className='border border-slate-300 hover:bg-slate-100 w-full h-3/5 flex justify-center items-center rounded-full'>
                                     <img src={require('../Assets/icons/google.png')} alt='google' className='h-[20px] w-[20px]' />
                                     <span>
@@ -60,7 +60,7 @@ export default function LandingPage(){
                                 </button>
                             </div>
                             
-                            <h2 className='text-center'>or</h2>
+                            <h2 className='text-center'>or</h2> */}
 
                             <div className="w-full h-2/5 mt-1">
                                 <NavLink to='/signup'>

@@ -67,9 +67,9 @@ export default function Home (){
     }
 
     return(
-        <div className="h-full w-[78%] flex justify-between">
+        <div className="h-full w-[90%] lg:w-[78%] flex justify-between">
             
-            <div className=" w-[68%] p-2 rounded flex flex-col">
+            <div className="w-full md:w-[68%] p-2 rounded flex flex-col">
 
             {
                 isLoading

@@ -53,7 +53,7 @@ export default function Navbar() {
 
     return (
         <div className="w-screen h-screen flex 
-                        px-[5%] py-[1%] justify-center
+                        md:px-[1%] lg:px-[5%] py-[1%] justify-center
                         overflow-y-scroll">
             
         {
@@ -63,9 +63,9 @@ export default function Navbar() {
             :
             <>
 
-            <div className="h-full w-full md:w-4/5 flex justify-between ">
+            <div className="h-full w-full xl:w-4/5 flex justify-between ">
 
-                <div className="bg-white w-[21%] h-full text-black shadow rounded p-2 flex flex-col">
+                <div className="bg-white w-[10%] md:w-[6%] lg:w-[21%] h-full text-black shadow rounded p-2 flex flex-col">
 
                     <div className="w-full h-[35px] my-1">
                         <NavLink to='/home' >
@@ -73,8 +73,8 @@ export default function Navbar() {
                         </NavLink>
                     </div>
 
-                    <div className="h-full flex flex-col justify-between">
-                        <div className="w-full h-auto my-2">
+                    <div className="h-full flex flex-col justify-between items-center">
+                        <div className="w-full h-auto my-2 flex flex-col">
                             { menuOptions.map((menu,i) => <SignleMenuOption key={i} menu={menu} />)}
                         </div>
                         
@@ -82,7 +82,7 @@ export default function Navbar() {
                         <div className="w-full h-[45px] my-2 bg-[#f7f5f5] rounded shadow-md flex 
                                 items-center justify-between p-1 text-xl font-semibold relative">
                             
-                            <div className="w-[37px] h-full rounded-full overflow-hidden">
+                            <div className="hidden w-[37px] h-full rounded-full overflow-hidden lg:block">
                                 {
                                     loggedInUser.photo
                                     ?
@@ -93,7 +93,7 @@ export default function Navbar() {
                             </div>
                             
                             
-                            <div className="w-3/5 h-full">
+                            <div className="hidden w-3/5 h-full lg:block">
                                 {loggedInUser.name}
                             </div>
                             
@@ -122,7 +122,9 @@ export default function Navbar() {
                                             <i class="fa-solid fa-arrow-right-from-bracket"></i>
                                         </span>
                                         &nbsp;
-                                        Log out @{loggedInUser.name}
+                                        <span className="hidden lg:block">
+                                            Log out @{loggedInUser.name}
+                                        </span>
                                     </div> 
                                     : 
                                     null}                                

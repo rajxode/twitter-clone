@@ -5,6 +5,7 @@ import { authSelector } from '../Redux/Reducers/authReducer';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toggelFollowThunk } from '../Redux/Reducers/authReducer';
+import { getMyPostThunk } from '../Redux/Reducers/postReducer';
 import SinglePost from '../Components/SinglePost';
 
 // toast notification
@@ -17,15 +18,19 @@ export default function UserProfile(){
     
     const dispatch = useDispatch();
     const { loggedInUser , userProfile } = useSelector(authSelector);
-    const { allPosts } = useSelector(postSelector);
+    const { userPosts } = useSelector(postSelector);
     const navigate = useNavigate();
 
     useEffect(() => {
         if(!userProfile){
             navigate('/');
         }
-    },[userProfile]);
 
+        async function getPost(){
+            await dispatch(getMyPostThunk(userProfile._id));
+        }
+        getPost();
+    },[userProfile]);
 
     const handleFollowClick = async(e) => {
         try {
@@ -44,8 +49,8 @@ export default function UserProfile(){
 
 
     return(
-        <div className="h-full w-[78%] flex justify-between">
-            <div className=" w-[68%] h-full rounded flex flex-col">
+        <div className="h-full w-[90%] lg:w-[78%] flex justify-between">
+            <div className="w-full md:w-[68%] h-full rounded flex flex-col">
 
                 <div className='w-full h-[45px] px-2 flex items-center shadow shrink-0'>
                     <span className='font-semibold'>
@@ -122,8 +127,7 @@ export default function UserProfile(){
                     
                     <div className='w-full h-2/5 p-2'>
                         {
-                            allPosts
-                            .filter((post) => post.user === userProfile._id )
+                            userPosts
                             .map((post) => <SinglePost key={post._id} post={post} />)
                         }
                     </div>

@@ -94,7 +94,7 @@ export default function SignIn() {
             <div className="text-3xl w-full font-semibold">Sign in to X</div>
 
             <div className=" w-full h-full flex flex-col py-3 my-3 items-start">
-              <div className="w-full h-[15%] ">
+              {/* <div className="w-full h-[15%] ">
                 <button className="border border-slate-400 hover:bg-slate-100 w-full  h-3/5 flex justify-center items-center rounded-full">
                   <img
                     src={require("../Assets/icons/google.png")}
@@ -105,7 +105,7 @@ export default function SignIn() {
                 </button>
               </div>
 
-              <h2 className="text-center w-full">or</h2>
+              <h2 className="text-center w-full">or</h2> */}
 
               <div className="w-full h-[45%] ">
                 <form className="w-full h-full p-3" onSubmit={handleSubmit}>
@@ -139,13 +139,13 @@ export default function SignIn() {
                 </form>
               </div>
 
-              <div className="w-full h-[15%] mt-1">
+              {/* <div className="w-full h-[15%] mt-1">
                 <NavLink to="/">
                   <button className="border border-slate-400 w-full h-3/5 hover:bg-slate-100 text-black font-bold rounded-full">
                     Forget Password
                   </button>
                 </NavLink>
-              </div>
+              </div> */}
 
               <p className="font-bold pl-1">
                 Don't have an Account?

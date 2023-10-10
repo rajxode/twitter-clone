@@ -14,7 +14,6 @@ import UpdatePassword from './Components/UpdatePassword';
 import DeleteAccount from './Components/DeleteAccount';
 import About from './Components/About';
 import Error from './Pages/Error';
-import AllPost from './Components/AllPost';
 import UserProfile from './Pages/UserProfile';
 
 function App() {

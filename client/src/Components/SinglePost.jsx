@@ -85,6 +85,7 @@ export default function SinglePost(props){
                     
                     <div className="w-[88%] flex flex-col">
                         <div className="w-full mb-1 font-bold relative">
+                            
                             {user.name}
 
                             {

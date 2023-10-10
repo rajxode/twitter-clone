@@ -7,14 +7,16 @@ export default function SignleMenuOption(props) {
 
     return(
         <>
-            <div className="w-full h-[45px] p-1 my-1 text-xl font-semibold flex
+            <div className="w-full h-[45px] p-1 my-1 text-xl flex
                     items-center hover:bg-[#f7f5f5] hover:rounded hover:shadow-md">
-                <NavLink to={link} >
+                <NavLink 
+                    style={({ isActive }) => (isActive ? { fontWeight: "bold" } : undefined)}
+                    to={link} >
                     <span>
                         {icon}
                     </span>
                     &nbsp;
-                    <span>
+                    <span className="hidden lg:inline">
                         {name}
                     </span>
                 </NavLink>
