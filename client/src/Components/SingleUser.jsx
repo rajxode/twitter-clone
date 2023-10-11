@@ -1,4 +1,5 @@
 
+
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { authSelector, getIFollowThunk, getLoggedInUserThunk, setUserProfile, toggelFollowThunk } from '../Redux/Reducers/authReducer';
@@ -8,6 +9,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useEffect } from 'react';
 
+// render a single user in suggestion list
 export default function SingleUser(props) {
 
     const dispatch = useDispatch();

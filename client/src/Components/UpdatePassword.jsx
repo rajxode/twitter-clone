@@ -7,6 +7,8 @@ import { authSelector, updatePasswordThunk } from "../Redux/Reducers/authReducer
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+
+// for update the password
 export default function UpdatePassword(){
 
     const dispatch = useDispatch();

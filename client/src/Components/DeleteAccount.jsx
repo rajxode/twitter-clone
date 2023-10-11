@@ -9,13 +9,18 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { authSelector, deleteAccountThunk, signOutThunk } from "../Redux/Reducers/authReducer";
 
+
+// for deleteing user's account
 export default function DeleteAccount(){
     
+    // logged in user
     const { loggedInUser } = useSelector(authSelector);
     const [password, setPassword] = useState('');
     const dispatch = useDispatch();
     const navigate = useNavigate();    
 
+
+    // submit of delete account
     const handleSubmit = async(e) => {
         try {
             e.preventDefault();
@@ -25,7 +30,9 @@ export default function DeleteAccount(){
             }
             const id = loggedInUser._id;
             navigate('/');
+
             await dispatch(signOutThunk());
+            // api call
             const delResult = await dispatch(deleteAccountThunk({id,data:{password}}));
             if(!delResult.payload.success){
                 toast.error(delResult.payload.message);

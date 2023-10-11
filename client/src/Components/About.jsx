@@ -1,5 +1,6 @@
 
 
+// dummy info about the application
 export default function About() {
 
     return(

@@ -1,5 +1,5 @@
 
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -12,6 +12,7 @@ import Loader from "../Components/Spinner";
 
 const monthName = ['January','February','March','April','May','June','July','August','September','October','November','December',];
 
+// create a new account of user
 export default function SignUp() {
 
   const [formData,setFormData] = useState({

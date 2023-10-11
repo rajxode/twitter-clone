@@ -1,3 +1,5 @@
+
+
 import { useDispatch, useSelector } from "react-redux";
 import { authSelector } from "../Redux/Reducers/authReducer";
 import { useEffect, useState } from "react";
@@ -8,6 +10,8 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import SingleComment from "./SingleComment";
 
+
+// to render a single post on homepage
 export default function SinglePost(props){
 
     const { _id , content , user, likes, comments, photo} = props.post;

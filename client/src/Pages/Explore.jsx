@@ -1,16 +1,13 @@
-import { useDispatch, useSelector } from "react-redux"
-import { authSelector, getAllUserThunk , getLoggedInUserThunk } from "../Redux/Reducers/authReducer"
+import {  useSelector } from "react-redux"
+import { authSelector } from "../Redux/Reducers/authReducer"
 import SingleUser from "../Components/SingleUser";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 
+// for the explore section on 
 export default function Explore(){
 
     const { allUsers , loggedInUser } = useSelector(authSelector);
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-
     const [search,setSearch] = useState('');
 
     return(

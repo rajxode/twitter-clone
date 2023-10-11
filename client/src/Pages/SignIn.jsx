@@ -9,6 +9,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import { authSelector, setLoggedInUser, signInThunk } from "../Redux/Reducers/authReducer";
 import Loader from "../Components/Spinner";
 
+
+
+// for signin the user
 export default function SignIn() {
 
   const dispatch = useDispatch();

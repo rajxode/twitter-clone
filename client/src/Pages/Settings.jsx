@@ -1,7 +1,9 @@
+
+
 import { Outlet } from "react-router-dom"
 import SignleMenuOption from "../Components/SingleMenuOption"
 
-
+// section of settings
 export default function Settings(){
 
     const menuOptions = [{name:'Update Info',icon:<i class="fa-solid fa-pen-to-square"></i>,link:'/home/settings/'},

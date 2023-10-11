@@ -3,6 +3,8 @@ import { authSelector, getAllUserThunk } from "../Redux/Reducers/authReducer"
 import SingleUser from "./SingleUser";
 import { useEffect } from "react";
 
+
+// render the side bar containing suggestion and ads
 export default function SideBar(props) {
 
     const dispatch = useDispatch();

@@ -8,6 +8,8 @@ import SinglePost from '../Components/SinglePost';
 import { useEffect } from 'react';
 import Loader from '../Components/Spinner';
 
+
+// to show logged in user's profile
 export default function Profile(){
 
     const navigate = useNavigate();

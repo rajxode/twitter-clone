@@ -1,6 +1,8 @@
+
+
 import { NavLink } from "react-router-dom";
 
-
+// a single menu options in side navbar
 export default function SignleMenuOption(props) {
 
     const { name, icon, link } = props.menu;

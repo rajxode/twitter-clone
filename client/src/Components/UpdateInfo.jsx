@@ -11,6 +11,8 @@ import { useNavigate } from "react-router-dom";
 
 const monthName = ['January','February','March','April','May','June','July','August','September','October','November','December',];
 
+
+// section to update user's data 
 export default function UpdateInfo(){
   
   const dispatch = useDispatch();

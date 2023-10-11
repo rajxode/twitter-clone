@@ -8,7 +8,7 @@ const cloudinary = require('cloudinary').v2;
 
 const cookieGenerator = require('../utils/cookieGenerator');
 
-
+// make the name's first letter capital
 function capitalizeFirstLetter (str){
     
     const arr = str.split(" ");
@@ -24,6 +24,7 @@ function capitalizeFirstLetter (str){
 }
 
 
+// create new accoun for a user
 module.exports.signup = async (req,res) => {
     try {
 
@@ -159,6 +160,7 @@ module.exports.logout = async (req,res) => {
 }
 
 
+// get list of all the user
 module.exports.getAllUser = async(req,res) => {
     try{
         const users = await User.find();
@@ -176,6 +178,7 @@ module.exports.getAllUser = async(req,res) => {
     }
 }
 
+// follow and unfollow a user
 module.exports.toggleFollow = async (req,res) => {
     try {
         const id = req.params.id;
@@ -224,7 +227,7 @@ module.exports.toggleFollow = async (req,res) => {
     }
 }
 
-
+// get list of people that user follows
 module.exports.iFollow = async(req,res) => {
     try {
         const id = req.params.id;
@@ -243,7 +246,7 @@ module.exports.iFollow = async(req,res) => {
     }
 }
 
-
+// get list of all the followers of user
 module.exports.myFollowers = async(req,res) => {
     try {
         const id = req.params.id;
@@ -262,7 +265,7 @@ module.exports.myFollowers = async(req,res) => {
     }
 }
 
-
+// udpate data of user
 module.exports.updateInfo = async(req,res) => {
     try {
         const id = req.params.id;
@@ -332,6 +335,8 @@ module.exports.updateInfo = async(req,res) => {
     }
 }
 
+
+// update the password of user
 module.exports.updatePassword = async(req,res) => {
     try {
         const id = req.params.id;
@@ -379,6 +384,7 @@ module.exports.updatePassword = async(req,res) => {
 }
 
 
+// delete account of a user
 module.exports.deleteAccount = async(req,res) => {
     try {
         const id = req.params.id;

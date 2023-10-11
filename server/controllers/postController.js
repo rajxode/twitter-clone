@@ -5,6 +5,8 @@ const Like = require('../models/Like');
 const Comment = require('../models/Comment');
 const cloudinary = require('cloudinary').v2;
 
+
+// return all the post of  a user
 module.exports.getMyPosts = async (req,res) => {
     try {
 
@@ -29,6 +31,8 @@ module.exports.getMyPosts = async (req,res) => {
     }
 }
 
+
+// return all the post inside the database
 module.exports.getAllPosts = async (req,res) => {
     try {
 
@@ -53,7 +57,7 @@ module.exports.getAllPosts = async (req,res) => {
     }
 }
 
-
+// return all the post of people the user follows
 module.exports.getFollowPosts = async (req,res) => {
     try {
 
@@ -90,7 +94,7 @@ module.exports.getFollowPosts = async (req,res) => {
     }
 }
 
-
+// for adding a new post 
 module.exports.addPost = async(req,res) => {
     try {
         const { content, userId } = req.body;
@@ -138,6 +142,7 @@ module.exports.addPost = async(req,res) => {
 }
 
 
+// delete the post
 module.exports.deletePost = async(req,res) => {
     try {
         const id = req.params.id;
@@ -170,7 +175,7 @@ module.exports.deletePost = async(req,res) => {
 }
 
 
-
+// like / unlike a post
 module.exports.toggleLike = async (req,res) => {
     try {
         const postId = req.params.postId;
@@ -215,7 +220,7 @@ module.exports.toggleLike = async (req,res) => {
 }
 
 
-
+// for adding a new comment
 module.exports.addComment = async (req,res) => {
     try {
         const postId = req.params.postId;
@@ -246,6 +251,7 @@ module.exports.addComment = async (req,res) => {
 }
 
 
+// delete a comment
 module.exports.deleteComment = async (req,res) => {
     try {
         

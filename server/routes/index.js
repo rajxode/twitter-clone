@@ -1,18 +1,9 @@
 
 const router = require('express').Router();
 
-router.get('/',(req,res) => {
-    console.log('back called');
-    const token = req.cookies.token;
-
-    res.status(200).json({
-        success:true,
-        token
-    });
-})
-
+// user related routes
 router.use('/user',require('./user'));
+// post related routes
 router.use('/post',require('./post'));
-// router.use('/like',require('./likes'));
 
 module.exports = router;

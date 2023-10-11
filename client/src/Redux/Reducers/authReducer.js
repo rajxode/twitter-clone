@@ -1,7 +1,11 @@
+
+// reducer for all authentication related operations
+
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axiosInstance from '../../utils/axios';
 import { getFollowPostThunk, getMyPostThunk } from "./postReducer";
 
+// initial state
 const initialState = { isLoading:false,
                         loggedInUser:{},
                         allUsers:[],
@@ -10,6 +14,7 @@ const initialState = { isLoading:false,
                         userProfile:{}
                     };
 
+// follow and unfollow
 export const toggelFollowThunk = createAsyncThunk(
     'auth/toggleFollow',
     async ({id,userId},thunkAPI) => {
@@ -25,7 +30,7 @@ export const toggelFollowThunk = createAsyncThunk(
     }
 )
 
-
+// list of all the user's 
 export const getAllUserThunk = createAsyncThunk(
     'auth/getalluser',
     async (args,thunkAPI) => {
@@ -38,7 +43,7 @@ export const getAllUserThunk = createAsyncThunk(
     }
 )
 
-
+// sigup 
 export const signUpThunk = createAsyncThunk(
     'auth/signup',
     async (data,thunkAPI) => {
@@ -53,6 +58,7 @@ export const signUpThunk = createAsyncThunk(
     }
 )
 
+// signin
 export const signInThunk = createAsyncThunk(
     'auth/signin',
     async (data,thunkAPI) => {
@@ -67,6 +73,8 @@ export const signInThunk = createAsyncThunk(
     }
 )
 
+
+// signout
 export const signOutThunk = createAsyncThunk(
     'auth/signout',
     async (args,thunkAPI) => {
@@ -81,6 +89,8 @@ export const signOutThunk = createAsyncThunk(
     }
 )
 
+
+// data of logged in user
 export const getLoggedInUserThunk = createAsyncThunk(
     'auth/getLoggedInUser',
     async (args,thunkAPI) => {
@@ -98,6 +108,8 @@ export const getLoggedInUserThunk = createAsyncThunk(
     }
 )
 
+
+// list of people user follows
 export const getIFollowThunk = createAsyncThunk(
     'auth/getIFollow',
     async (id,thunkAPI) => {
@@ -110,7 +122,7 @@ export const getIFollowThunk = createAsyncThunk(
     }
 )
 
-
+// list of people following user
 export const getMyFollowersThunk = createAsyncThunk(
     'auth/getMyFollower',
     async (id,thunkAPI) => {
@@ -124,6 +136,7 @@ export const getMyFollowersThunk = createAsyncThunk(
 )
 
 
+// for update the data of user 
 export const updateInfoThunk = createAsyncThunk(
     'auth/updateInfo',
     async({id,data},thunkAPI) => {
@@ -140,6 +153,7 @@ export const updateInfoThunk = createAsyncThunk(
     }
 )
 
+// for update the password
 export const updatePasswordThunk = createAsyncThunk(
     'auth/updatePassword',
     async({id,data},thunkAPI) => {
@@ -153,6 +167,7 @@ export const updatePasswordThunk = createAsyncThunk(
 )
 
 
+// for deleting account
 export const deleteAccountThunk = createAsyncThunk(
     'auth/deleteAccount',
     async({id,data},thunkAPI) => {
@@ -166,6 +181,7 @@ export const deleteAccountThunk = createAsyncThunk(
 )
 
 
+// reducers
 const authSlice = createSlice({
     name:'authentication',
     initialState,

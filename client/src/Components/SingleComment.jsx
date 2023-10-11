@@ -7,6 +7,8 @@ import { authSelector } from "../Redux/Reducers/authReducer";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+
+// render a single comment
 export default function SingleComment(props){
 
     const dispatch = useDispatch();
@@ -28,7 +30,7 @@ export default function SingleComment(props){
     return (
         <>
             <div className="w-full h-auto flex justify-between border-b border-slate-300 px-2 py-1">
-                <div className="w-[9%] h-auto rounded-full overflow-hidden">
+                <div className="w-[45px] h-[45px] rounded-full overflow-hidden">
                     {
                         user.photo
                         ?

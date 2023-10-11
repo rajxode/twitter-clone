@@ -3,7 +3,7 @@
 import Spinner from 'react-spinner-material';
 
 
-// render spinner 
+// render loading  spinner 
 export default function Loader() {
 
   return (

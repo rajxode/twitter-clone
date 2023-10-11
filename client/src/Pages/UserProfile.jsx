@@ -13,7 +13,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { postSelector } from '../Redux/Reducers/postReducer';
 
-
+// for showing profile of a user
 export default function UserProfile(){
     
     const dispatch = useDispatch();

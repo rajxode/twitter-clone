@@ -1,3 +1,6 @@
+
+// reducer for all post related operations 
+
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axiosInstance from '../../utils/axios';
 
@@ -8,6 +11,7 @@ const initialState = {
                         loading:false 
                         };
 
+// get all the post of logged in user
 export const getMyPostThunk = createAsyncThunk(
     'post/getMyPost',
     async(id,thunkAPI) => {
@@ -20,6 +24,7 @@ export const getMyPostThunk = createAsyncThunk(
     }
 )
 
+// get all the post in database
 export const getAllPostsThunk = createAsyncThunk(
     'post/getAllPost',
     async(args,thunkAPI) => {
@@ -33,6 +38,7 @@ export const getAllPostsThunk = createAsyncThunk(
 )
 
 
+// get all the post of people user follows
 export const getFollowPostThunk = createAsyncThunk(
     'post/getFollowPost',
     async(id,thunkAPI) => {
@@ -48,6 +54,7 @@ export const getFollowPostThunk = createAsyncThunk(
 )
 
 
+// for adding a new post
 export const addPostThunk = createAsyncThunk(
     'post/addPost',
     async (data,thunkAPI) => {
@@ -66,7 +73,7 @@ export const addPostThunk = createAsyncThunk(
     }
 )
 
-
+// for deleting a post
 export const deletePostThunk = createAsyncThunk(
     'post/deletePost',
     async ({_id,userId},thunkAPI) => {
@@ -82,7 +89,7 @@ export const deletePostThunk = createAsyncThunk(
     }
 )
 
-
+// for liking a post
 export const likePostThunk = createAsyncThunk(
     'post/likePost',
     async ({userId,postId},thunkAPI) => {
@@ -98,6 +105,8 @@ export const likePostThunk = createAsyncThunk(
     }
 )
 
+
+// for addding comments on a post
 export const addCommentThunk = createAsyncThunk(
     'post/addComment',
     async({content,userId,postId}, thunkAPI) => {
@@ -113,6 +122,7 @@ export const addCommentThunk = createAsyncThunk(
     }
 )
 
+// for delete the comment
 export const deleteCommentThunk = createAsyncThunk(
     'post/deleteComment',
     async({id,userId},thunkAPI) => {
@@ -128,6 +138,9 @@ export const deleteCommentThunk = createAsyncThunk(
     }
 )
 
+
+
+// reducers
 const postSlice = createSlice({
     name:'Posts',
     initialState,

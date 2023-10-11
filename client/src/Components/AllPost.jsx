@@ -1,18 +1,26 @@
 
-import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useState } from "react";
-import { addPostThunk, getAllPostsThunk, getFollowPostThunk, postSelector } from '../Redux/Reducers/postReducer';
 
+
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from "react";
+import { getAllPostsThunk , postSelector } from '../Redux/Reducers/postReducer';
+
+// loading spinner
 import Loader from './Spinner';
 
+// render a single post
 import SinglePost from './SinglePost';
 
+
+// show all the post in database
 export default function AllPost(){
 
     const dispatch = useDispatch();
 
+    // all post
     const { allPosts, loading } = useSelector(postSelector);
 
+    // get all the post
     useEffect(() => {
         async function getPost(){
             dispatch(getAllPostsThunk());
@@ -28,6 +36,7 @@ export default function AllPost(){
                     ?
                     <Loader />
                     :
+                    // render each post
                     allPosts.map((post) => <SinglePost key={post._id} post={post} />)
                 
                 }

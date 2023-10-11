@@ -1,29 +1,34 @@
 
 const mongoose = require('mongoose');
 
-
+// post schema
 const postSchema = new mongoose.Schema(
     {
+        // content of post
         content:{
             type:String,
             required:[true, 'Please give content to post']
         },
+        // user
         user:{
             type:mongoose.Schema.Types.ObjectId,
             ref:'User'
         },
+        // likes on post
         likes:[
             {
                 type:mongoose.Schema.Types.ObjectId,
                 ref:'Like'
             }
         ],
+        // comments on post
         comments:[
             {
                 type:mongoose.Schema.Types.ObjectId,
                 ref:'Comment'
             }
         ],
+        // image in post
         photo:{
             // photo id in cloudinary
             id:{

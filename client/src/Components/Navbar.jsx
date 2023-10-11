@@ -10,6 +10,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import SignleMenuOption from "./SingleMenuOption";
 import Loader from "./Spinner";
 
+
+
+// render the side navbar of page
 export default function Navbar() {
 
     const menuOptions = [{name:'Home', icon:<i class="fa-solid fa-house"></i>, link:'/home'},

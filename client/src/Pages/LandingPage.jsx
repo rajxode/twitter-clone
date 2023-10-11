@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { authSelector, getLoggedInUserThunk } from '../Redux/Reducers/authReducer';
 
+
+// the landing page of site
 export default function LandingPage(){
 
     const { isLoading } = useSelector(authSelector);

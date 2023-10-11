@@ -8,6 +8,9 @@ import Loader from './Spinner';
 
 import SinglePost from './SinglePost';
 
+
+// show post of person user follows
+
 export default function FollowingPost(){
 
     const dispatch = useDispatch();

@@ -12,8 +12,10 @@ const fileUpload = require('express-fileupload');
 // cloudinary for uploading image
 const cloudinary = require('cloudinary');
 
+// port
 const {PORT} = process.env;
 
+// app
 const app = express();
 
 
@@ -40,7 +42,8 @@ cloudinary.config({
     api_secret:process.env.CLOUD_API_SECRET,
 })
 
-
+// routes
 app.use('/',require('./routes'));
 
+// listen server
 app.listen(PORT, () => console.log(`Server is running on port: ${PORT}`));
