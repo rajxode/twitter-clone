@@ -5,6 +5,10 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axiosInstance from '../../utils/axios';
 import { getFollowPostThunk, getMyPostThunk } from "./postReducer";
 
+// toast notification
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 // initial state
 const initialState = { isLoading:false,
                         loggedInUser:{},
@@ -17,15 +21,24 @@ const initialState = { isLoading:false,
 // follow and unfollow
 export const toggelFollowThunk = createAsyncThunk(
     'auth/toggleFollow',
-    async ({id,userId},thunkAPI) => {
+    async ({userId},thunkAPI) => {
         try {
-            const response = await axiosInstance.put(`/user/${id}/follow?userId=${userId}`);
+            const isToken = localStorage.getItem('token');
+            const token = JSON.parse(isToken);
+            const response = await axiosInstance.put(`/user/togglefollow?userId=${userId}`,{
+                headers:{
+                    'Authorization':`Bearer ${token}`
+                }
+            });
             thunkAPI.dispatch(setLoggedInUser(response.data.userOne));
             thunkAPI.dispatch(getIFollowThunk(response.data.userOne._id));
-            thunkAPI.dispatch(getFollowPostThunk(id))
+            thunkAPI.dispatch(getFollowPostThunk())
             return response.data;
         } catch (error) {
-            return error.response.data;
+            return {
+                success:false,
+                message:error.response.data.error
+            }
         }
     }
 )
@@ -35,10 +48,16 @@ export const getAllUserThunk = createAsyncThunk(
     'auth/getalluser',
     async (args,thunkAPI) => {
         try {
-            const response = await axiosInstance.get('/user/alluser');
+            const isToken = localStorage.getItem('token');
+            const token = JSON.parse(isToken);
+            const response = await axiosInstance.get('/user/alluser',{
+                headers:{
+                    'Authorization':`Bearer ${token}`
+                }
+            });
             thunkAPI.dispatch(setAllUsers(response.data.users));
         } catch (error) {
-            return error.response.data;
+            toast.error(error.response.data.error)
         }
     }
 )
@@ -53,7 +72,10 @@ export const signUpThunk = createAsyncThunk(
               });
             return response.data;
         } catch (error) {
-            return error.response.data;
+            return {
+                success:false,
+                message:error.response.data.error
+            }
         }
     }
 )
@@ -65,10 +87,14 @@ export const signInThunk = createAsyncThunk(
         try{
             const response = await axiosInstance.post('/user/signin',data);
             localStorage.setItem('user',JSON.stringify(response.data.user));
+            localStorage.setItem('token',JSON.stringify(response.data.token));
             thunkAPI.dispatch(setLoggedInUser(response.data.user))
             return response.data;
         }catch(error){
-            return error.response.data;
+            return {
+                success:false,
+                message:error.response.data.error
+            }
         }
     }
 )
@@ -79,12 +105,22 @@ export const signOutThunk = createAsyncThunk(
     'auth/signout',
     async (args,thunkAPI) => {
         try{
-            localStorage.removeItem('user');
+            const isToken = localStorage.getItem('token');
+            const token = JSON.parse(isToken);
             thunkAPI.dispatch(setLoggedInUser(null));
-            const response = await axiosInstance.get('/user/signout');
+            const response = await axiosInstance.get('/user/signout',{
+                headers:{
+                    'Authorization':`Bearer ${token}`
+                }
+            });
+            localStorage.removeItem('user');
+            localStorage.removeItem('token');
             return response.data;
-        }catch(err){
-            return err.response.data;
+        }catch(error){
+            return {
+                success:false,
+                message:error.response.data.error
+            }
         }
     }
 )
@@ -112,12 +148,18 @@ export const getLoggedInUserThunk = createAsyncThunk(
 // list of people user follows
 export const getIFollowThunk = createAsyncThunk(
     'auth/getIFollow',
-    async (id,thunkAPI) => {
+    async (args,thunkAPI) => {
         try {
-            const response = await axiosInstance.get(`/user/ifollow/${id}`);
+            const isToken = localStorage.getItem('token');
+            const token = JSON.parse(isToken);
+            const response = await axiosInstance.get('/user/myfollows',{
+                headers:{
+                    'Authorization':`Bearer ${token}`
+                }
+            });
             thunkAPI.dispatch(setFollows(response.data.follows))
         } catch (error) {
-            console.log(error);
+            toast.error(error.response.data.error)
         }
     }
 )
@@ -125,12 +167,18 @@ export const getIFollowThunk = createAsyncThunk(
 // list of people following user
 export const getMyFollowersThunk = createAsyncThunk(
     'auth/getMyFollower',
-    async (id,thunkAPI) => {
+    async (args,thunkAPI) => {
         try {
-            const response = await axiosInstance.get(`/user/myfollower/${id}`);
+            const isToken = localStorage.getItem('token');
+            const token = JSON.parse(isToken);
+            const response = await axiosInstance.get('/user/myfollower',{
+                headers:{
+                    'Authorization':`Bearer ${token}`
+                }
+            });
             thunkAPI.dispatch(setFollowers(response.data.followers))
         } catch (error) {
-            console.log(error);
+            toast.error(error.response.data.error)
         }
     }
 )
@@ -141,14 +189,21 @@ export const updateInfoThunk = createAsyncThunk(
     'auth/updateInfo',
     async({id,data},thunkAPI) => {
         try {
-            const response = await axiosInstance.put(`/user/updateinfo/${id}`,data,{
-                headers: { 'Content-type': 'multipart/form-data' },
+            const isToken = localStorage.getItem('token');
+            const token = JSON.parse(isToken);
+            const response = await axiosInstance.put('/user/updateinfo',data,{
+                headers: { 'Content-type': 'multipart/form-data' ,
+                    'Authorization':`Bearer ${token}`
+                }
             });
             localStorage.setItem('user',JSON.stringify(response.data.user));
             thunkAPI.dispatch(setLoggedInUser(response.data.user));
             return response.data;
         } catch (error) {
-            console.log(error);
+            return {
+                success:false,
+                message:error.response.data.error
+            }
         }
     }
 )
@@ -156,12 +211,21 @@ export const updateInfoThunk = createAsyncThunk(
 // for update the password
 export const updatePasswordThunk = createAsyncThunk(
     'auth/updatePassword',
-    async({id,data},thunkAPI) => {
+    async({data},thunkAPI) => {
         try {
-            const response = await axiosInstance.put(`/user/updatepassword/${id}`,data);
+            const isToken = localStorage.getItem('token');
+            const token = JSON.parse(isToken);
+            const response = await axiosInstance.put('/user/updatepassword',data,{
+                headers:{
+                    'Authorization':`Bearer ${token}`
+                }
+            });
             return response.data;
         } catch (error) {
-            console.log(error);
+            return {
+                success:false,
+                message:error.response.data.error
+            }
         }
     }
 )
@@ -170,12 +234,21 @@ export const updatePasswordThunk = createAsyncThunk(
 // for deleting account
 export const deleteAccountThunk = createAsyncThunk(
     'auth/deleteAccount',
-    async({id,data},thunkAPI) => {
+    async({data},thunkAPI) => {
         try {
-            const response = await axiosInstance.put(`/user/deleteaccount/${id}`,data);
+            const isToken = localStorage.getItem('token');
+            const token = JSON.parse(isToken);
+            const response = await axiosInstance.put('/user/deleteaccount',data,{
+                headers:{
+                    'Authorization':`Bearer ${token}`
+                }
+            });
             return response.data;
         } catch (error) {
-            console.log(error);
+            return {
+                success:false,
+                message:error.response.data.error
+            }
         }
     }
 )

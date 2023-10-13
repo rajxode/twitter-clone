@@ -77,7 +77,7 @@ export default function SinglePost(props){
                         border-slate-400 shadow-md hover:bg-[#f7f5f5]">
                 
                 <div className="w-full flex">
-                    <div className="w-[8%] h-[45px] rounded-full mr-1 overflow-hidden">
+                    <div className="w-[45px] h-[45px] rounded-full mr-1 overflow-hidden">
                         {
                             user.photo
                             ?

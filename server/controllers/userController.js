@@ -31,12 +31,16 @@ module.exports.signup = async (req,res) => {
         // getting user's data
         var { name , email, password , day , month , year } = req.body;
 
+        // remove unwanted spaces
         name = name.trim();
         name = capitalizeFirstLetter(name);
+        // convert email to lowercase
         email = email.toLowerCase();
 
+        // find user
         const userExist = await User.findOne({email});
 
+        // if user already exist
         if(userExist){
             return res.status(400).json({
                 success:false,
@@ -141,6 +145,21 @@ module.exports.login = async(req,res) => {
     }
 }
 
+// return data of logged in user
+module.exports.loggedInUser = async(req,res) => {
+    try {
+        const user = req.user;
+
+        res.status(200).json({
+            user
+        })   
+    } catch (error) {
+        res.status(400).json({
+            error:'Bad Request'
+        })
+    }
+}
+
 
 // to logout user
 module.exports.logout = async (req,res) => {
@@ -172,8 +191,7 @@ module.exports.getAllUser = async(req,res) => {
     }
     catch(err){
         res.status(400).json({
-            success:false,
-            message:'Bad Request'
+            error:'Bad Request'
         })
     }
 }
@@ -181,21 +199,18 @@ module.exports.getAllUser = async(req,res) => {
 // follow and unfollow a user
 module.exports.toggleFollow = async (req,res) => {
     try {
-        const id = req.params.id;
+        const id = req.user._id;
         const { userId } = req.query;
         const userOne = await User.findById(id);
         const userTwo = await User.findById(userId);
         let message='';
 
-        if(!userOne){
-            res.status(400).json({
-                message:'Bad request check'
-            })
-        }
-
+        // check whether already following 
         const alreadyFollowing = userOne.follows.includes(userId);
 
+        // if already following
         if(alreadyFollowing){
+            // remove from follow list
             const newFollows = await userOne.follows.filter((follow) => JSON.stringify(follow) !== JSON.stringify(userId));
             userOne.follows = newFollows;
 
@@ -203,14 +218,18 @@ module.exports.toggleFollow = async (req,res) => {
             userTwo.followers = newFollowers;
             message='Stopped following'
         }
+        // else
         else{
+            // add to follow list
             userOne.follows.push(userId);
             userTwo.followers.push(id);
             message='Started following'
         }
 
+        // update data
         await userOne.save();
         await userTwo.save();
+
 
         res.status(200).json({
             success:true,
@@ -220,17 +239,16 @@ module.exports.toggleFollow = async (req,res) => {
 
     } catch (error) {
         res.status(500).json({
-            success:false,
-            message:'Internal Server Error'
+            error:'Internal Server Error'
         })
         
     }
 }
 
 // get list of people that user follows
-module.exports.iFollow = async(req,res) => {
+module.exports.myFollows = async(req,res) => {
     try {
-        const id = req.params.id;
+        const id = req.user._id;
 
         const user = await User.findById(id).populate('follows', 'name email');
 
@@ -240,8 +258,7 @@ module.exports.iFollow = async(req,res) => {
         });
     } catch (error) {
         res.status(500).json({
-            success:false,
-            message:'Internal Server Error'
+            error:'Internal Server Error'
         })
     }
 }
@@ -249,7 +266,7 @@ module.exports.iFollow = async(req,res) => {
 // get list of all the followers of user
 module.exports.myFollowers = async(req,res) => {
     try {
-        const id = req.params.id;
+        const id = req.user._id;
 
         const user = await User.findById(id).populate('followers', 'name email');
 
@@ -259,8 +276,7 @@ module.exports.myFollowers = async(req,res) => {
         });
     } catch (error) {
         res.status(500).json({
-            success:false,
-            message:'Internal Server Error'
+            error:'Internal Server Error'
         })
     }
 }
@@ -268,7 +284,8 @@ module.exports.myFollowers = async(req,res) => {
 // udpate data of user
 module.exports.updateInfo = async(req,res) => {
     try {
-        const id = req.params.id;
+
+        const id = req.user._id;
         
         const { name , email , day , month , year } = req.body;
 
@@ -283,10 +300,9 @@ module.exports.updateInfo = async(req,res) => {
         // if user upload photo
         if(req.files) {
 
-
             const user = await User.findById(id);
-
-            if(user.photo){
+            
+            if(user.photo.id){
                 // get photo id of previously uploaded image
                 const imageId = user.photo.id;
 
@@ -296,6 +312,7 @@ module.exports.updateInfo = async(req,res) => {
 
             // get uploaded image
             const file = req.files.file;
+            
             // upload the image to cloudinary
             const result = await cloudinary.uploader.upload(file.tempFilePath,{
                 folder:process.env.CLOUD_USER_FOLDER,
@@ -309,7 +326,7 @@ module.exports.updateInfo = async(req,res) => {
             newData.photo = photo;
         }
 
-
+        console.log('updated');
         const user = await User.findByIdAndUpdate(
                                                 id,
                                                 newData,
@@ -339,19 +356,15 @@ module.exports.updateInfo = async(req,res) => {
 // update the password of user
 module.exports.updatePassword = async(req,res) => {
     try {
-        const id = req.params.id;
+        const id = req.user._id;
         
         const { oldPassword , newPassword } = req.body;
-
-
 
         // get user data(including password) from database using user's id
         const user = await User.findById(id).select('+password');
 
-
         // checking whether the old password matches with db
         const isVerified = await user.isPasswordMatch(oldPassword);
-
         
         // if password doesn't match
         if(!isVerified){
@@ -377,8 +390,7 @@ module.exports.updatePassword = async(req,res) => {
 
     } catch (error) {
         res.status(400).json({
-            success:false,
-            message:'Bad Request'
+            error:'Bad Request'
         })
     }
 }
@@ -387,7 +399,7 @@ module.exports.updatePassword = async(req,res) => {
 // delete account of a user
 module.exports.deleteAccount = async(req,res) => {
     try {
-        const id = req.params.id;
+        const id = req.user._id;
         const { password } = req.body;
 
         // get user data(including password) from database using user's id
@@ -406,18 +418,26 @@ module.exports.deleteAccount = async(req,res) => {
             })
         }
 
+        // delete all comments made by user
         await Comment.deleteMany({user:id});
+        // delete all the likes made by user
         await Like.deleteMany({user:id});
+        // find all the post made by user
         const posts = await Post.find({user:id});
 
+        // remove each of the post along with it's like and comments
         for (let index = 0; index < posts.length; index++) {
             let postId = posts[index];
+            // comment on post
             await Comment.deleteMany({post:postId});
+            // like on post
             await Like.deleteMany({post:postId});
-
+            // remove the post
             await Post.findByIdAndDelete(postId);
         }
 
+
+        // remove all the follows 
         for (let index = 0; index < user.follows.length; index++) {
             const followsId = user.follows[index];
 
@@ -430,6 +450,7 @@ module.exports.deleteAccount = async(req,res) => {
             await followsUser.save();
         }
 
+        // remove all the followers
         for (let index = 0; index < user.followers.length; index++) {
             const followerId = user.followers[index];
 
@@ -442,8 +463,10 @@ module.exports.deleteAccount = async(req,res) => {
             await followerUser.save();
         }
 
+        // remove user
         await User.findByIdAndDelete(id);
 
+        // response
         res.status(200).json({
             success:true,
             message:'Your Account is deleted, #GoodBye'
@@ -451,8 +474,7 @@ module.exports.deleteAccount = async(req,res) => {
 
     } catch (error) {
         res.status(500).json({
-            success:true,
-            message:'Internal Server Error'
+            error:'Internal Server Error'
         })
     }
 }

@@ -1,7 +1,5 @@
 // getting user data
 const User = require('../models/User');
-// custom error 
-const CustomError = require('../utils/customError');
 // jwt for token
 const jwt = require('jsonwebtoken');
 
@@ -9,16 +7,22 @@ const jwt = require('jsonwebtoken');
 // to check whether user is loggedin or not
 exports.isLoggedIn = async( req,res,next) => {
     
-    // getting the value of token from cookies / header
-    const token = req.cookies.token ;
-    // ||  req.header("Authorization").replace('Bearer ','') ;
-
     // if no token is present 
-    if(!token){
+    if(!req.header('Authorization')){
         // return error message for user to login
-        return next(new CustomError('Please login first', 401));
+        return res.status(401).json({
+            error:'Unauthorized'
+        });
     }
 
+    // getting the value of token from cookies / header
+    const token = req.header("Authorization").replace('Bearer ','') ;
+
+    if(!token){
+        return res.status(401).json({
+            error:'Unauthorized'
+        });
+    }
 
     // if token found 
     // decode it to get the values stored inside the token

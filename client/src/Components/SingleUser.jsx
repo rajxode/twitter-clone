@@ -31,7 +31,7 @@ export default function SingleUser(props) {
     const handleFollowClick = async(e) => {
         try {
             e.preventDefault();
-            const result = await dispatch(toggelFollowThunk({id:loggedInUser._id,userId:_id}));
+            const result = await dispatch(toggelFollowThunk({userId:_id}));
             if(!result.payload.success){
                 toast.error(result.payload.message);
             }

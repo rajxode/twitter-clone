@@ -25,8 +25,7 @@ module.exports.getMyPosts = async (req,res) => {
 
     } catch (error) {
         res.status(400).json({
-            success:false,
-            message:'Bad request'
+            error:'Bad request'
         })
     }
 }
@@ -51,8 +50,7 @@ module.exports.getAllPosts = async (req,res) => {
 
     } catch (error) {
         res.status(400).json({
-            success:false,
-            message:'Bad request'
+            error:'Bad request'
         })
     }
 }
@@ -88,8 +86,7 @@ module.exports.getFollowPosts = async (req,res) => {
 
     } catch (error) {
         res.status(400).json({
-            success:false,
-            message:'Bad request'
+            error:'Bad request'
         })
     }
 }
@@ -135,8 +132,7 @@ module.exports.addPost = async(req,res) => {
 
     } catch (error) {
         res.status(400).json({
-            success:false,
-            message:'Bad Request'
+            error:'Bad Request'
         })
     }
 }
@@ -168,8 +164,7 @@ module.exports.deletePost = async(req,res) => {
 
     } catch (error) {
         res.status(400).json({
-            success:false,
-            message:'Bad Request'
+            error:'Bad Request'
         })
     }
 }
@@ -213,8 +208,7 @@ module.exports.toggleLike = async (req,res) => {
         })   
     } catch (error) {
         res.status(500).json({
-            success:false,
-            message:error.message
+            error:error.message
         })
     }
 }
@@ -244,8 +238,7 @@ module.exports.addComment = async (req,res) => {
         })   
     } catch (error) {
         res.status(500).json({
-            success:false,
-            message:error.message
+            error:error.message
         })
     }
 }
@@ -265,8 +258,7 @@ module.exports.deleteComment = async (req,res) => {
         })   
     } catch (error) {
         res.status(500).json({
-            success:false,
-            message:error.message
+            error:error.message
         })
     }
 }

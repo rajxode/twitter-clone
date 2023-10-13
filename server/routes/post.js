@@ -1,9 +1,11 @@
 
 // creating router 
 const router = require('express').Router();
-
+const { isLoggedIn } = require('../middlewares/user');
 // controller
 const postController  = require('../controllers/postController');
+
+router.use(isLoggedIn);
 
 // get post ofa a user
 router.get('/getmyposts/:id',postController.getMyPosts);

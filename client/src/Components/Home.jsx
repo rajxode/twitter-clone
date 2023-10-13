@@ -101,7 +101,7 @@ export default function Home (){
                 </header>
 
                 <div className="w-full h-1/5 flex border-b p-2">
-                    <div className="w-[10%] h-[55px] overflow-hidden rounded-full mr-1">
+                    <div className="w-[55px] h-[55px] overflow-hidden rounded-full mr-1">
                         {
                             loggedInUser.photo
                             ?

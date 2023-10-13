@@ -1,5 +1,5 @@
 
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom';
 
 import Navbar from "./Components/Navbar";
 import Home from "./Components/Home";
@@ -15,8 +15,20 @@ import DeleteAccount from './Components/DeleteAccount';
 import About from './Components/About';
 import Error from './Pages/Error';
 import UserProfile from './Pages/UserProfile';
+import { useEffect, useState } from 'react';
 
 function App() {
+
+  const [token,setToken] = useState(null);
+
+  useEffect(() => {
+    const isToken = localStorage.getItem('token');
+    if(isToken){
+      setToken(true);
+    }
+  },[])
+
+
   // all the link routes
   const router = createBrowserRouter([
     {
