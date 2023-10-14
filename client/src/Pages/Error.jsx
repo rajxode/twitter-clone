@@ -14,7 +14,7 @@ export default function Error(){
     useEffect(()=>{
         setTimeout(()=>{
             navigate("/");
-        },3000);
+        },2000);
     },[])
 
 

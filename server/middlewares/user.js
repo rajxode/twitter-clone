@@ -6,9 +6,9 @@ const jwt = require('jsonwebtoken');
 
 // to check whether user is loggedin or not
 exports.isLoggedIn = async( req,res,next) => {
-    
+
     // if no token is present 
-    if(!req.header('Authorization')){
+    if(!req.header("Authorization")){
         // return error message for user to login
         return res.status(401).json({
             error:'Unauthorized'

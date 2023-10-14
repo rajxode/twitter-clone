@@ -163,6 +163,9 @@ module.exports.loggedInUser = async(req,res) => {
 
 // to logout user
 module.exports.logout = async (req,res) => {
+
+    req.user = null;
+
     res.cookie('token',null,{
         expires: new Date(
             Date.now()

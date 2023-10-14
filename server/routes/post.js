@@ -7,17 +7,17 @@ const postController  = require('../controllers/postController');
 
 router.use(isLoggedIn);
 
-// get post ofa a user
+// get post of a user
 router.get('/getmyposts/:id',postController.getMyPosts);
 // get all the posts
 router.get('/getallposts',postController.getAllPosts);
 // get post of follows
-router.get('/getfollowsposts/:id',postController.getFollowPosts)
+router.get('/getmyfollowsposts',postController.getFollowPosts)
 
 // add post route
 router.post('/addpost',postController.addPost);
 // delete post
-router.put('/deletepost/:id',postController.deletePost);
+router.put('/deletepost/:postId',postController.deletePost);
 // like and unlike a post
 router.put('/togglelike/:postId',postController.toggleLike);
 // add comment

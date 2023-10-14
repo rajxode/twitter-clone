@@ -57,11 +57,11 @@ export const getAllPostsThunk = createAsyncThunk(
 // get all the post of people user follows
 export const getFollowPostThunk = createAsyncThunk(
     'post/getFollowPost',
-    async(id,thunkAPI) => {
+    async(args,thunkAPI) => {
         try {
             const isToken = localStorage.getItem('token');
             const token = JSON.parse(isToken);
-            const response = await axiosInstance.get(`/post/getfollowsposts/${id}`,{
+            const response = await axiosInstance.get('/post/getmyfollowsposts',{
                 headers:{
                     'Authorization':`Bearer ${token}`
                 }
@@ -86,7 +86,6 @@ export const addPostThunk = createAsyncThunk(
                     'Authorization':`Bearer ${token}` },
             });;
             thunkAPI.dispatch(getMyPostThunk(data.userId));
-            thunkAPI.dispatch(getFollowPostThunk(data.userId));
             thunkAPI.dispatch(getAllPostsThunk());
             return response.data;
         } catch (error) {
@@ -105,13 +104,13 @@ export const deletePostThunk = createAsyncThunk(
         try {
             const isToken = localStorage.getItem('token');
             const token = JSON.parse(isToken);
-            const response = await axiosInstance.put(`/post/deletepost/${_id}`,{
+            const response = await axiosInstance.put(`/post/deletepost/${_id}`,{},{
                 headers:{
                     'Authorization':`Bearer ${token}`
                 }
             });
             thunkAPI.dispatch(getMyPostThunk(userId));
-            thunkAPI.dispatch(getFollowPostThunk(userId));
+            thunkAPI.dispatch(getFollowPostThunk());
             thunkAPI.dispatch(getAllPostsThunk());
             return response.data;
         } catch (error) {
@@ -130,13 +129,13 @@ export const likePostThunk = createAsyncThunk(
         try {
             const isToken = localStorage.getItem('token');
             const token = JSON.parse(isToken);
-            const response = await axiosInstance.put(`/post/togglelike/${postId}?userId=${userId}`,{
+            const response = await axiosInstance.put(`/post/togglelike/${postId}`,{},{
                 headers:{
                     'Authorization':`Bearer ${token}`
                 }
             });
             thunkAPI.dispatch(getMyPostThunk(userId));
-            thunkAPI.dispatch(getFollowPostThunk(userId));
+            thunkAPI.dispatch(getFollowPostThunk());
             thunkAPI.dispatch(getAllPostsThunk());
             return response.data;
         } catch (error) {
@@ -156,13 +155,13 @@ export const addCommentThunk = createAsyncThunk(
         try {
             const isToken = localStorage.getItem('token');
             const token = JSON.parse(isToken);
-            const response = await axiosInstance.put(`/post/addcomment/${postId}?userId=${userId}`,{content},{
+            const response = await axiosInstance.put(`/post/addcomment/${postId}`,{content},{
                 headers:{
                     'Authorization':`Bearer ${token}`
                 }
             });
             thunkAPI.dispatch(getMyPostThunk(userId));
-            thunkAPI.dispatch(getFollowPostThunk(userId));
+            thunkAPI.dispatch(getFollowPostThunk());
             thunkAPI.dispatch(getAllPostsThunk());
             return response.data;
         } catch (error) {
@@ -181,13 +180,13 @@ export const deleteCommentThunk = createAsyncThunk(
         try{
             const isToken = localStorage.getItem('token');
             const token = JSON.parse(isToken);
-            const response = await axiosInstance.put(`/post/deletecomment/${id}`,{
+            const response = await axiosInstance.put(`/post/deletecomment/${id}`,{},{
                 headers:{
                     'Authorization':`Bearer ${token}`
                 }
             });
             thunkAPI.dispatch(getMyPostThunk(userId));
-            thunkAPI.dispatch(getFollowPostThunk(userId));
+            thunkAPI.dispatch(getFollowPostThunk());
             thunkAPI.dispatch(getAllPostsThunk());
             return response.data;
         } catch (error) {

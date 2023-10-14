@@ -49,6 +49,7 @@ export default function SinglePost(props){
     const handleLikeClick = async (e) => {
         try {
             e.preventDefault();
+            console.log('called');
             const data = { userId: loggedInUser._id, postId:_id }
             const result = await dispatch(likePostThunk(data));
             setISLiked(result.payload.success);

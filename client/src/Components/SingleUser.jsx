@@ -1,27 +1,34 @@
 
 
+import { useState , useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { authSelector, getIFollowThunk, getLoggedInUserThunk, setUserProfile, toggelFollowThunk } from '../Redux/Reducers/authReducer';
+import { authSelector, getIFollowThunk, setUserProfile, toggelFollowThunk } from '../Redux/Reducers/authReducer';
 
 // toast notification
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useEffect } from 'react';
 
 // render a single user in suggestion list
 export default function SingleUser(props) {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { loggedInUser , follows } = useSelector(authSelector);
-    const { parent } = props;
+    const { follows } = useSelector(authSelector);
     const {name,email,_id,photo} = props.user;
+    const [following,setFollowing] = useState(false);
 
     useEffect(() => {
-        dispatch(getIFollowThunk(loggedInUser._id));
-    },[]);
+        dispatch(getIFollowThunk());
+        for (let index = 0; index < follows.length; index++) {
+            if( follows[index]._id === _id){
+                setFollowing(true);
+                break;
+            }
+        }
+    },[follows]);
 
+    
     const handleClick = (e) => {
         e.preventDefault();
         dispatch(setUserProfile(props.user));
@@ -73,7 +80,7 @@ export default function SingleUser(props) {
                                 text-white text-sm font-semibold shadow-md"
                             onClick={handleFollowClick}>
                         { 
-                            loggedInUser.follows.includes(_id) ? 'Unfollow' : "Follow" 
+                            following ? 'Unfollow' : "Follow" 
                         }
                     </button>
                 </div>

@@ -28,23 +28,27 @@ export default function Navbar() {
     const { loggedInUser,isLoading } = useSelector(authSelector);
 
 
-    useEffect(() => {
-        async function getUser(){
-            const result = await dispatch(getLoggedInUserThunk());
-            if(!result.payload){
-                navigate('/');
-            }
-        }
-        getUser();
-    },[]);
+    // useEffect(() => {
+    //     async function getUser(){
+    //         const token = localStorage.getItem('token');
+    //         if(token){
+    //             console.log('found')
+    //             // await dispatch(getLoggedInUserThunk());
+    //         }
+    //         else{
+    //             console.log('not found')
+    //         }
+    //     }
+    //     getUser();
+    // },[]);
 
     const handleSignOut = async (e) => {
         try{
             e.preventDefault();
-            navigate('/');
             const result = await dispatch(signOutThunk());
             if(result.payload.success){
                 toast.success(result.payload.message);
+                navigate('/');
             }
             else{
                 toast.error(result.payload.message);

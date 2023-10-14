@@ -25,13 +25,13 @@ export const toggelFollowThunk = createAsyncThunk(
         try {
             const isToken = localStorage.getItem('token');
             const token = JSON.parse(isToken);
-            const response = await axiosInstance.put(`/user/togglefollow?userId=${userId}`,{
+            const response = await axiosInstance.put(`/user/togglefollow?userId=${userId}`,{},{
                 headers:{
                     'Authorization':`Bearer ${token}`
                 }
             });
             thunkAPI.dispatch(setLoggedInUser(response.data.userOne));
-            thunkAPI.dispatch(getIFollowThunk(response.data.userOne._id));
+            thunkAPI.dispatch(getIFollowThunk());
             thunkAPI.dispatch(getFollowPostThunk())
             return response.data;
         } catch (error) {
@@ -107,14 +107,14 @@ export const signOutThunk = createAsyncThunk(
         try{
             const isToken = localStorage.getItem('token');
             const token = JSON.parse(isToken);
+            localStorage.removeItem('user');
+            localStorage.removeItem('token');
             thunkAPI.dispatch(setLoggedInUser(null));
             const response = await axiosInstance.get('/user/signout',{
                 headers:{
                     'Authorization':`Bearer ${token}`
                 }
             });
-            localStorage.removeItem('user');
-            localStorage.removeItem('token');
             return response.data;
         }catch(error){
             return {

@@ -1,5 +1,5 @@
 
-import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, createRoutesFromElements, Navigate, Route, RouterProvider } from 'react-router-dom';
 
 import Navbar from "./Components/Navbar";
 import Home from "./Components/Home";
@@ -28,38 +28,29 @@ function App() {
     }
   },[])
 
-
-  // all the link routes
-  const router = createBrowserRouter([
-    {
-      path:"/", 
-      element: <LandingPage />,
-      errorElement:<Error />,
-      children:[
-        { path:'/signin', element: <SignIn />},
-        { path:'/signup', element: <SignUp />},
-      ]
-    },
-    {
-      path:'/home',
-      element: <Navbar />,
-      children:[
-        { index:true, element: <Home /> },
-        { path:'/home/profile', element: <Profile />},
-        { path:'/home/settings', 
-          element: <Settings />,
-          children:[
-            { index:true, element: <UpdateInfo /> },
-            { path:'/home/settings/updatepassword', element: <UpdatePassword /> },
-            { path:'/home/settings/deleteaccount', element: <DeleteAccount /> },
-            { path:'/home/settings/about', element: <About /> },
-          ]
-        },
-        { path:'/home/explore', element: <Explore />},
-        { path:'/home/userprofile', element: <UserProfile />},
-      ]
-    }
-  ]);
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <>
+      <Route path='/' element={ token ? <Navigate to={'/home'} /> : <LandingPage />} errorElement={<Error />}>
+        <Route path='signin' element={ <SignIn />} />
+        <Route path='signup' element={ <SignUp />} />
+      </Route>
+      <Route path='/home' element={ !token ? <Navigate to={'/'} /> : <Navbar />} errorElement={<Error />}>
+        <Route index={true} element={<Home />} />
+        <Route path='profile' element={<Profile />} />
+        <Route path='explore' element={<Explore />} />
+        <Route path='userprofile' element={<UserProfile />} />
+        <Route path='settings' element={<Settings />} errorElement={<Error />}>
+          <Route index={true} element={<UpdateInfo />} />
+          <Route path='updatepassword' element={<UpdatePassword />} />
+          <Route path='deleteaccount' element={<DeleteAccount />} />
+          <Route path='about' element={<About />} />
+        </Route>
+      </Route>
+      </>
+    )
+  )
+  
 
   return (
     <>

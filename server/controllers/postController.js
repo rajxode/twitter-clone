@@ -58,8 +58,9 @@ module.exports.getAllPosts = async (req,res) => {
 // return all the post of people the user follows
 module.exports.getFollowPosts = async (req,res) => {
     try {
+        const id = req.user._id;
 
-        const user = await User.findById(req.params.id);
+        const user = await User.findById(id);
         let followPosts = [];
 
         for (let i = 0; i < user.follows.length; i++) {
@@ -94,7 +95,8 @@ module.exports.getFollowPosts = async (req,res) => {
 // for adding a new post 
 module.exports.addPost = async(req,res) => {
     try {
-        const { content, userId } = req.body;
+        const userId = req.user._id;
+        const { content } = req.body;
         var post;
 
         // if user upload photo
@@ -141,7 +143,7 @@ module.exports.addPost = async(req,res) => {
 // delete the post
 module.exports.deletePost = async(req,res) => {
     try {
-        const id = req.params.id;
+        const id = req.params.postId;
 
         await Like.deleteMany({post:id});
         await Comment.deleteMany({post:id});
@@ -174,8 +176,7 @@ module.exports.deletePost = async(req,res) => {
 module.exports.toggleLike = async (req,res) => {
     try {
         const postId = req.params.postId;
-        const userId = req.query.userId;
-
+        const userId = req.user._id;
 
         const alreadyLike = await Like.findOne({user:userId, post:postId});
         const post = await Post.findById(postId);
@@ -218,7 +219,7 @@ module.exports.toggleLike = async (req,res) => {
 module.exports.addComment = async (req,res) => {
     try {
         const postId = req.params.postId;
-        const userId = req.query.userId;
+        const userId = req.user._id;
         const { content } = req.body;
 
         const post = await Post.findById(postId);
@@ -248,9 +249,23 @@ module.exports.addComment = async (req,res) => {
 module.exports.deleteComment = async (req,res) => {
     try {
         
-        const id = req.params.id;
+        const id = req.params.commentId;
 
+        const comment = await Comment.findById(id);
+
+        const postId = comment.post;
+
+        const post = await Post.findById(postId);
+
+        const oldComments = post.comments;
+
+        const newComments = await oldComments.filter((comment) => JSON.stringify(comment) !== JSON.stringify(id));
+
+        post.comments = newComments;
+
+        await post.save();
         await Comment.findOneAndDelete(id);
+
 
         return res.status(200).json({
             success:true,

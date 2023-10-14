@@ -16,6 +16,7 @@ router.post('/signin',userController.login);
 
 router.use(isLoggedIn);
 
+router.get('/loggedInUser',userController.loggedInUser);
 // signout
 router.get('/signout',userController.logout);
 // all user
