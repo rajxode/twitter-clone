@@ -24,7 +24,9 @@ app.use(express.urlencoded({
     extended:true,
 }));
 
-app.use(cors());
+app.use(cors({
+    origin: process.env.CLIENT_URL,
+}));
 
 // for cookie
 app.use(cookieParser());

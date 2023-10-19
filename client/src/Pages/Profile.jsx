@@ -2,7 +2,7 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import SideBar from '../Components/SideBar';
-import { authSelector, setLoggedInUser } from '../Redux/Reducers/authReducer';
+import { authSelector, getLoggedInUserThunk, setLoggedInUser } from '../Redux/Reducers/authReducer';
 import { getMyPostThunk, postSelector } from '../Redux/Reducers/postReducer';
 import SinglePost from '../Components/SinglePost';
 import { useEffect } from 'react';
@@ -14,7 +14,7 @@ export default function Profile(){
 
     const navigate = useNavigate();
     const { loggedInUser , isLoading } = useSelector(authSelector); 
-    const { userPosts , loading } = useSelector(postSelector);
+    const { userPosts } = useSelector(postSelector);
     const dispatch = useDispatch();
 
     if(!loggedInUser){
@@ -27,7 +27,6 @@ export default function Profile(){
         }
         getPost();
     },[]);
-
 
     const { name , email , createdAt , photo , followers , follows } = loggedInUser;
     const date = createdAt.slice(0,10);

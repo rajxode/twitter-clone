@@ -24,6 +24,12 @@ export const toggelFollowThunk = createAsyncThunk(
     async ({userId},thunkAPI) => {
         try {
             const isToken = localStorage.getItem('token');
+            if(!isToken){
+                return {
+                    success:false,
+                    message:'Unauthorized'
+                }
+            }
             const token = JSON.parse(isToken);
             const response = await axiosInstance.put(`/user/togglefollow?userId=${userId}`,{},{
                 headers:{
@@ -49,6 +55,12 @@ export const getAllUserThunk = createAsyncThunk(
     async (args,thunkAPI) => {
         try {
             const isToken = localStorage.getItem('token');
+            if(!isToken){
+                return {
+                    success:false,
+                    message:'Unauthorized'
+                }
+            }
             const token = JSON.parse(isToken);
             const response = await axiosInstance.get('/user/alluser',{
                 headers:{
@@ -106,6 +118,12 @@ export const signOutThunk = createAsyncThunk(
     async (args,thunkAPI) => {
         try{
             const isToken = localStorage.getItem('token');
+            if(!isToken){
+                return {
+                    success:false,
+                    message:'Unauthorized'
+                }
+            }
             const token = JSON.parse(isToken);
             localStorage.removeItem('user');
             localStorage.removeItem('token');
@@ -129,18 +147,12 @@ export const signOutThunk = createAsyncThunk(
 // data of logged in user
 export const getLoggedInUserThunk = createAsyncThunk(
     'auth/getLoggedInUser',
-    async (args,thunkAPI) => {
+    (args,thunkAPI) => {
         const isUserLoggedIn = localStorage.getItem('user');
         if(isUserLoggedIn){
             const user = JSON.parse(isUserLoggedIn);
             thunkAPI.dispatch(setLoggedInUser(user));
-            await thunkAPI.dispatch(getMyPostThunk(user._id));
-            await thunkAPI.dispatch(getIFollowThunk(user._id));
-            await thunkAPI.dispatch(getMyFollowersThunk(user._id));
-            await thunkAPI.dispatch(getAllUserThunk());
-            return true;
         }
-        return false;
     }
 )
 
@@ -151,6 +163,9 @@ export const getIFollowThunk = createAsyncThunk(
     async (args,thunkAPI) => {
         try {
             const isToken = localStorage.getItem('token');
+            if(!isToken){
+                return ;
+            }
             const token = JSON.parse(isToken);
             const response = await axiosInstance.get('/user/myfollows',{
                 headers:{
@@ -170,6 +185,9 @@ export const getMyFollowersThunk = createAsyncThunk(
     async (args,thunkAPI) => {
         try {
             const isToken = localStorage.getItem('token');
+            if(!isToken){
+                return ;
+            }
             const token = JSON.parse(isToken);
             const response = await axiosInstance.get('/user/myfollower',{
                 headers:{
@@ -190,6 +208,12 @@ export const updateInfoThunk = createAsyncThunk(
     async({id,data},thunkAPI) => {
         try {
             const isToken = localStorage.getItem('token');
+            if(!isToken){
+                return {
+                    success:false,
+                    message:'Unauthorized'
+                }
+            }
             const token = JSON.parse(isToken);
             const response = await axiosInstance.put('/user/updateinfo',data,{
                 headers: { 'Content-type': 'multipart/form-data' ,
@@ -214,6 +238,12 @@ export const updatePasswordThunk = createAsyncThunk(
     async({data},thunkAPI) => {
         try {
             const isToken = localStorage.getItem('token');
+            if(!isToken){
+                return {
+                    success:false,
+                    message:'Unauthorized'
+                }
+            }
             const token = JSON.parse(isToken);
             const response = await axiosInstance.put('/user/updatepassword',data,{
                 headers:{
@@ -237,6 +267,12 @@ export const deleteAccountThunk = createAsyncThunk(
     async({data},thunkAPI) => {
         try {
             const isToken = localStorage.getItem('token');
+            if(!isToken){
+                return {
+                    success:false,
+                    message:'Unauthorized'
+                }
+            }
             const token = JSON.parse(isToken);
             const response = await axiosInstance.put('/user/deleteaccount',data,{
                 headers:{

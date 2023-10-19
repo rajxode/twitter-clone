@@ -18,6 +18,7 @@ import SideBar from "./SideBar"
 import Loader from './Spinner';
 import AllPost from './AllPost';
 import FollowingPost from './FollowingPost';
+import { useNavigate } from "react-router-dom";
 
 
 // render home page
@@ -25,6 +26,7 @@ export default function Home (){
 
     // for calling reducer's action
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     // content of post 
     const [content,setContent] = useState();
     // file to upload 
@@ -34,6 +36,13 @@ export default function Home (){
     const { loggedInUser, isLoading } = useSelector(authSelector);
     // to show post of people user follows
     const [showFollowPost,setShowFollowPost] = useState(false);
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if(!token){
+            navigate('/');
+        }
+    },[]);
 
 
     // for adding a new post

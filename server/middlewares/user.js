@@ -7,18 +7,16 @@ const jwt = require('jsonwebtoken');
 // to check whether user is loggedin or not
 exports.isLoggedIn = async( req,res,next) => {
 
-    // if no token is present 
-    if(!req.header("Authorization")){
-        // return error message for user to login
+    if(!req.header){
         return res.status(401).json({
             error:'Unauthorized'
         });
     }
 
     // getting the value of token from cookies / header
-    const token = req.header("Authorization").replace('Bearer ','') ;
+    const token = await req.header("Authorization").replace('Bearer ','') ;
 
-    if(!token){
+    if(!token || token === 'null' ){
         return res.status(401).json({
             error:'Unauthorized'
         });
@@ -27,7 +25,6 @@ exports.isLoggedIn = async( req,res,next) => {
     // if token found 
     // decode it to get the values stored inside the token
     const decode = jwt.verify(token, process.env.JWT_SECRET_KEY);
-
     // find user from value of id inside the decoded JWT token
     // store the user inside req
     req.user = await User.findById(decode.id);

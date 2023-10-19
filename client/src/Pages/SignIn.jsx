@@ -49,8 +49,8 @@ export default function SignIn() {
         toast.error(result.payload.message);
       }
       else{
+        navigate('/home');
         toast.success(result.payload.message);
-        navigate('/home')
       }
     }catch(err){
       console.log(err);

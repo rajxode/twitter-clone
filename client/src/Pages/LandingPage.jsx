@@ -1,26 +1,13 @@
-import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { NavLink, Outlet } from 'react-router-dom';
 import Loader from '../Components/Spinner';
-import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
-import { authSelector, getLoggedInUserThunk } from '../Redux/Reducers/authReducer';
+import { useSelector } from 'react-redux';
+import { authSelector } from '../Redux/Reducers/authReducer';
 
 
 // the landing page of site
 export default function LandingPage(){
 
     const { isLoading } = useSelector(authSelector);
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        async function getUser(){
-            const result = await dispatch(getLoggedInUserThunk());
-            if(result.payload){
-                navigate('/home');
-            }
-        }
-        getUser();
-    },[]);
 
     if(isLoading){
         return(
