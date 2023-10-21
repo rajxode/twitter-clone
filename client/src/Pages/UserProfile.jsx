@@ -23,7 +23,7 @@ export default function UserProfile(){
 
     useEffect(() => {
         document.title = `${userProfile.name} | Profile`
-    },[])
+    },[]);
 
     useEffect(() => {
         if(!userProfile){

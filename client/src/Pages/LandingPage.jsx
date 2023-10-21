@@ -2,12 +2,17 @@ import { NavLink, Outlet } from 'react-router-dom';
 import Loader from '../Components/Spinner';
 import { useSelector } from 'react-redux';
 import { authSelector } from '../Redux/Reducers/authReducer';
+import { useEffect } from 'react';
 
 
 // the landing page of site
 export default function LandingPage(){
 
     const { isLoading } = useSelector(authSelector);
+
+    useEffect(() => {
+        document.title = `Twitter Clone`
+    },[]);
 
     if(isLoading){
         return(
