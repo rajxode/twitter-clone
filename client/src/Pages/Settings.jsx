@@ -2,6 +2,7 @@
 
 import { Outlet } from "react-router-dom"
 import SignleMenuOption from "../Components/SingleMenuOption"
+import { useEffect } from "react";
 
 // section of settings
 export default function Settings(){
@@ -11,6 +12,11 @@ export default function Settings(){
                         {name:'Delete Accout',icon:<i class="fa-solid fa-trash"></i>,link:'/home/settings/deleteaccount'},
                         {name:'About',icon:<i class="fa-solid fa-circle-info"></i>,link:'/home/settings/about'},
                     ]
+
+
+    useEffect(() => {
+        document.title = 'Settings | Twitter'
+    },[]);
 
     return(
         <div className="h-full w-[90%] lg:w-[78%] flex justify-between items-center">

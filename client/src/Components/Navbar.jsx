@@ -25,19 +25,20 @@ export default function Navbar() {
 
     const [showMenu,setShowMenu] = useState(false);
 
-    const { loggedInUser,isLoading } = useSelector(authSelector);
+    const { loggedInUser , isLoading } = useSelector(authSelector);
 
 
     useEffect(() => {
         dispatch(getLoggedInUserThunk());
     },[]);
 
+
     const handleSignOut = async (e) => {
         try{
             e.preventDefault();
             const result = await dispatch(signOutThunk());
+            navigate('/');
             if(result.payload.success){
-                navigate('/');
                 toast.success(result.payload.message);
                 
             }
@@ -52,7 +53,7 @@ export default function Navbar() {
     return (
         <div className="w-screen h-screen flex 
                         md:px-[1%] lg:px-[5%] py-[1%] justify-center
-                        overflow-y-scroll">
+                        overflow-y-scroll dark:bg-slate-800 dark:text-white">
             
         {
             isLoading
@@ -63,7 +64,7 @@ export default function Navbar() {
 
             <div className="h-full w-full xl:w-4/5 flex justify-between ">
 
-                <div className="bg-white w-[10%] md:w-[6%] lg:w-[21%] h-full text-black shadow rounded p-2 flex flex-col">
+                <div className="w-[10%] md:w-[6%] lg:w-[21%] h-full text-black shadow rounded p-2 flex flex-col dark:bg-slate-500 dark:text-slate-200">
 
                     <div className="w-full h-[35px] my-1">
                         <NavLink to='/home' >
@@ -78,7 +79,7 @@ export default function Navbar() {
                         
 
                         <div className="w-full h-[45px] my-2 bg-[#f7f5f5] rounded shadow-md flex 
-                                items-center justify-between p-1 text-xl font-semibold relative">
+                                items-center justify-between p-1 text-xl font-semibold relative dark:bg-slate-200">
                             
                             <div className="hidden w-[37px] h-full rounded-full overflow-hidden lg:block">
                                 {
@@ -91,12 +92,12 @@ export default function Navbar() {
                             </div>
                             
                             
-                            <div className="hidden w-3/5 h-full lg:block">
+                            <div className="hidden w-3/5 h-full lg:block dark:text-black">
                                 {loggedInUser.name}
                             </div>
                             
                             <div className="w-1/5 h-full rounded-full cursor-pointer 
-                                    flex justify-center items-center hover:bg-slate-200"
+                                    flex justify-center items-center hover:bg-slate-200 dark:text-black"
                                 onClick={() => setShowMenu(!showMenu)}>
                                 
                                 <span>

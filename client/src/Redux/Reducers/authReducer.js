@@ -3,7 +3,7 @@
 
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axiosInstance from '../../utils/axios';
-import { getFollowPostThunk, getMyPostThunk } from "./postReducer";
+import { getFollowPostThunk } from "./postReducer";
 
 // toast notification
 import { toast } from 'react-toastify';

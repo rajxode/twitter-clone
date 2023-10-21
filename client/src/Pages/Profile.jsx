@@ -22,6 +22,7 @@ export default function Profile(){
     }
 
     useEffect(() => {
+        document.title = `${loggedInUser.name} | Profile`
         async function getPost(){
             await dispatch(getMyPostThunk(loggedInUser._id));
         }

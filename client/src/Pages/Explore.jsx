@@ -1,7 +1,7 @@
 import {  useSelector } from "react-redux"
 import { authSelector } from "../Redux/Reducers/authReducer"
 import SingleUser from "../Components/SingleUser";
-import { useState } from "react";
+import { useState , useEffect } from "react";
 
 
 // for the explore section on 
@@ -9,6 +9,11 @@ export default function Explore(){
 
     const { allUsers , loggedInUser } = useSelector(authSelector);
     const [search,setSearch] = useState('');
+
+
+    useEffect(() => {
+        document.title = 'Explore | Twitter'
+    },[]);
 
     return(
         <div className="h-full w-[90%] lg:w-[78%] flex justify-between">

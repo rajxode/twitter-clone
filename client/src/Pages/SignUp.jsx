@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState , useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -38,6 +38,10 @@ export default function SignUp() {
   const currentYear = new Date().getFullYear();
 
   const fileData = new FormData();
+
+  useEffect(() => {
+    document.title = 'Sign Up | Twitter'
+  },[]);
 
   if(formData.month === 'February'){
     for (let i = 1; i <= 29 ; i++) {

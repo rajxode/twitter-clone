@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState , useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 
@@ -21,6 +21,10 @@ export default function SignIn() {
     email:'',
     password:''
   });
+
+  useEffect(() => {
+    document.title = 'Sign In | Twitter'
+  },[]);
 
   const navigate = useNavigate();
 

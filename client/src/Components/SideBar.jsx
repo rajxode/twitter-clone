@@ -17,7 +17,7 @@ export default function SideBar(props) {
 
     return(
         <div className="hidden w-[35%] p-2 rounded md:flex flex-col ">
-            <div className="w-full flex flex-col p-1 rounded shadow-sm bg-[#f7f5f5] mb-3 h-2/5 overflow-y-scroll relative">
+            <div className="w-full flex flex-col p-1 rounded shadow-sm bg-[#f7f5f5] mb-3 h-2/5 overflow-y-scroll relative dark:bg-slate-500">
 
                 {
                     parent === 'home'
@@ -38,7 +38,7 @@ export default function SideBar(props) {
             {
                 parent !== 'home'
                 ?
-                <div className="w-full flex flex-col p-1 rounded shadow-sm bg-[#f7f5f5] mb-3 h-2/5 overflow-y-scroll relative">
+                <div className="w-full flex flex-col p-1 rounded shadow-sm bg-[#f7f5f5] mb-3 h-2/5 overflow-y-scroll relative dark:bg-slate-500">
                         
                     <h1 className="font-bold text-lg p-2 sticky z-20">People following You</h1>
                     {followers.map((user) =>  <SingleUser key={user._id} user={user} parent={'profile'} />)}    
@@ -48,7 +48,7 @@ export default function SideBar(props) {
                 null
             }
 
-            <div className="w-full h-1/5 flex flex-col rounded p-1 shadow-sm bg-[#f7f5f5]">
+            <div className="w-full h-1/5 flex flex-col rounded p-1 shadow-sm bg-[#f7f5f5] dark:bg-slate-500">
                 <h1 className="font-bold text-lg p-2">Sponsered</h1>
                 <div className="w-full h-[65%]">
                     <img src={require('../Assets/icons/ad.jpg')} alt='ad' className="w-full h-full" />

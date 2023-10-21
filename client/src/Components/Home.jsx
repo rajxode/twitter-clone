@@ -38,10 +38,7 @@ export default function Home (){
     const [showFollowPost,setShowFollowPost] = useState(false);
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
-        if(!token){
-            navigate('/');
-        }
+        document.title = 'Home | Twitter'
     },[]);
 
 
@@ -87,7 +84,7 @@ export default function Home (){
                 :
                 <>
 
-                <header className="w-full h-1/5 p-2 bg-white ">
+                <header className="w-full h-1/5 p-2">
                     <div className='w-full h-full'>
                         <div className="font-bold text-2xl w-full h-3/5">
                             Home
@@ -123,7 +120,7 @@ export default function Home (){
                         <form className="w-full h-full">
                             <textarea 
                                 className="w-full h-[65%] focus:outline-none 
-                                        p-1 font-semibold text-xl rounded-sm"  
+                                        p-1 font-semibold text-xl rounded-sm dark:bg-slate-600"  
                                 placeholder="What is happening?"
                                 value={content}
                                 onChange={(e) => setContent(e.target.value)} 

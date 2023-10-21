@@ -10,7 +10,7 @@ const cloudinary = require('cloudinary').v2;
 module.exports.getMyPosts = async (req,res) => {
     try {
 
-        const posts = await Post.find({user:req.params.id}).populate('user','name photo').populate('likes','user').populate({
+        const posts = await Post.find({user:req.params.id}).populate('user').populate('likes','user').populate({
             path: 'comments',
             populate: {
             path: 'user',
@@ -35,7 +35,7 @@ module.exports.getMyPosts = async (req,res) => {
 module.exports.getAllPosts = async (req,res) => {
     try {
 
-        const posts = await Post.find({}).populate('user','name photo').populate('likes','user').populate({
+        const posts = await Post.find({}).populate('user').populate('likes','user').populate({
             path: 'comments',
             populate: {
             path: 'user',
@@ -67,7 +67,7 @@ module.exports.getFollowPosts = async (req,res) => {
             const followId = user.follows[i];
             
             const posts = await Post.find({user:followId})
-                                .populate('user','name photo')
+                                .populate('user')
                                 .populate('likes','user')
                                 .populate({
                                     path: 'comments',

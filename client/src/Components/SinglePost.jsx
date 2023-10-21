@@ -1,7 +1,8 @@
 
 
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { authSelector } from "../Redux/Reducers/authReducer";
+import { authSelector, setUserProfile } from "../Redux/Reducers/authReducer";
 import { useEffect, useState } from "react";
 import { addCommentThunk, deletePostThunk, likePostThunk } from "../Redux/Reducers/postReducer";
 
@@ -16,6 +17,7 @@ export default function SinglePost(props){
 
     const { _id , content , user, likes, comments, photo} = props.post;
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const { loggedInUser } = useSelector(authSelector);
     const [showPostMenu, setShowPostMenu] = useState(false);
     const [showComment,setShowComment] = useState(false);
@@ -72,10 +74,22 @@ export default function SinglePost(props){
         }
     }
 
+
+    const handleClick = (e) => {
+        e.preventDefault();
+        if(user._id === loggedInUser._id){
+            navigate('/home/profile');
+        }
+        else{
+            dispatch(setUserProfile(user));
+            navigate('/home/userprofile');
+        }
+    }
+
+
     return(
         <>
-            <div className="w-full h-auto p-2 my-1 flex flex-col rounded border 
-                        border-slate-400 shadow-md hover:bg-[#f7f5f5]">
+            <div className="w-full h-auto p-2 my-1 flex flex-col hover:bg-[#f7f5f5] dark:hover:bg-slate-500 border-b">
                 
                 <div className="w-full flex">
                     <div className="w-[45px] h-[45px] rounded-full mr-1 overflow-hidden">
@@ -90,8 +104,10 @@ export default function SinglePost(props){
                     
                     <div className="w-[88%] flex flex-col">
                         <div className="w-full mb-1 font-bold relative">
-                            
-                            {user.name}
+                            <span className="hover:underline cursor-pointer"
+                                onClick={handleClick}>
+                                {user.name}
+                            </span>
 
                             {
                                 user._id === loggedInUser._id

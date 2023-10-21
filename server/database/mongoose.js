@@ -1,25 +1,24 @@
 
-// import mongoose
+// mongoose
 const mongoose = require('mongoose');
 
-// mongoDB url stored in env variable
-const { MONGODB_URL } = process.env;
-
-
-// connect to database
-exports.connect = () => {
-    mongoose.connect(MONGODB_URL, {
+// function to connect with database
+const connectWithDb = () => {
+    mongoose
+    // connecting to database
+    .connect(process.env.MONGODB_URL, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     })
-    .then(
-        // if database connected
-        console.log('Database is connected successfullly')
-    )
+    // if successful
+    .then(console.log('Database connected'))
+    // if there is some error
     .catch((error) => {
-        // if there is some error
-        console.log('database connection is failed');
+        console.log('Error in DB connection');
         console.log(error);
         process.exit(1);
-    })
+    });
 }
+
+// export connect function
+module.exports = connectWithDb;

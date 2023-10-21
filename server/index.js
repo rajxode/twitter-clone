@@ -1,7 +1,7 @@
 
 require('dotenv').config();
-require('./database/mongoose').connect();
 const express = require('express');
+const connectWithDb = require('./database/mongoose');
 
 const cors = require('cors');
 // for cookies
@@ -14,7 +14,7 @@ const cloudinary = require('cloudinary');
 
 // port
 const {PORT} = process.env;
-
+connectWithDb();
 // app
 const app = express();
 

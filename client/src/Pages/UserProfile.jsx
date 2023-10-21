@@ -22,8 +22,12 @@ export default function UserProfile(){
     const navigate = useNavigate();
 
     useEffect(() => {
+        document.title = `${userProfile.name} | Profile`
+    },[])
+
+    useEffect(() => {
         if(!userProfile){
-            navigate('/');
+            navigate(-1);
         }
 
         async function getPost(){
