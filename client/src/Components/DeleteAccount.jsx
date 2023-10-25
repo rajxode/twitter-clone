@@ -49,7 +49,7 @@ export default function DeleteAccount(){
         <>
             <div className="w-full h-full flex flex-col">
                 <div className="w-full h-[45px] flex items-center px-2 bg-slate-200 
-                        border-b border-slate-400 font-semibold">
+                        border-b border-slate-400 font-semibold dark:bg-slate-500 dark:text-white">
                         Delete Your Account
                 </div>
 

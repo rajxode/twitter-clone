@@ -92,7 +92,7 @@ export default function Profile(){
                                 <div className='w-full h-auto flex'>
                                     <div className='mx-2'>
                                         <p className='text-slate-400'>
-                                            <span className='font-semibold text-black'>
+                                            <span className='font-semibold text-black dark:text-white'>
                                                 {followers.length} 
                                             </span>
                                             &nbsp;
@@ -102,7 +102,7 @@ export default function Profile(){
                                     
                                     <div className='mx-2'>
                                         <p className='text-slate-400'>
-                                            <span className='font-semibold text-black'>
+                                            <span className='font-semibold text-black dark:text-white'>
                                                 {follows.length} 
                                             </span>
                                             &nbsp;

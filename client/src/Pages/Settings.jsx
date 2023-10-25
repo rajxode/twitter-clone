@@ -11,6 +11,7 @@ export default function Settings(){
                         {name:'Update Password',icon:<i class="fa-solid fa-key"></i>,link:'/home/settings/updatepassword'},
                         {name:'Delete Accout',icon:<i class="fa-solid fa-trash"></i>,link:'/home/settings/deleteaccount'},
                         {name:'About',icon:<i class="fa-solid fa-circle-info"></i>,link:'/home/settings/about'},
+                        // {name:'Theme',icon:<i class="fa-solid fa-palette"></i>,link:'/home/settings/theme'},
                     ]
 
 

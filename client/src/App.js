@@ -15,6 +15,7 @@ import DeleteAccount from './Components/DeleteAccount';
 import About from './Components/About';
 import Error from './Pages/Error';
 import UserProfile from './Pages/UserProfile';
+import Theme from './Components/Theme';
 
 // Create a custom guard to check if the user is authenticated
 const isUserAuthenticated = () => {
@@ -71,6 +72,7 @@ function App() {
             <Route path='updatepassword' element={<UpdatePassword />} />
             <Route path='deleteaccount' element={<DeleteAccount />} />
             <Route path='about' element={<About />} />
+            {/* <Route path='theme' element={<Theme />} /> */}
           </Route>
         </Route>
       </Route>

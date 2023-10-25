@@ -61,7 +61,7 @@ export default function UpdatePassword(){
         <>
             <div className="w-full h-full flex flex-col">
                 <div className="w-full h-[45px] flex items-center px-2 bg-slate-200 
-                        border-b border-slate-400 font-semibold">
+                        border-b border-slate-400 font-semibold dark:bg-slate-500 dark:text-white">
                     Update Password
                 </div>
 
@@ -76,7 +76,7 @@ export default function UpdatePassword(){
                         required
                         onChange={handleFormData}
                         className="border rounded border-slate-400 px-2 
-                                w-full h-[7%] my-4"
+                                w-full h-[7%] my-4 dark:bg-slate-600"
                         />
 
                         <input
@@ -87,7 +87,7 @@ export default function UpdatePassword(){
                         required
                         onChange={handleFormData}
                         className="border rounded border-slate-400 px-2 
-                                w-full h-[7%] my-4"
+                                w-full h-[7%] my-4 dark:bg-slate-600"
                         />
 
                         <input
@@ -98,7 +98,7 @@ export default function UpdatePassword(){
                         required
                         onChange={(e) => setConfirmPassword(e.target.value)}
                         className="border rounded border-slate-400 px-2 
-                                w-full h-[7%] my-4"
+                                w-full h-[7%] my-4 dark:bg-slate-600"
                         />
 
                         <button className="w-full h-[7%] mb-0 bg-black 

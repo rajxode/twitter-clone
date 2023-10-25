@@ -43,8 +43,7 @@ module.exports.signup = async (req,res) => {
         // if user already exist
         if(userExist){
             return res.status(400).json({
-                success:false,
-                message:'User already exist, Sign In instead or Try again !!'
+                error:'User already exist, Sign In instead or Try again !!'
             })
         }
 
@@ -92,8 +91,7 @@ module.exports.signup = async (req,res) => {
         })
     } catch (error) {
         return res.status(400).json({
-            success:false,
-            message:error.message
+            error:error.message
         })
     }
 }
@@ -115,8 +113,7 @@ module.exports.login = async(req,res) => {
         // if user doesn't found inside the database
         if(!user){
             return res.status(404).json({
-                success:false,
-                message:"User doesn't exist, Please check email address !!"
+                error:"User doesn't exist, Please check email address !!"
             });
         }
 
@@ -128,8 +125,7 @@ module.exports.login = async(req,res) => {
         // if both password doesn't match
         if(!isValidUser){
             return res.status(400).json({
-                success:false,
-                message:"Email and Password doesn't match "
+                error:"Email and Password doesn't match "
             })
         }
 

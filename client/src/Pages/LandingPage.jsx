@@ -22,8 +22,8 @@ export default function LandingPage(){
 
     return(
         <>
-            <div className="w-screen h-screen bg-white flex justify-center 
-                        items-center relative ">
+            <div className="w-screen h-screen flex justify-center 
+                        items-center relative dark:bg-slate-800 dark:text-white ">
                 
                 <div className="w-4/5 h-4/5 flex flex-col md:flex-row justify-start md:justify-around p-3">
 

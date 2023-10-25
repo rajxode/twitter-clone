@@ -139,7 +139,7 @@ export default function SignUp() {
       ></div>
       <div
         className="absolute bg-white h-full md:h-4/5 w-full md:w-3/5 lg:w-2/5 p-2 
-                            rounded-md shadow-md flex flex-col justify-between"
+                            rounded-md shadow-md flex flex-col justify-between dark:bg-slate-600"
       >
         <div className="w-full h-[7%] flex">
           <NavLink to="/">
@@ -178,7 +178,7 @@ export default function SignUp() {
                             required
                             onChange={handleFormData}
                             className="border rounded border-slate-400 px-2 
-                                    w-full h-[12%] my-4"
+                                    w-full h-[12%] my-4 dark:bg-slate-300 dark:text-black"
                             />
 
                             <input
@@ -189,26 +189,26 @@ export default function SignUp() {
                             required
                             onChange={handleFormData}
                             className="border rounded border-slate-400 px-2 
-                                    w-full h-[12%] my-4"
+                                    w-full h-[12%] my-4 dark:bg-slate-300 dark:text-black"
                             />
 
                             <div>
                                 <h1 className="font-bold">
                                     Date of birth
                                 </h1>
-                                <p className="leading-tight text-slate-500 text-sm">
+                                <p className="leading-tight text-slate-500 text-sm dark:text-white">
                                     This will not be shown publicly. Confirm your own age, even if this account is for a business, a pet, or something else.
                                 </p>
                             </div>
 
                             <div className="w-full my-4 h-[15%] py-1">
-                                <select name="month" id="month" onChange={handleFormData} className="w-[45%] h-[90%] border border-slate-400 rounded mx-1">
+                                <select name="month" id="month" onChange={handleFormData} className="w-[45%] h-[90%] border border-slate-400 rounded mx-1 dark:bg-slate-300 dark:text-black">
                                   { monthName.map((month,i) => <option value={month} key={i}>{month}</option>)}
                                 </select>
-                                <select name="day" id="day" onChange={handleFormData} className="w-[20%] h-[90%] border border-slate-400 rounded mx-1">
+                                <select name="day" id="day" onChange={handleFormData} className="w-[20%] h-[90%] border border-slate-400 rounded mx-1 dark:bg-slate-300 dark:text-black">
                                   { days }
                                 </select>
-                                <select name="year" id="year" onChange={handleFormData} className="w-[25%] h-[90%] border border-slate-400 rounded mx-1">
+                                <select name="year" id="year" onChange={handleFormData} className="w-[25%] h-[90%] border border-slate-400 rounded mx-1 dark:bg-slate-300 dark:text-black">
                                   { years }
                                 </select>
                             </div>
@@ -230,6 +230,7 @@ export default function SignUp() {
                                 placeholder="image"
                                 name="photo"
                                 onChange={handleFile}
+                                className="dark:bg-slate-300 dark:text-black"
                                 />
                             </div>
 
@@ -241,7 +242,7 @@ export default function SignUp() {
                             name="password"
                             onChange={handleFormData}
                             className="border rounded border-slate-400 px-2 
-                                    w-full h-[12%] my-3"
+                                    w-full h-[12%] my-3 dark:bg-slate-300 dark:text-black"
                             />
 
                             <input
@@ -251,7 +252,7 @@ export default function SignUp() {
                             required
                             onChange={(e) => setConfirmPassword(e.target.value)}
                             className="border rounded border-slate-400 px-2 
-                                    w-full h-[12%] my-3"
+                                    w-full h-[12%] my-3 dark:bg-slate-300 dark:text-black"
                             />
 
 

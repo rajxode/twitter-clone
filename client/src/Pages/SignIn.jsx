@@ -76,11 +76,11 @@ export default function SignIn() {
       ></div>
       <div
         className="absolute bg-white h-full md:h-4/5 w-full md:w-3/5 lg:w-2/5 p-2 
-                            rounded-md shadow-md flex flex-col justify-between"
+                            rounded-md shadow-md flex flex-col justify-between dark:bg-slate-600"
       >
         <div className="w-full h-[7%] flex">
           <NavLink to="/">
-            <button className=" w-[25px] rounded-full hover:bg-gray-300 transition ease-in-out">
+            <button className=" w-[25px] rounded-full hover:bg-gray-300 transition ease-in-out dark:hover:text-black">
               X
             </button>
           </NavLink>
@@ -124,7 +124,7 @@ export default function SignIn() {
                     required
                     onChange={handleFormData}
                     className="border rounded border-slate-400 px-2 
-                            w-full h-[30%] mb-2"
+                            w-full h-[30%] mb-2 dark:bg-slate-300 dark:text-black"
                   />
 
                   <input
@@ -135,7 +135,7 @@ export default function SignIn() {
                     required
                     onChange={handleFormData}
                     className="border rounded border-slate-400 px-2 
-                            w-full h-[30%] mb-2"
+                            w-full h-[30%] mb-2 dark:bg-slate-300 text-black"
                   />
 
                   <button className="w-full h-1/4 mb-0 bg-black text-white 

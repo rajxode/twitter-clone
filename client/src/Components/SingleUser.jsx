@@ -70,7 +70,7 @@ export default function SingleUser(props) {
                             onClick={handleClick}>
                         {name}
                     </span>
-                    <span className="text-sm text-slate-500">
+                    <span className="text-sm text-slate-500 dark:text-white">
                         {email}
                     </span>
                 </div>
