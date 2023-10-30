@@ -23,6 +23,8 @@ export default function Navbar() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    const [darkMode,setDarkMode] = useState(false);
+
     const [showMenu,setShowMenu] = useState(false);
 
     const { loggedInUser , isLoading } = useSelector(authSelector);
@@ -48,7 +50,24 @@ export default function Navbar() {
         }catch(error){
             console.log(error);
         }
-    } 
+    }
+
+    useEffect(() => {
+        const body = document.querySelector("body");
+        body.classList = "";
+        if(darkMode){
+            body.classList.add('dark');
+        }
+        else{
+            body.classList.add('light');
+        }
+    },[darkMode])
+
+    // const toggleTheme = (e) => {
+    //     e.preventDefault();
+    //     setDarkMode(!darkMode);
+        
+    // };
 
     return (
         <div className="w-screen h-screen flex 
@@ -62,7 +81,7 @@ export default function Navbar() {
             :
             <>
 
-            <div className="h-full w-full xl:w-4/5 flex justify-between ">
+            <div className="h-full w-full xl:w-4/5 flex justify-between relative">
 
                 <div className="w-[10%] md:w-[6%] lg:w-[21%] h-full text-black shadow rounded p-2 flex flex-col dark:bg-slate-500 dark:text-slate-200">
 
@@ -134,9 +153,22 @@ export default function Navbar() {
                 </div>
                 
                 <Outlet />
-
+                <div className={`${darkMode ? "bg-white text-slate-800 shadow-slate-100" : "bg-slate-800 text-white shadow-slate-100" } 
+                        fixed bottom-[10px] right-10 rounded-full h-[45px] 
+                        w-[45px] flex justify-center items-center shadow-md text-lg cursor-pointer`}
+                    onClick={() => setDarkMode(!darkMode)}
+                    >
+                    {
+                        darkMode
+                        ?
+                        <i class="fa-solid fa-cloud-sun"></i>
+                        :
+                        <i class="fa-solid fa-cloud-moon"></i>
+                    }
+                </div>
             </div>
             </>
+            
         }
         </div>
     );

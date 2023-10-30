@@ -134,9 +134,9 @@ export default function SinglePost(props){
                                     showPostMenu
                                     ?
                                     <div className="w-auto absolute px-1 right-0 bg-[#F1EFEF] 
-                                            text-sm shadow-md rounded float-right cursor-pointer"
+                                            text-sm shadow-md rounded float-right cursor-pointer dark:bg-slate-600"
                                         onClick={deletePost}>
-                                        <span className="text-red-400">
+                                        <span className="text-red-500 dark:text-white">
                                             <i class="fa-solid fa-trash"></i>
                                         </span>
                                         &nbsp;
