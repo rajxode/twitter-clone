@@ -39,9 +39,9 @@ export default function SingleComment(props){
                         <img src={require('../Assets/icons/dummy-avatar.jpg')} alt='avatar' className='h-full w-full'/>
                     }
                 </div>
-                <div className="w-[85%] h-full flex flex-col">
+                <div className="w-[85%] h-full flex flex-col dark:text-white">
                     {content}
-                    <small className="font-semibold text-slate-500">
+                    <small className="font-semibold text-slate-500 dark:text-slate-200">
                         {user.name}
                     </small>
                 </div>
@@ -49,7 +49,7 @@ export default function SingleComment(props){
                 {
                     loggedInUser._id === user._id
                     ?
-                    <div className="w-auto h-full cursor-pointer hover:text-red-500"
+                    <div className="w-auto h-full cursor-pointer hover:text-red-500 dark:text-slate-300"
                         onClick={deleteComment}>
                         <i class="fa-solid fa-trash"></i>
                     </div>

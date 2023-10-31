@@ -18,11 +18,11 @@ export default function Explore(){
     return(
         <div className="h-full w-[90%] lg:w-[78%] flex justify-between">
             <div className="w-full md:w-[68%] h-full rounded flex flex-col">
-                <div className="w-full h-[45px] text-xl font-semibold bg-slate-100 flex items-center px-2 border-b border-slate-300 shadow-sm">
+                <div className="w-full h-[45px] text-xl font-semibold bg-slate-100 dark:bg-transparent flex items-center px-2 border-b border-slate-300 shadow-sm">
                     People You May Know
                 </div>
 
-                <div className="w-full h-full p-2 bg-slate-50 flex flex-col">
+                <div className="w-full h-full p-2 bg-slate-50 flex flex-col dark:bg-transparent">
 
                     <div className="w-full h-auto px-2 my-2">
 

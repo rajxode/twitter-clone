@@ -9,8 +9,9 @@ export default function SignleMenuOption(props) {
 
     return(
         <>
-            <div className="w-full h-[45px] p-1 my-1 text-xl flex
-                    items-center hover:bg-[#f7f5f5] hover:rounded hover:shadow-md dark:hover:bg-slate-300 dark:hover:text-black">
+            <div className="w-full h-[45px] p-1 my-1 text-xl flex justify-center 
+                    md:justify-start items-center hover:bg-[#f7f5f5] hover:rounded hover:shadow-md 
+                    dark:hover:bg-slate-300 dark:hover:text-black">
                 <NavLink 
                     style={({ isActive }) => (isActive ? { fontWeight: "bold" } : undefined)}
                     to={link} >
