@@ -16,7 +16,7 @@ export default function Explore(){
     },[]);
 
     return(
-        <div className="h-full w-[90%] lg:w-[78%] flex justify-between">
+        <div className="h-full w-full px-1 md:px-0 md:w-[90%] lg:w-[78%] flex justify-between">
             <div className="w-full md:w-[68%] h-full rounded flex flex-col">
                 <div className="w-full h-[45px] text-xl font-semibold bg-slate-100 dark:bg-transparent flex items-center px-2 border-b border-slate-300 shadow-sm">
                     People You May Know

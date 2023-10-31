@@ -18,7 +18,7 @@ export default function Settings(){
     },[]);
 
     return(
-        <div className="h-full w-[90%] lg:w-[78%] flex justify-between items-center">
+        <div className="h-full w-full px-1 md:px-0 md:w-[90%] lg:w-[78%] flex justify-between items-center">
             <div className="w-[10%] lg:w-[30%] h-full shadow-sm">
                 <div className="text-xl font-bold w-full h-[45px] mt-2 p-1 border-b border-slate-300">
                     <span className="hidden lg:block">

@@ -78,7 +78,7 @@ export default function Navbar() {
 
             <div className="h-full w-full xl:w-4/5 flex justify-between relative">
 
-                <div className="w-full bg-slate-200 md:bg-white md:w-[6%] fixed bottom-0 left-0 md:static lg:w-[21%] 
+                <div className="w-full bg-slate-200 opacity-100 md:bg-white md:w-[6%] fixed bottom-0 left-0 md:static lg:w-[21%] 
                         h-fit md:h-full text-black shadow rounded p-1 md:p-2 flex flex-row md:flex-col 
                         dark:bg-slate-500 dark:text-slate-200"
                     >
@@ -97,7 +97,7 @@ export default function Navbar() {
 
                         <div className="w-1/5 md:w-full h-[45px] my-2 md:bg-[#f7f5f5] rounded md:shadow-md flex
                                 items-center justify-between p-1 text-xl font-semibold relative 
-                                dark:md:bg-slate-200 dark:hover:text-black dark:hover:bg-slate-200">
+                                dark:md:bg-slate-200 dark:hover:bg-slate-200">
                             
                             <div className="hidden w-[37px] h-full rounded-full overflow-hidden lg:block">
                                 {
@@ -114,8 +114,9 @@ export default function Navbar() {
                                 {loggedInUser.name}
                             </div>
                             
-                            <div className="w-full md:w-1/5 h-full rounded-full cursor-pointer 
-                                    flex justify-center items-center hover:bg-slate-200 dark:text-white dark:md:text-black"
+                            <div className="w-full lg:w-1/5 h-full rounded-full cursor-pointer 
+                                    flex justify-center items-center hover:bg-slate-200 
+                                    dark:text-white dark:md:text-black dark:hover:text-black"
                                 onClick={() => setShowMenu(!showMenu)}>
                                 
                                 <span>
@@ -131,15 +132,15 @@ export default function Navbar() {
 
                                 
                                 {showMenu ? 
-                                    <div className="absolute bg-slate-200 bottom-11 w-full h-[45px] 
-                                            rounded flex items-center left-0 shadow-md text-base p-1 px-2 cursor-pointer"
+                                    <div className="absolute bg-slate-200 bottom-11 w-[190px] lg:w-full h-[45px] 
+                                            rounded flex items-center right-2 md:left-0 shadow-md text-base p-1 px-2 cursor-pointer"
                                         onClick={handleSignOut} >
                                         
                                         <span>
                                             <i class="fa-solid fa-arrow-right-from-bracket"></i>
                                         </span>
                                         &nbsp;
-                                        <span className="hidden lg:block">
+                                        <span>
                                             Log out @{loggedInUser.name}
                                         </span>
                                     </div> 

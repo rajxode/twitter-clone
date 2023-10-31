@@ -34,7 +34,7 @@ export default function Profile(){
 
 
     return(
-        <div className="h-full w-[90%] lg:w-[78%] flex justify-between">
+        <div className="h-full w-full px-1 md:px-0 md:w-[90%] lg:w-[78%] flex justify-between">
 
             {
 
