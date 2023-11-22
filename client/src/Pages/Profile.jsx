@@ -1,5 +1,5 @@
 
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate, Outlet } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import SideBar from '../Components/SideBar';
 import { authSelector, getLoggedInUserThunk, setLoggedInUser } from '../Redux/Reducers/authReducer';
@@ -113,15 +113,42 @@ export default function Profile(){
                                 
                             </div>
                             
-                            <div className='w-full h-[10%] border-b border-slate-400 flex justify-center items-center font-semibold'>
-                                Posts
+                            <div className='w-full h-[10%] border-b border-slate-400 flex items-center justify-between font-semibold'>
+                            <div className='w-1/3 flex justify-center items-center border-r border-slate-300'>
+                                <NavLink 
+                                    to='/home/profile/'
+                                    style={({ isActive }) => (isActive ? {textDecoration:'underline' , textDecorationColor:'skyblue' , textDecorationThickness:'4px'} : undefined)}
+                                    className='underline-offset-8'
+                                >
+                                    Posts
+                                </NavLink>
                             </div>
+                            <div className='w-1/3 flex justify-center items-center border-r border-slate-300'>
+                                <NavLink 
+                                    to='/home/profile/likes'
+                                    style={({ isActive }) => (isActive ? {textDecoration:'underline' , textDecorationColor:'skyblue' , textDecorationThickness:'4px'} : undefined)}
+                                    className='underline-offset-8'
+                                >
+                                    Likes
+                                </NavLink>
+                            </div>
+                            <div className='w-1/3 flex justify-center items-center'>
+                                <NavLink 
+                                    to='/home/profile/comments'
+                                    style={({ isActive }) => (isActive ? {textDecoration:'underline' , textDecorationColor:'skyblue' , textDecorationThickness:'4px'} : undefined)}
+                                    className='underline-offset-8'
+                                >
+                                    Comments
+                                </NavLink>
+                            </div>
+                        </div>
                         </div>
                         
                         <div className='w-full h-2/5 p-2'>
-                            {
+                            {/* {
                                 userPosts.map((post) => <SinglePost key={post._id} post={post} />)
-                            }
+                            } */}
+                            <Outlet />
                         </div>
                     </div>
                 </div>

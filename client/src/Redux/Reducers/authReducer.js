@@ -125,14 +125,14 @@ export const signOutThunk = createAsyncThunk(
                 }
             }
             const token = JSON.parse(isToken);
-            localStorage.removeItem('user');
-            localStorage.removeItem('token');
-            thunkAPI.dispatch(setLoggedInUser(null));
             const response = await axiosInstance.get('/user/signout',{
                 headers:{
                     'Authorization':`Bearer ${token}`
                 }
             });
+            localStorage.removeItem('user');
+            localStorage.removeItem('token');
+            thunkAPI.dispatch(setLoggedInUser(null));
             return response.data;
         }catch(error){
             return {

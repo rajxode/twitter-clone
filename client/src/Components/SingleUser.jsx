@@ -39,6 +39,7 @@ export default function SingleUser(props) {
         try {
             e.preventDefault();
             const result = await dispatch(toggelFollowThunk({userId:_id}));
+            setFollowing(!following);
             if(!result.payload.success){
                 toast.error(result.payload.message);
             }

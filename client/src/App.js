@@ -15,12 +15,20 @@ import DeleteAccount from './Components/DeleteAccount';
 import About from './Components/About';
 import Error from './Pages/Error';
 import UserProfile from './Pages/UserProfile';
+import { jwtDecode } from "jwt-decode";
+import MyPosts from './Components/MyPosts';
+import MyLikes from './Components/MyLikes';
+import MyComments from './Components/MyComments';
 
 // Create a custom guard to check if the user is authenticated
 const isUserAuthenticated = () => {
   // Return true if the user is authenticated, false otherwise
   const token = localStorage.getItem('token');
   if(token){
+    const decodedToken = jwtDecode(token);
+    if (decodedToken.exp < Date.now() / 1000) {
+      return false;
+    }
     return true;
   }
   return false; // For example, the user is not authenticated
@@ -63,9 +71,17 @@ function App() {
       <Route element={<ProtectedRoute />}>
         <Route path='/home' element={<Navbar />}>
           <Route index element={<Home />} />
-          <Route path='profile' element={<Profile />} />
+          <Route path='profile' element={<Profile />} >
+            <Route index element={<MyPosts />} />
+            <Route path='likes' element={<MyLikes />} />
+            <Route path='comments' element={<MyComments />} />
+          </Route>
           <Route path='explore' element={<Explore />} />
-          <Route path='userprofile' element={<UserProfile />} />
+          <Route path='userprofile' element={<UserProfile />} >
+            <Route index element={<MyPosts />} />
+            <Route path='likes' element={<MyLikes />} />
+            <Route path='comments' element={<MyComments />} />
+          </Route>
           <Route path='settings' element={<Settings />} >
             <Route index element={<UpdateInfo />} />
             <Route path='updatepassword' element={<UpdatePassword />} />

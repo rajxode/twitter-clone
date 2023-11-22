@@ -1,5 +1,5 @@
 
-
+// hooks
 import { useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
@@ -7,13 +7,15 @@ import { useNavigate } from "react-router-dom";
 // toast notification
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+// reducers and selector
 import { authSelector, deleteAccountThunk, signOutThunk } from "../Redux/Reducers/authReducer";
 
 
 // for deleteing user's account
 export default function DeleteAccount(){
     
-    // logged in user
+    // variables and user's data
     const { loggedInUser } = useSelector(authSelector);
     const [password, setPassword] = useState('');
     const dispatch = useDispatch();
@@ -24,29 +26,34 @@ export default function DeleteAccount(){
     const handleSubmit = async(e) => {
         try {
             e.preventDefault();
+            // check whether the entered password is valid
             if(!password || password.length < 8){
                 toast.error('Please enter valid password');
                 return;
             }
-            const id = loggedInUser._id;
-            navigate('/');
 
-            await dispatch(signOutThunk());
+            const id = loggedInUser._id;
             // api call
             const delResult = await dispatch(deleteAccountThunk({id,data:{password}}));
+            // if not success
             if(!delResult.payload.success){
                 toast.error(delResult.payload.message);
             }
+            // success
             else{
+                navigate('/');
+                await dispatch(signOutThunk());
                 toast.success(delResult.payload.message);
             }
         } catch (error) {
-            console.log(error);
+            // error
+            toast.error(error.message);
         }
     }
 
     return(
         <>
+            {/* container */}
             <div className="w-full h-full flex flex-col">
                 <div className="w-full h-[45px] flex items-center px-2 bg-slate-200 
                         border-b border-slate-400 font-semibold dark:bg-slate-500 dark:text-white">

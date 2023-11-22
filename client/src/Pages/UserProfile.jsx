@@ -1,8 +1,9 @@
 
+import { Link, NavLink, Outlet } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import SideBar from '../Components/SideBar';
 import { authSelector } from '../Redux/Reducers/authReducer';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toggelFollowThunk } from '../Redux/Reducers/authReducer';
 import { getMyPostThunk } from '../Redux/Reducers/postReducer';
@@ -20,6 +21,7 @@ export default function UserProfile(){
     const { loggedInUser , userProfile } = useSelector(authSelector);
     const { userPosts } = useSelector(postSelector);
     const navigate = useNavigate();
+    const [following,setFollowing] = useState(false);
 
     useEffect(() => {
         document.title = `${userProfile.name} | Profile`
@@ -47,7 +49,7 @@ export default function UserProfile(){
                 toast.success(result.payload.message);
             }
         } catch (error) {
-            console.log(error);
+            toast.error(error);
         }
     }
 
@@ -124,16 +126,43 @@ export default function UserProfile(){
                             
                         </div>
                         
-                        <div className='w-full h-[10%] border-b border-slate-400 flex items-center justify-center font-semibold'>
-                            Posts
+                        <div className='w-full h-[10%] border-b border-slate-400 flex items-center justify-between font-semibold'>
+                            <div className='w-1/3 flex justify-center items-center border-r border-slate-300'>
+                                <NavLink 
+                                    to='/home/userprofile/'
+                                    style={({ isActive }) => (isActive ? {textDecoration:'underline' , textDecorationColor:'skyblue' , textDecorationThickness:'4px'} : undefined)}
+                                    className='underline-offset-8'
+                                >
+                                    Posts
+                                </NavLink>
+                            </div>
+                            <div className='w-1/3 flex justify-center items-center border-r border-slate-300'>
+                                <NavLink 
+                                    to='/home/userprofile/likes'
+                                    style={({ isActive }) => (isActive ? {textDecoration:'underline' , textDecorationColor:'skyblue' , textDecorationThickness:'4px'} : undefined)}
+                                    className='underline-offset-8'
+                                >
+                                    Likes
+                                </NavLink>
+                            </div>
+                            <div className='w-1/3 flex justify-center items-center'>
+                                <NavLink 
+                                    to='/home/userprofile/comments'
+                                    style={({ isActive }) => (isActive ? {textDecoration:'underline' , textDecorationColor:'skyblue' , textDecorationThickness:'4px'} : undefined)}
+                                    className='underline-offset-8'
+                                >
+                                    Comments
+                                </NavLink>
+                            </div>
                         </div>
                     </div>
                     
                     <div className='w-full h-2/5 p-2'>
-                        {
+                        {/* {
                             userPosts
                             .map((post) => <SinglePost key={post._id} post={post} />)
-                        }
+                        } */}
+                        <Outlet />
                     </div>
                 </div>
             </div>

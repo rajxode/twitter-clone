@@ -1,3 +1,5 @@
+
+// hooks , reducers, selector
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { authSelector, signOutThunk, getLoggedInUserThunk } from "../Redux/Reducers/authReducer";
@@ -7,6 +9,8 @@ import { useEffect, useState } from "react";
 // toast notification
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+// components
 import SignleMenuOption from "./SingleMenuOption";
 import Loader from "./Spinner";
 
@@ -15,40 +19,43 @@ import Loader from "./Spinner";
 // render the side navbar of page
 export default function Navbar() {
 
+    // menu options
     const menuOptions = [{name:'Home', icon:<i class="fa-solid fa-house"></i>, link:'/home'},
                         {name:'Explore', icon:<i class="fa-solid fa-magnifying-glass"></i>, link:'/home/explore'},
                         {name:'Profile', icon:<i class="fa-solid fa-user"></i>, link:'/home/profile'},
                         {name:'Settings', icon:<i class="fa-solid fa-gears"></i>, link:'/home/settings'}, ]
 
+    // hooks
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    // variables
     const [darkMode,setDarkMode] = useState(false);
-
     const [showMenu,setShowMenu] = useState(false);
-
     const { loggedInUser , isLoading } = useSelector(authSelector);
 
 
+    // loggedIn user's data
     useEffect(() => {
         dispatch(getLoggedInUserThunk());
     },[]);
 
 
+    // signout the user
     const handleSignOut = async (e) => {
         try{
             e.preventDefault();
             const result = await dispatch(signOutThunk());
-            navigate('/');
+            console.log(result);
             if(result.payload.success){
                 toast.success(result.payload.message);
-                
+                navigate('/');
             }
             else{
                 toast.error(result.payload.message);
             }
         }catch(error){
-            console.log(error);
+            toast.error(error.message);
         }
     }
 
