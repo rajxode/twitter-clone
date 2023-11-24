@@ -13,7 +13,8 @@ const initialState = {
                         followPosts:[],
                         userPosts:[],
                         loading:false,
-                        likedPosts:[] 
+                        likedPosts:[],
+                        commentedPosts:[]
                         };
 
 // get all the post of logged in user
@@ -46,13 +47,33 @@ export const getMyLikeThunk = createAsyncThunk(
                     'Authorization':`Bearer ${token}`
                 }
             });
-            console.log(response.data);
             thunkAPI.dispatch(setLikedPosts(response.data));
         } catch (error) {
             toast.error(error.response.data.error)
         }
     }
 )
+
+
+export const getMyCommentThunk = createAsyncThunk(
+    'post/getMyLike',
+    async(id,thunkAPI) => {
+        try {
+            const isToken = localStorage.getItem('token');
+            const token = JSON.parse(isToken);
+            const response = await axiosInstance.get(`/post/getmycomments/${id}`,{
+                headers:{
+                    'Authorization':`Bearer ${token}`
+                }
+            });
+            console.log(response.data);
+            thunkAPI.dispatch(setCommentedPosts(response.data));
+        } catch (error) {
+            toast.error(error.response.data.error)
+        }
+    }
+)
+
 
 // get all the post in database
 export const getAllPostsThunk = createAsyncThunk(
@@ -239,6 +260,9 @@ const postSlice = createSlice({
         },
         setLikedPosts:(state,action) => {
             state.likedPosts = action.payload.likedPosts;
+        },
+        setCommentedPosts:(state,action) => {
+            state.commentedPosts = action.payload.commentedPosts;
         }
     },
     extraReducers:(builder) => {
@@ -279,6 +303,6 @@ const postSlice = createSlice({
 
 export const postReducer = postSlice.reducer;
 
-export const  { setUserPost , setAllPosts , setFollowPosts ,setLikedPosts } = postSlice.actions;
+export const  { setUserPost , setAllPosts , setFollowPosts , setLikedPosts , setCommentedPosts } = postSlice.actions;
 
 export const postSelector = (state) => state.postReducer;

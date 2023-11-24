@@ -2,8 +2,8 @@
 import { NavLink, useNavigate, Outlet } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import SideBar from '../Components/SideBar';
-import { authSelector,  } from '../Redux/Reducers/authReducer';
-import { getMyLikeThunk, getMyPostThunk, postSelector } from '../Redux/Reducers/postReducer';
+import { authSelector } from '../Redux/Reducers/authReducer';
+import { getMyCommentThunk, getMyLikeThunk, getMyPostThunk } from '../Redux/Reducers/postReducer';
 import { useEffect } from 'react';
 import Loader from '../Components/Spinner';
 
@@ -11,20 +11,15 @@ import Loader from '../Components/Spinner';
 // to show logged in user's profile
 export default function Profile(){
 
-    const navigate = useNavigate();
     const { loggedInUser , isLoading } = useSelector(authSelector); 
-    const { userPosts } = useSelector(postSelector);
     const dispatch = useDispatch();
-
-    if(!loggedInUser){
-        navigate('/');
-    }
 
     useEffect(() => {
         document.title = `${loggedInUser.name} | Profile`
         async function getPost(){
             await dispatch(getMyPostThunk(loggedInUser._id));
             await dispatch(getMyLikeThunk(loggedInUser._id));
+            await dispatch(getMyCommentThunk(loggedInUser._id));
         }
         getPost();
     },[]);

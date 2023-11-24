@@ -37,12 +37,11 @@ module.exports.getMyLikes = async(req,res) => {
             path:'post',
             populate:{
                 path:'user',
-                model:'User',
-            },
-            populate:{
-                path:'likes',
-                model:'Like'
-            },
+                model:'User'
+            }
+        })
+        .populate({
+            path:'post',
             populate:{
                 path:'comments',
                 model:'Comment'
@@ -52,6 +51,35 @@ module.exports.getMyLikes = async(req,res) => {
         res.status(200).json({
             success:true,
             likedPosts
+        })
+    } catch (error) {
+        res.status(400).json({
+            error:'Bad Request'
+        })        
+    }
+}
+
+
+module.exports.getMyComments = async(req,res) => {
+    try {
+        const commentedPosts = await Comment.find({user:req.params.id}).populate('user').populate({
+            path:'post',
+            populate:{
+                path:'user',
+                model:'User'
+            }
+        })
+        .populate({
+            path:'post',
+            populate:{
+                path:'comments',
+                model:'Comment'
+            }
+        });
+
+        res.status(200).json({
+            success:true,
+            commentedPosts
         })
     } catch (error) {
         res.status(400).json({

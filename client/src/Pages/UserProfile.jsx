@@ -6,7 +6,7 @@ import { authSelector } from '../Redux/Reducers/authReducer';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toggelFollowThunk } from '../Redux/Reducers/authReducer';
-import { getMyLikeThunk, getMyPostThunk } from '../Redux/Reducers/postReducer';
+import { getMyCommentThunk, getMyLikeThunk, getMyPostThunk } from '../Redux/Reducers/postReducer';
 import SinglePost from '../Components/SinglePost';
 
 // toast notification
@@ -35,6 +35,7 @@ export default function UserProfile(){
         async function getPost(){
             await dispatch(getMyPostThunk(userProfile._id));
             await dispatch(getMyLikeThunk(userProfile._id));
+            await dispatch(getMyCommentThunk(userProfile._id));
         }
         getPost();
     },[userProfile]);

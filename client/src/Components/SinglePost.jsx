@@ -208,7 +208,7 @@ export default function SinglePost(props){
                         <div className="w-full h-[45px] py-1 shrink-0">
                             <form className="w-full h-full flex" onSubmit={handleAddComment}>
                                 <input className="w-full h-full border border-slate-500 border-r-0 
-                                            rounded-l-full focus:outline-none px-2"
+                                            rounded-l-full focus:outline-none px-2 dark:text-black"
                                         value={comment}
                                         onChange={(e) => setComment(e.target.value)}
                                         required
