@@ -31,6 +31,36 @@ module.exports.getMyPosts = async (req,res) => {
 }
 
 
+module.exports.getMyLikes = async(req,res) => {
+    try {
+        const likedPosts = await Like.find({user:req.params.id}).populate({
+            path:'post',
+            populate:{
+                path:'user',
+                model:'User',
+            },
+            populate:{
+                path:'likes',
+                model:'Like'
+            },
+            populate:{
+                path:'comments',
+                model:'Comment'
+            }
+        });
+
+        res.status(200).json({
+            success:true,
+            likedPosts
+        })
+    } catch (error) {
+        res.status(400).json({
+            error:'Bad Request'
+        })        
+    }
+}
+
+
 // return all the post inside the database
 module.exports.getAllPosts = async (req,res) => {
     try {

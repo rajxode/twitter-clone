@@ -12,7 +12,8 @@ const initialState = {
                         allPosts:[],
                         followPosts:[],
                         userPosts:[],
-                        loading:false 
+                        loading:false,
+                        likedPosts:[] 
                         };
 
 // get all the post of logged in user
@@ -28,6 +29,25 @@ export const getMyPostThunk = createAsyncThunk(
                 }
             });
             thunkAPI.dispatch(setUserPost(response.data));
+        } catch (error) {
+            toast.error(error.response.data.error)
+        }
+    }
+)
+
+export const getMyLikeThunk = createAsyncThunk(
+    'post/getMyLike',
+    async(id,thunkAPI) => {
+        try {
+            const isToken = localStorage.getItem('token');
+            const token = JSON.parse(isToken);
+            const response = await axiosInstance.get(`/post/getmylikes/${id}`,{
+                headers:{
+                    'Authorization':`Bearer ${token}`
+                }
+            });
+            console.log(response.data);
+            thunkAPI.dispatch(setLikedPosts(response.data));
         } catch (error) {
             toast.error(error.response.data.error)
         }
@@ -216,6 +236,9 @@ const postSlice = createSlice({
         setFollowPosts:(state,action) => {
             state.followPosts = action.payload.posts;
             return;
+        },
+        setLikedPosts:(state,action) => {
+            state.likedPosts = action.payload.likedPosts;
         }
     },
     extraReducers:(builder) => {
@@ -244,12 +267,18 @@ const postSlice = createSlice({
         .addCase(getFollowPostThunk.fulfilled || getFollowPostThunk.rejected,(state,action) => {
             state.loading = false;
         })
+        .addCase(getMyLikeThunk.pending,(state,action) => {
+            state.loading = true;
+        })
+        .addCase(getMyLikeThunk.fulfilled || getMyLikeThunk.rejected , (state,action) => {
+            state.loading = false;
+        })
     }
 })
 
 
 export const postReducer = postSlice.reducer;
 
-export const  { setUserPost , setAllPosts , setFollowPosts } = postSlice.actions;
+export const  { setUserPost , setAllPosts , setFollowPosts ,setLikedPosts } = postSlice.actions;
 
 export const postSelector = (state) => state.postReducer;

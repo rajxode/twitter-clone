@@ -2,9 +2,8 @@
 import { NavLink, useNavigate, Outlet } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import SideBar from '../Components/SideBar';
-import { authSelector, getLoggedInUserThunk, setLoggedInUser } from '../Redux/Reducers/authReducer';
-import { getMyPostThunk, postSelector } from '../Redux/Reducers/postReducer';
-import SinglePost from '../Components/SinglePost';
+import { authSelector,  } from '../Redux/Reducers/authReducer';
+import { getMyLikeThunk, getMyPostThunk, postSelector } from '../Redux/Reducers/postReducer';
 import { useEffect } from 'react';
 import Loader from '../Components/Spinner';
 
@@ -25,6 +24,7 @@ export default function Profile(){
         document.title = `${loggedInUser.name} | Profile`
         async function getPost(){
             await dispatch(getMyPostThunk(loggedInUser._id));
+            await dispatch(getMyLikeThunk(loggedInUser._id));
         }
         getPost();
     },[]);
@@ -145,9 +145,6 @@ export default function Profile(){
                         </div>
                         
                         <div className='w-full h-2/5 p-2'>
-                            {/* {
-                                userPosts.map((post) => <SinglePost key={post._id} post={post} />)
-                            } */}
                             <Outlet />
                         </div>
                     </div>

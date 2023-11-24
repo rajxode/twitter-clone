@@ -9,6 +9,7 @@ router.use(isLoggedIn);
 
 // get post of a user
 router.get('/getmyposts/:id',postController.getMyPosts);
+router.get('/getmylikes/:id',postController.getMyLikes);
 // get all the posts
 router.get('/getallposts',postController.getAllPosts);
 // get post of follows
